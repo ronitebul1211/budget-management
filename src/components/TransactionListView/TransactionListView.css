@@ -1,0 +1,65 @@
+.transaction-table {
+   display: grid;
+   border-collapse: collapse;
+   width: 100%;
+   row-gap: 5px;
+   --row-border-style: 1px solid black;
+   --row-border-radius: 5px;
+   background-color: #e6e6e6;
+   padding: 25px;
+   border-radius: 5px;
+}
+
+.transaction-table--read {
+   grid-template-columns: 1fr 2fr 2fr 3fr 1fr;
+}
+.transaction-table--edit {
+   grid-template-columns: 1fr 2fr 2fr 3fr 1fr 0.5fr 0.5fr;
+}
+
+.transaction-table__header,
+.transaction-table__body,
+.transaction-table__row {
+   display: contents;
+   cursor: context-menu;
+}
+
+.transaction-table__header-item,
+.transaction-table__row-item {
+   overflow: hidden; /* Don't let th + td overflow container*/
+   text-overflow: ellipsis; /* Text overflow add dots */
+   white-space: nowrap; /* When text overflow don't start with new line*/
+   padding: 2.5px 5px;
+}
+
+.transaction-table__header-item {
+   text-align: right;
+   background: transparent;
+}
+
+.transaction-table__row-item {
+   background: white;
+   border-top: var(--row-border-style);
+   border-bottom: var(--row-border-style);
+}
+
+.transaction-table__row-item:first-child {
+   border-right: var(--row-border-style);
+   border-top-right-radius: var(--row-border-radius);
+   border-bottom-right-radius: var(--row-border-radius);
+}
+
+.transaction-table__row-item:last-child {
+   border-left: var(--row-border-style);
+   border-top-left-radius: var(--row-border-radius);
+   border-bottom-left-radius: var(--row-border-radius);
+}
+
+.transaction-table__payment--debit {
+   font-weight: bold;
+   color: #f44336;
+}
+.transaction-table__payment--credit {
+   font-weight: bold;
+   color: #4caf50;
+}

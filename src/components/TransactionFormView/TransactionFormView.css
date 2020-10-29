@@ -1,0 +1,28 @@
+.form {
+   background-color: #e6e6e6;
+   width: 400px;
+   padding: 25px;
+   direction: rtl;
+   display: flex;
+   flex-direction: column;
+   gap: 25px;
+   border-radius: 5px;
+}
+
+.form__title {
+   font-size: 1.3rem;
+   font-weight: bold;
+   text-align: center;
+}
+.form__content-container {
+   display: flex;
+   flex-direction: column;
+   gap: 5px;
+}
+.form__btn-container {
+   display: flex;
+   gap: 25px;
+}
+.form__btn-container .button {
+   flex-grow: 1;
+}

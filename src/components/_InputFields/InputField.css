@@ -1,0 +1,12 @@
+@import "./FieldSharedStyle.css";
+
+/* Input Area */
+.field__input-area {
+   padding: 5px 10px;
+   border: 1px solid gray;
+   border-radius: 5px;
+   outline: none;
+}
+.field__input-area:focus {
+   border: 1px solid #feca1d;
+}

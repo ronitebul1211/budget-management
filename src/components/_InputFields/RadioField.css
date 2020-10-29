@@ -1,0 +1,45 @@
+@import './FieldSharedStyle.css';
+
+/* Options container */
+.field__radio-options {
+  display: flex;
+  gap: 15px;
+}
+.field__radio-options--row {
+  flex-direction: row;
+}
+.field__radio-options--column {
+  flex-direction: column;
+}
+
+/* Individual Option */
+.field__radio-option{
+  display: flex;
+  align-items: center;
+  gap:5px;
+}
+
+/* Radio button - Not Checked */
+.field__radio-option__input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  outline: none;
+  border: 1px solid #999;
+  transition: 0.2s all linear;
+  background-color: white;
+  cursor: pointer;
+}
+.field__radio-option__input:hover{
+  border: 1px solid black;
+}
+/* Radio button - Checked */
+.field__radio-option__input:checked {
+  border: 5px solid #feca1d;
+}
+.field__radio-option__input:checked:hover {
+  border: 5px solid #edbb1a;
+}

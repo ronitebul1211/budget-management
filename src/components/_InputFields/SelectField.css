@@ -1,0 +1,15 @@
+@import "./FieldSharedStyle.css";
+
+select {
+   padding: 5px 10px;
+   border: 1px solid gray;
+   border-radius: 5px;
+   outline: none;
+}
+select:focus {
+   border: 1px solid #feca1d;
+}
+
+.field--row select {
+   padding: 0 5px;
+}

@@ -1,0 +1,20 @@
+/* Field container */
+.field {
+   display: flex;
+}
+.field--row {
+   flex-direction: row;
+   gap: 10px;
+   align-items: center;
+}
+.field--column {
+   flex-direction: column;
+}
+/* Field: Label section */
+.field__label-section {
+   font-weight: bold;
+}
+/* Field: Input section */
+.field__input-section {
+   cursor: pointer;
+}

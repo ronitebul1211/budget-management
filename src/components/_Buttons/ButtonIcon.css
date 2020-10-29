@@ -1,0 +1,20 @@
+.button-icon {
+   background-color: transparent;
+   border: none;
+   padding: 0 5px;
+   font-size: 16px;
+   cursor: pointer;
+   transition-duration: 0.4s;
+}
+
+.button-icon:hover {
+   color: gray;
+}
+
+.button-icon--small {
+   font-size: 1rem;
+}
+
+.button-icon--big {
+   font-size: 3.5rem;
+}

@@ -1,0 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=Alef:wght@400;700&display=swap");
+
+*,
+*::before,
+*::after {
+   box-sizing: border-box;
+   padding: 0;
+   margin: 0;
+   direction: rtl;
+}
+
+body,
+input,
+select,
+button {
+   font-family: "Alef", sans-serif;
+}
+
+.page-container {
+   background-color: #feca1d;
+   padding: 25px;
+   min-height: calc(100vh - 50px);
+}

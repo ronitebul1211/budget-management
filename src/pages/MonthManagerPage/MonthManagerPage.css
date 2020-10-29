@@ -1,0 +1,6 @@
+.month-manager-page {
+   display: flex;
+   flex-direction: column;
+   gap: 25px;
+   width: calc(100vw -25px);
+}
