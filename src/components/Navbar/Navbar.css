@@ -1,4 +1,4 @@
-.header {
+.navbar {
    height: 50px;
    background-color: white;
    padding: 0 25px;
@@ -6,12 +6,12 @@
    gap: 25px;
    align-items: center;
 }
-.header__link {
+.navbar__link {
    height: fit-content;
    text-decoration: none;
    color: gray;
 }
-.header__link:hover {
+.navbar__link:hover {
    color: black;
    font-weight: bold;
    border-bottom: 2px solid #feca1d;
