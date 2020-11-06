@@ -18,7 +18,19 @@ import Button from "../_Buttons/Button";
  */
 
 class TransactionForm extends React.Component {
-   state = { id: "", type: "", description: "", payment: "", date: "", paymentMethod: "", category: "" };
+   state = {
+      id: "",
+      type: "",
+      description: "",
+      payment: "",
+      date: "",
+      paymentMethod: "",
+      category: "",
+      errors: {
+         descriptionInputError: false,
+         paymentInputError: false,
+      },
+   };
 
    /** Set Form initial values by its mode */
    componentDidMount() {
@@ -26,10 +38,23 @@ class TransactionForm extends React.Component {
       this.setState({ ...initialState });
    }
 
-   /** Control input in transaction form element */
+   /** Handle input change on the transaction form */
    onChange = (event) => {
       const target = event.target;
-      console.log(target.value);
+      //Hide error from the input field when input changed
+      if (
+         (target.name === "description" && this.state.errors.descriptionInputError) ||
+         (target.name === "payment" && this.state.errors.paymentInputError)
+      ) {
+         return this.setState((prevState) => ({
+            [target.name]: target.value,
+            errors: {
+               ...prevState.errors,
+               [`${target.name}InputError`]: false,
+            },
+         }));
+      }
+
       this.setState({ [target.name]: target.value });
    };
 
@@ -41,12 +66,27 @@ class TransactionForm extends React.Component {
       if (action === "closeForm") {
          this.props.handleFormClickCallback(action, null);
       } else if (action === "addTransaction" || action === "editTransaction") {
-         //TODO: form validation -> mark in red border empty input field or show message to user inside form e.g. mapbox
-         const transaction = { ...this.state };
-         this.props.handleFormClickCallback(action, transaction);
+         if (this.validateForm()) {
+            const transaction = { ...this.state };
+            this.props.handleFormClickCallback(action, transaction);
+         }
       } else {
-         throw Error("Click on transaction form with invalid action");
+         throw Error("handleFormClick: invoked with invalid action");
       }
+   };
+
+   /** Validate form input fields, in case of errors set specific error in the component state
+    * @returns {boolean} represents the status of the whole form validation
+    */
+   validateForm = () => {
+      //Payment Valid Input: positive integer
+      const paymentInput = parseInt(this.state.payment);
+      const paymentInputError = isNaN(paymentInput) || paymentInput < 1;
+      //Description Valid Input: string contain min 1 character
+      const descriptionInput = this.state.description.trim();
+      const descriptionInputError = descriptionInput < 1;
+      this.setState({ errors: { paymentInputError, descriptionInputError } });
+      return !paymentInputError && !descriptionInputError;
    };
 
    /** Generate form title text by form mode */
@@ -74,7 +114,6 @@ class TransactionForm extends React.Component {
    };
 
    render() {
-      // TODO: limit date field -> current year & month only
       // TODO: limit paymentMethod field -> number > 0
       return (
          <div className="form">
@@ -99,6 +138,7 @@ class TransactionForm extends React.Component {
                <InputField
                   value={this.state.description}
                   config={{ label: "תיאור", name: "description", type: "text", displayMode: "column" }}
+                  error={{ message: "הכנס תיאור", isDisplayed: this.state.errors.descriptionInputError }}
                   onChangeCallback={this.onChange}
                />
                <InputField
@@ -108,8 +148,8 @@ class TransactionForm extends React.Component {
                      name: "payment",
                      displayMode: "column",
                      type: "number",
-                     limitMin: "0",
                   }}
+                  error={{ message: "הכנס מספר חיובי שלם", isDisplayed: this.state.errors.paymentInputError }}
                   onChangeCallback={this.onChange}
                />
                <InputField

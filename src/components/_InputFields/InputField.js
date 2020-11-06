@@ -19,8 +19,6 @@ import PropTypes from "prop-types";
  */
 
 const InputField = ({ value, config, error, onChangeCallback }) => {
-   console.log(config.name + error);
-
    return (
       <div className={`field field--${config.displayMode} ${error && error.isDisplayed && "field--error"}`}>
          <label className="field__label-section">{config.label}</label>
