@@ -1,5 +1,6 @@
 import React from "react";
 import "./TransactionFormView.css";
+import dates from "../../utilities/dates";
 //Components
 import InputField from "../_InputFields/InputField";
 import RadioField from "../_InputFields/RadioField";
@@ -28,6 +29,7 @@ class TransactionForm extends React.Component {
    /** Control input in transaction form element */
    onChange = (event) => {
       const target = event.target;
+      console.log(target.value);
       this.setState({ [target.name]: target.value });
    };
 
@@ -101,12 +103,25 @@ class TransactionForm extends React.Component {
                />
                <InputField
                   value={this.state.payment}
-                  config={{ label: "סכום", name: "payment", type: "number", displayMode: "column" }}
+                  config={{
+                     label: "סכום",
+                     name: "payment",
+                     displayMode: "column",
+                     type: "number",
+                     limitMin: "0",
+                  }}
                   onChangeCallback={this.onChange}
                />
                <InputField
                   value={this.state.date}
-                  config={{ label: "תאריך", name: "date", type: "date", displayMode: "column" }}
+                  config={{
+                     label: "תאריך",
+                     name: "date",
+                     type: "date",
+                     displayMode: "column",
+                     limitMin: dates.getDateInIsoFormat("firstDayOfCurrentMonth"),
+                     limitMax: dates.getDateInIsoFormat("lastDayOfCurrentMonth"),
+                  }}
                   onChangeCallback={this.onChange}
                />
                <SelectField
