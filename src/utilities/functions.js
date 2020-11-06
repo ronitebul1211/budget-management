@@ -1,12 +1,6 @@
 //TODO: group function into object, import object instead of different functions
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - Date Functions - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-/** Return String: yyyy-mm-dd */
-export const getCurrentDateISOString = () => {
-   const currentDate = new Date();
-   //TODO fix bug after midnight date updated to last day, don't use isos function
-   return currentDate.toISOString().substring(0, 10);
-};
 
 /** Return String: dd/mm */
 export const getFormattedDate = (isosString) => {
