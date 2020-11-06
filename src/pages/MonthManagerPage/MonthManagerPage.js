@@ -1,5 +1,7 @@
 import React from "react";
 import "./MonthManagerPage.css";
+import dates from "../../utilities/dates";
+
 import {
    getTransactionsId,
    getTransactionsData,
@@ -8,7 +10,6 @@ import {
    updateTransaction,
 } from "../../utilities/budgetApi";
 import {
-   getCurrentDateISOString,
    sortTransactionsByDate,
    getMonthStatus,
    getCurrentYear,
@@ -45,7 +46,7 @@ class MonthManagerPage extends React.Component {
             type: "חובה",
             description: "",
             payment: "",
-            date: getCurrentDateISOString(),
+            date: dates.getDateInIsoFormat("currentDay"),
             paymentMethod: "מזומן",
             category: "חשבונות",
          },
