@@ -4,12 +4,16 @@ import PropTypes from "prop-types";
 
 /**
  For Valid Types, check Prop Types
+ 
  # value -> initial input value
- # config.label -> field label
-   config.displayMode -> display mode of the label relative to the input field 
-   config.name -> input name (event.target.name)
-   config.type -> input type
- # onChangeCallback -> reference to callback function that handle on change event
+ # config.label -> field label (required)
+   config.displayMode -> display mode of the label relative to the input field (required)
+   config.name -> input name (event.target.name) (required)
+   config.type -> input type (required)
+   config.limitMin -> limit input type html attribute (optional)
+   config.limitMax -> limit input type html attribute (optional)
+ # onChangeCallback -> reference to callback function that handle on change event (required)
+
  */
 
 const InputField = ({ value, config, onChangeCallback }) => {
@@ -22,6 +26,8 @@ const InputField = ({ value, config, onChangeCallback }) => {
             type={config.type}
             name={config.name}
             onChange={onChangeCallback}
+            {...(config.limitMin ? { min: config.limitMin } : {})}
+            {...(config.limitMax ? { max: config.limitMax } : {})}
          />
       </div>
    );
@@ -34,6 +40,8 @@ InputField.propTypes = {
       displayMode: PropTypes.oneOf(["row", "column"]).isRequired,
       name: PropTypes.string.isRequired,
       type: PropTypes.oneOf(["text", "number", "date"]).isRequired,
+      limitMin: PropTypes.string,
+      limitMax: PropTypes.string,
    }),
    onChangeCallback: PropTypes.func.isRequired,
 };
