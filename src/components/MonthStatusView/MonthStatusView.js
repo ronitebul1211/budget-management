@@ -2,6 +2,9 @@ import React from "react";
 import "./MonthStatusView.css";
 import { getCurrentMonth, getCurrentYear, getMonthNameInHebrew } from "../../utilities/functions";
 //Components
+
+//FIXME: add prop types + refactor by conventions.txt
+
 import ButtonIcon from "../_Buttons/ButtonIcon";
 
 const MonthStatus = ({ monthStatusData, handleAddTransactionClickCallback }) => {

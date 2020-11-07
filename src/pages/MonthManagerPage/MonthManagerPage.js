@@ -21,6 +21,8 @@ import TransactionListView from "../../components/TransactionListView/Transactio
 import MonthStatus from "../../components/MonthStatusView/MonthStatusView";
 import Modal from "../../components/Modal/Modal";
 
+//FIXME: add prop types + refactor by conventions.txt
+
 class MonthManagerPage extends React.Component {
    state = {
       transactionsDataId: "",

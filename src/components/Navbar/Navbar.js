@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
 
+//FIXME: add prop types + refactor by conventions.txt
+
 const Navbar = () => {
    return (
       <div className="navbar">

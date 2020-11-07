@@ -1,6 +1,8 @@
 import React from "react";
 import "./ButtonIcon.css";
 
+//FIXME: add prop types + refactor by conventions.txt
+
 const ButtonIcon = ({ type, size, clickHandlerCallback }) => {
    const renderButtonType = () => {
       switch (type) {

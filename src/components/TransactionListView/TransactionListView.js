@@ -4,6 +4,8 @@ import { getFormattedDate, getTransactionType } from "../../utilities/functions"
 //Components
 import ButtonIcon from "../_Buttons/ButtonIcon";
 
+//FIXME: add prop types + refactor by conventions.txt
+
 const TransactionListView = ({ transactions, mode, handleListItemClickEventCallback }) => {
    const renderedTableRows = transactions.map((transaction) => {
       return (

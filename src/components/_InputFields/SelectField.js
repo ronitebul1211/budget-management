@@ -1,6 +1,8 @@
 import React from "react";
 import "./SelectField.css";
 
+//FIXME: add prop types + refactor by conventions.txt
+
 /** Select Field Component:
 # Props:
 - value - string - initial value

@@ -7,6 +7,7 @@ import "./Button.css";
  text {string} 
  clickHandler: callback function to invoke on click 
 */
+//FIXME: add prop types + refactor by conventions.txt
 
 const Button = ({ text, displayMode, clickHandlerCallback }) => {
    return (
