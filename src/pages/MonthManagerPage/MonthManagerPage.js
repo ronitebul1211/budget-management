@@ -16,7 +16,7 @@ import {
    getCurrentMonth,
 } from "../../utilities/functions";
 //Components
-import TransactionForm from "../../components/TransactionFormView/TransactionFormView";
+import TransactionForm from "../../components/TransactionForm/TransactionForm";
 import TransactionListView from "../../components/TransactionListView/TransactionListView";
 import MonthStatus from "../../components/MonthStatusView/MonthStatusView";
 import Modal from "../../components/Modal/Modal";
@@ -114,13 +114,6 @@ class MonthManagerPage extends React.Component {
    render() {
       return (
          <div className="month-manager-page">
-            <Modal isOpen={this.state.isFormModalOpen}>
-               <TransactionForm
-                  mode={this.state.formModalMode}
-                  handleFormClickCallback={this.handleAddTransactionFormEvents}
-                  transactionData={this.state.formModalData}
-               />
-            </Modal>
             <MonthStatus
                monthStatusData={this.state.monthStatusData}
                handleAddTransactionClickCallback={this.handleAddTransactionClick}
@@ -130,6 +123,15 @@ class MonthManagerPage extends React.Component {
                mode="edit"
                handleListItemClickEventCallback={this.handleListItemClickEvent}
             />
+            {this.state.isFormModalOpen ? (
+               <Modal isOpen={this.state.isFormModalOpen}>
+                  <TransactionForm
+                     formMode={this.state.formModalMode}
+                     transactionData={this.state.formModalData}
+                     onButtonClickCallback={this.handleAddTransactionFormEvents}
+                  />
+               </Modal>
+            ) : null}
          </div>
       );
    }

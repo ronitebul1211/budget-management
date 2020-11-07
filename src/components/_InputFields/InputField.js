@@ -2,22 +2,7 @@ import React from "react";
 import "./InputField.css";
 import PropTypes from "prop-types";
 
-/**
- For Valid Types, check Prop Types
- 
- # value -> initial input value (required)
- # config.label -> field label (required)
-   config.displayMode -> display mode of the label relative to the input field (required)
-   config.name -> input name (event.target.name) (required)
-   config.type -> input type (required)
-   config.limitMin -> limit input type html attribute (optional)
-   config.limitMax -> limit input type html attribute (optional)
- # error.message -> string message to display when input error (optional)
-   error.isDisplayed -> boolean set display / hide (optional)
- # onChangeCallback -> reference to callback function that handle on change event (required)
-
- */
-
+/** Prop Types at the end of the file */
 const InputField = ({ value, config, error, onChangeCallback }) => {
    return (
       <div className={`field field--${config.displayMode} ${error && error.isDisplayed && "field--error"}`}>
