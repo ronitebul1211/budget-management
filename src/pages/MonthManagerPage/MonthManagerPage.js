@@ -47,11 +47,11 @@ class MonthManagerPage extends React.Component {
             mode: "addTransaction",
             initialData: {
                id: "",
-               type: "חובה",
                description: "",
-               payment: "",
-               date: dates.getDateInIsoFormat("currentDay"),
+               type: "חובה",
+               totalPayment: "",
                paymentMethod: "מזומן",
+               date: dates.getDateInIsoFormat("currentDay"),
                category: "חשבונות",
             },
          },
@@ -100,6 +100,7 @@ class MonthManagerPage extends React.Component {
       await transactionsApi
          .getTransactionsList(currentDate.month, currentDate.year, "monthStatus")
          .then((response) => {
+            console.log(response);
             if (response.status === 200) {
                const { monthStatus, transactionsList } = response.data;
                this.setState({

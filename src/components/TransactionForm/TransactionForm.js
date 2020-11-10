@@ -15,15 +15,15 @@ import Button from "../_Buttons/Button";
 class TransactionForm extends React.Component {
    state = {
       id: "",
-      type: "",
       description: "",
-      payment: "",
-      date: "",
+      type: "",
+      totalPayment: "",
       paymentMethod: "",
+      date: "",
       category: "",
       errors: {
          descriptionInputError: false,
-         paymentInputError: false,
+         totalPaymentInputError: false,
       },
    };
 
@@ -37,7 +37,7 @@ class TransactionForm extends React.Component {
       //Hide error from the input field when input changed
       if (
          (target.name === "description" && this.state.errors.descriptionInputError) ||
-         (target.name === "payment" && this.state.errors.paymentInputError)
+         (target.name === "totalPayment" && this.state.errors.totalPaymentInputError)
       ) {
          return this.setState((prevState) => ({
             [target.name]: target.value,
@@ -75,13 +75,13 @@ class TransactionForm extends React.Component {
     */
    validateForm = () => {
       //Payment Valid Input: positive integer
-      const paymentInput = parseInt(this.state.payment);
-      const paymentInputError = isNaN(paymentInput) || paymentInput < 1;
+      const totalPaymentInput = parseInt(this.state.totalPayment);
+      const totalPaymentInputError = isNaN(totalPaymentInput) || totalPaymentInput < 1;
       //Description Valid Input: string contain min 1 character
       const descriptionInput = this.state.description.trim();
       const descriptionInputError = descriptionInput < 1;
-      this.setState({ errors: { paymentInputError, descriptionInputError } });
-      return !paymentInputError && !descriptionInputError;
+      this.setState({ errors: { totalPaymentInputError, descriptionInputError } });
+      return !totalPaymentInputError && !descriptionInputError;
    };
 
    renderTitleText = (formMode) => {
@@ -135,14 +135,17 @@ class TransactionForm extends React.Component {
                   onChangeCallback={this.onInputChange}
                />
                <InputField
-                  value={this.state.payment}
+                  value={this.state.totalPayment}
                   config={{
                      label: "סכום",
-                     name: "payment",
+                     name: "totalPayment",
                      displayMode: "column",
                      type: "number",
                   }}
-                  error={{ message: "הכנס מספר חיובי שלם", isDisplayed: this.state.errors.paymentInputError }}
+                  error={{
+                     message: "הכנס מספר חיובי שלם",
+                     isDisplayed: this.state.errors.totalPaymentInputError,
+                  }}
                   onChangeCallback={this.onInputChange}
                />
                <InputField
@@ -205,11 +208,10 @@ TransactionForm.propTypes = {
       id: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,
       description: PropTypes.string.isRequired,
-      payment: PropTypes.string.isRequired,
+      totalPayment: PropTypes.string.isRequired,
       date: PropTypes.string.isRequired,
       paymentMethod: PropTypes.string.isRequired,
       category: PropTypes.string.isRequired,
-      transactions_listId: PropTypes.string,
    }).isRequired,
    onFormEventCallback: PropTypes.func.isRequired,
 };
