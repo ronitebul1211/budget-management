@@ -1,3 +1,4 @@
+/* Container */
 .month-status {
    display: flex;
    flex-direction: column;
@@ -11,12 +12,12 @@
 .month-status__title {
    font-size: 2.5rem;
 }
-.month-status__status-section {
+.month-status__content {
    display: flex;
    gap: 25px;
 }
-
-.month-status__status-item {
+/* Status Item */
+.month-status__item {
    min-width: 200px;
    padding: 25px;
    border-radius: 5px;
@@ -27,18 +28,20 @@
    background-color: white;
    font-size: 1.5rem;
 }
-
-.month-status__status-item-title {
+.month-status__item-title {
    font-weight: bold;
 }
-
-.month-status__status-item-content--credit {
+.month-status__item-content {
+   color: black;
+}
+.month-status__item-content--credit {
    color: #4caf50;
 }
-.month-status__status-item-content--debit {
+.month-status__item-content--debit {
    color: #f44336;
 }
-.month-status__add-btn-container {
+/* Add button */
+.month-status__btn-container {
    display: flex;
    padding: 0 25px;
 }
