@@ -3,19 +3,8 @@ import "./MonthManagerPage.css";
 import dates from "../../utilities/dates";
 import transactionsApi from "../../utilities/transactionsApi";
 
-import {
-   getTransactionsId,
-   getTransactionsData,
-   addTransaction,
-   deleteTransaction,
-   updateTransaction,
-} from "../../utilities/budgetApi";
-import {
-   sortTransactionsByDate,
-   getMonthStatus,
-   getCurrentYear,
-   getCurrentMonth,
-} from "../../utilities/functions";
+import { addTransaction, deleteTransaction, updateTransaction } from "../../utilities/budgetApi";
+
 //Components
 import TransactionForm from "../../components/TransactionForm/TransactionForm";
 import TransactionListView from "../../components/TransactionListView/TransactionListView";
@@ -48,28 +37,7 @@ class MonthManagerPage extends React.Component {
    };
 
    async componentDidMount() {
-      const currentDate = dates.getCurrentDate();
-      // Load current month data
-      await transactionsApi
-         .getTransactionsList(currentDate.month, currentDate.year, "monthStatus")
-         .then((response) => {
-            if (response.status === 200) {
-               this.setState({
-                  monthStatusData: response.data.monthStatus,
-                  transactionsListData: response.data.transactionsList.data,
-               });
-            }
-            if (response.status === 204) {
-               this.setState({
-                  monthStatusData: { debit: 0, credit: 0, balance: 0 },
-                  transactionsListData: [],
-               });
-            }
-         })
-         .catch((error) => {
-            //TODO: Redirect to other page
-            throw error;
-         });
+      this.loadMonthData();
    }
 
    /** When user Click on Add (+) Open modal with add New Transaction Ui */
@@ -118,6 +86,34 @@ class MonthManagerPage extends React.Component {
          await deleteTransaction(this.state.transactionsDataId, transaction.id);
          this.setUpdatedData();
       }
+   };
+
+   /**
+    * Get from endpoint current month data and update UI
+    */
+   loadMonthData = async () => {
+      const currentDate = dates.getCurrentDate();
+      await transactionsApi
+         .getTransactionsList(currentDate.month, currentDate.year, "monthStatus")
+         .then((response) => {
+            if (response.status === 200) {
+               const { monthStatus, transactionsList } = response.data;
+               this.setState({
+                  monthStatus,
+                  transactionsListData: transactionsList.data,
+               });
+            }
+            if (response.status === 204) {
+               this.setState({
+                  monthStatusData: { debit: 0, credit: 0, balance: 0 },
+                  transactionsListData: [],
+               });
+            }
+         })
+         .catch((error) => {
+            //TODO: Redirect to other page
+            throw error;
+         });
    };
 
    render() {
