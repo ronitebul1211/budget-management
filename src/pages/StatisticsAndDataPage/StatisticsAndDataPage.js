@@ -1,7 +1,9 @@
 import React from "react";
-import { getHistory, getTransactionsData } from "../../utilities/budgetApi";
-import { getMonthNameInHebrew, getDebitData, sortTransactionsByDate } from "../../utilities/functions";
 import "./StatisticsAndDataPage.css";
+import dates from "../../utilities/dates";
+import { getHistory, getTransactionsData } from "../../utilities/budgetApi";
+import { getDebitData, sortTransactionsByDate } from "../../utilities/functions";
+
 //Components
 import PieGraph from "../../components/_Graphs/PieGraph";
 import SelectField from "../../components/_InputFields/SelectField";
@@ -24,7 +26,7 @@ class StatisticsAndDataPage extends React.Component {
       //Get transactions record generate options
       const transactionsRecords = await getHistory();
       const monthSelectionOptions = transactionsRecords.map((transactionsRecord) => {
-         return { label: getMonthNameInHebrew(transactionsRecord.month), value: transactionsRecord.id };
+         return { label: dates.getHebrewMonthName(transactionsRecord.month), value: transactionsRecord.id };
       });
       //First month - default
       const defaultTransactionsId = monthSelectionOptions[transactionsRecords.length - 1].value;

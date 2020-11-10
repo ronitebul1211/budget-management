@@ -1,17 +1,16 @@
 import React from "react";
 import "./MonthStatusView.css";
-import { getMonthNameInHebrew } from "../../utilities/functions";
+import dates from "../../utilities/dates";
 //Components
+import ButtonIcon from "../_Buttons/ButtonIcon";
 
 //FIXME: add prop types + refactor by conventions.txt
-
-import ButtonIcon from "../_Buttons/ButtonIcon";
 
 const MonthStatus = ({ currentDate, data, onButtonClickCallback }) => {
    return (
       <div className="month-status">
          <h1 className="month-status__title">
-            {`${getMonthNameInHebrew(currentDate.month)}, ${currentDate.year}`}
+            {`${dates.getHebrewMonthName(currentDate.month)}, ${currentDate.year}`}
          </h1>
 
          <div className="month-status__content">
