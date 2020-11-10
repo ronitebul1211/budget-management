@@ -9,7 +9,6 @@ import SelectField from "../_InputFields/SelectField";
 import Button from "../_Buttons/Button";
 
 //TODO: Auto focus when open on first input
-//TODO: Delete from prop type and check its don't sent from new server
 
 /** Prop Types at the end of the file */
 class TransactionForm extends React.Component {
@@ -51,10 +50,10 @@ class TransactionForm extends React.Component {
       this.setState({ [target.name]: target.value });
    };
 
-   onButtonClick = (clickAction) => {
-      switch (clickAction) {
+   onButtonClick = (action) => {
+      switch (action) {
          case "CLOSE":
-            this.props.onFormEventCallback(clickAction, null);
+            this.props.onFormEventCallback(action, null);
             break;
          case "ADD_NEW":
          case "EDIT":
@@ -62,7 +61,7 @@ class TransactionForm extends React.Component {
                const transactionData = { ...this.state };
                delete transactionData.errors;
                console.log(transactionData);
-               this.props.onFormEventCallback(clickAction, transactionData);
+               this.props.onFormEventCallback(action, transactionData);
             }
             break;
          default:
