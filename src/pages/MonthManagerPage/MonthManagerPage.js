@@ -27,36 +27,40 @@ class MonthManagerPage extends React.Component {
     * }
     */
    state = {
-      transactionsDataId: "",
       isFormModalOpen: false,
       formModalMode: "",
       formModalData: {},
 
       monthStatusData: { debit: 0, credit: 0, balance: 0 },
       transactionsListData: [],
+      transactionForm: { isOpen: false, mode: "", initialData: {} },
    };
 
    async componentDidMount() {
       this.loadMonthData();
    }
 
-   /** When user Click on Add (+) Open modal with add New Transaction Ui */
-   handleAddTransactionClick = () => {
+   onMonthStatusButtonClick = () => {
       this.setState({
-         isFormModalOpen: true,
-         formModalMode: "addTransaction",
-         formModalData: {
-            id: "",
-            type: "חובה",
-            description: "",
-            payment: "",
-            date: dates.getDateInIsoFormat("currentDay"),
-            paymentMethod: "מזומן",
-            category: "חשבונות",
+         transactionForm: {
+            isOpen: true,
+            mode: "addTransaction",
+            initialData: {
+               id: "",
+               type: "חובה",
+               description: "",
+               payment: "",
+               date: dates.getDateInIsoFormat("currentDay"),
+               paymentMethod: "מזומן",
+               category: "חשבונות",
+            },
          },
       });
    };
 
+   onTransactionFormEvent = async (action, transaction) => {
+      console.log(transaction);
+   };
    /** Handle Add Transaction Form Click Events
     # closeForm event: close form modal
     # addTransaction / updateTransaction: close form modal, send transaction data to endpoint, update transactions list
@@ -121,19 +125,19 @@ class MonthManagerPage extends React.Component {
          <div className="month-manager-page">
             <MonthStatus
                data={this.state.monthStatusData}
-               onButtonClickCallback={this.handleAddTransactionClick}
+               onButtonClickCallback={this.onMonthStatusButtonClick}
             />
             <TransactionListView
                transactions={this.state.transactionsListData}
                mode="edit"
                handleListItemClickEventCallback={this.handleListItemClickEvent}
             />
-            {this.state.isFormModalOpen ? (
-               <Modal isOpen={this.state.isFormModalOpen}>
+            {this.state.transactionForm.isOpen ? (
+               <Modal isOpen={this.state.transactionForm.isOpen}>
                   <TransactionForm
-                     formMode={this.state.formModalMode}
-                     transactionData={this.state.formModalData}
-                     onFormEventCallback={this.handleAddTransactionFormEvents}
+                     formMode={this.state.transactionForm.mode}
+                     transactionData={this.state.transactionForm.initialData}
+                     onFormEventCallback={this.onTransactionFormEvent}
                   />
                </Modal>
             ) : null}

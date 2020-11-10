@@ -61,6 +61,7 @@ class TransactionForm extends React.Component {
             if (this.validateForm()) {
                const transactionData = { ...this.state };
                delete transactionData.errors;
+               console.log(transactionData);
                this.props.onFormEventCallback(clickAction, transactionData);
             }
             break;
