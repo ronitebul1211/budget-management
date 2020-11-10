@@ -28,6 +28,17 @@ const getDateInIsoFormat = (dateType) => {
    return [year, month, day].join("-");
 };
 
+/**
+ * @param {number} month: the requested month number e.g 5 for May
+ * @returns {string} the name of the foreign month in Hebrew
+ */
+export const getHebrewMonthName = (month) => {
+   const date = new Date();
+   date.setMonth(month - 1);
+   return date.toLocaleString("he-IL", { month: "long" });
+};
+
 export default {
    getDateInIsoFormat,
+   getHebrewMonthName,
 };

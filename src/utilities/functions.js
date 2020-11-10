@@ -8,14 +8,6 @@ export const getFormattedDate = (isosString) => {
    const dateStr = isosString.substring(8, 10);
    return `${dateStr}/${monthStr}`;
 };
-
-/**Return month name in hebrew by month number: january = 1  */
-export const getMonthNameInHebrew = (monthNumber) => {
-   const date = new Date();
-   date.setMonth(monthNumber - 1);
-   return date.toLocaleString("he-IL", { month: "long" });
-};
-
 /** Return year {number}*/
 export const getCurrentYear = () => {
    const date = new Date();
@@ -42,7 +34,7 @@ export const getTransactionType = (typeStr) => {
 
 export const sortTransactionsByDate = (transactions) => {
    transactions.sort((a, b) => {
-      return new Date(a.date) - new Date(b.date);
+      return a.date < b.date ? -1 : a.date > b.date ? 1 : 0;
    });
    return transactions;
 };
