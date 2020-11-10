@@ -54,14 +54,14 @@ class TransactionForm extends React.Component {
    onButtonClick = (clickAction) => {
       switch (clickAction) {
          case "closeForm":
-            this.props.onButtonClickCallback(clickAction, null);
+            this.props.onFormEventCallback(clickAction, null);
             break;
          case "addTransaction":
          case "editTransaction":
             if (this.validateForm()) {
                const transactionData = { ...this.state };
                delete transactionData.errors;
-               this.props.onButtonClickCallback(clickAction, transactionData);
+               this.props.onFormEventCallback(clickAction, transactionData);
             }
             break;
          default:
@@ -210,6 +210,6 @@ TransactionForm.propTypes = {
       category: PropTypes.string.isRequired,
       transactions_listId: PropTypes.string,
    }).isRequired,
-   onButtonClickCallback: PropTypes.func.isRequired,
+   onFormEventCallback: PropTypes.func.isRequired,
 };
 export default TransactionForm;

@@ -133,7 +133,7 @@ class MonthManagerPage extends React.Component {
                   <TransactionForm
                      formMode={this.state.formModalMode}
                      transactionData={this.state.formModalData}
-                     onButtonClickCallback={this.handleAddTransactionFormEvents}
+                     onFormEventCallback={this.handleAddTransactionFormEvents}
                   />
                </Modal>
             ) : null}
