@@ -38,7 +38,19 @@ export const getHebrewMonthName = (month) => {
    return date.toLocaleString("he-IL", { month: "long" });
 };
 
+/**
+ * @returns {object} contain current month, year in number type (e.g November 2021 : {month:11, year:2021})
+ */
+const getCurrentDate = () => {
+   const current = new Date();
+   return {
+      month: current.getMonth() + 1,
+      year: current.getFullYear(),
+   };
+};
+
 export default {
    getDateInIsoFormat,
    getHebrewMonthName,
+   getCurrentDate,
 };

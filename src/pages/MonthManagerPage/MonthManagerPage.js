@@ -28,11 +28,7 @@ class MonthManagerPage extends React.Component {
    //TODO Save in state year: num, month: num. pass it in api call and to month status view
    /**
     * state:
-    * month: {
-    *    year: 2020 (num)
-    *    month: 1 (num)
-   
-    * }
+
     transactionsListData: [],
     monthStatusData: {credit: , debit:, balance}
     * transactionFormModal: {
@@ -40,50 +36,40 @@ class MonthManagerPage extends React.Component {
     *    formMode: "add/edit"
     *    transactionData: {}
     * }
-    * 
-    * 
-    *
     */
    state = {
       transactionsDataId: "",
       isFormModalOpen: false,
       formModalMode: "",
       formModalData: {},
-      transactionsData: [],
 
-      currentDate: {
-         year: 0,
-         month: 0,
-      },
       monthStatusData: { debit: 0, credit: 0, balance: 0 },
       transactionsListData: [],
    };
 
    async componentDidMount() {
-      // Get current date
-      const currentDate = new Date();
-      const month = currentDate.getMonth() + 1;
-      const year = currentDate.getFullYear();
+      const currentDate = dates.getCurrentDate();
       // Load current month data
       await transactionsApi
-         .getTransactionsList(month, year, "monthStatus")
+         .getTransactionsList(currentDate.month, currentDate.year, "monthStatus")
          .then((response) => {
-            console.log(response);
-         })
-         .catch((error) => {
-            //Transaction list not exist
-            if (error.response.status === 404) {
-               return this.setState({
-                  currentDate: { month, year },
+            if (response.status === 200) {
+               this.setState({
+                  monthStatusData: response.data.monthStatus,
+                  transactionsListData: response.data.transactionsList.data,
+               });
+            }
+            if (response.status === 204) {
+               this.setState({
                   monthStatusData: { debit: 0, credit: 0, balance: 0 },
                   transactionsListData: [],
                });
             }
+         })
+         .catch((error) => {
+            //TODO: Redirect to other page
             throw error;
          });
-
-      // await this.setTransactionsDataId();
-      // await this.setUpdatedData();
    }
 
    /** When user Click on Add (+) Open modal with add New Transaction Ui */
@@ -134,43 +120,15 @@ class MonthManagerPage extends React.Component {
       }
    };
 
-   /** Get transactions data id for current month & year and Set transactions id in state */
-   // setTransactionsDataId = async () => {
-   //    const currentYear = getCurrentYear();
-   //    const currentMonth = getCurrentMonth();
-   //    const transactionsDataId = await getTransactionsId(currentMonth, currentYear);
-   //    this.setState({ transactionsDataId });
-   // };
-
-   /** Get transactions Data & Month status and set it in state */
-   setUpdatedData = async () => {
-      await this.setUpdatedTransactionsData();
-      this.setUpdatedMonthStatusData();
-   };
-
-   /** Set state with updated transactions data Sorted by date */
-   setUpdatedTransactionsData = async () => {
-      const transactionsData = await getTransactionsData(this.state.transactionsDataId);
-      sortTransactionsByDate(transactionsData);
-      this.setState({ transactionsData });
-   };
-
-   /** Set state with updated month status data: (credit, debit and balance) */
-   setUpdatedMonthStatusData = () => {
-      const monthStatusData = getMonthStatus(this.state.transactionsData);
-      this.setState({ monthStatusData });
-   };
-
    render() {
       return (
          <div className="month-manager-page">
             <MonthStatus
-               currentDate={this.state.currentDate}
                data={this.state.monthStatusData}
                onButtonClickCallback={this.handleAddTransactionClick}
             />
             <TransactionListView
-               transactions={this.state.transactionsData}
+               transactions={this.state.transactionsListData}
                mode="edit"
                handleListItemClickEventCallback={this.handleListItemClickEvent}
             />

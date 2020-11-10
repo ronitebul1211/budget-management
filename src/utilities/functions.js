@@ -8,16 +8,6 @@ export const getFormattedDate = (isosString) => {
    const dateStr = isosString.substring(8, 10);
    return `${dateStr}/${monthStr}`;
 };
-/** Return year {number}*/
-export const getCurrentYear = () => {
-   const date = new Date();
-   return date.getFullYear();
-};
-/** Return month {number} */
-export const getCurrentMonth = () => {
-   const date = new Date();
-   return date.getMonth() + 1;
-};
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - language Functions - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 export const getTransactionType = (typeStr) => {

@@ -9,7 +9,7 @@ import ButtonIcon from "../_Buttons/ButtonIcon";
 const TransactionListView = ({ transactions, mode, handleListItemClickEventCallback }) => {
    const renderedTableRows = transactions.map((transaction) => {
       return (
-         <tr className="transaction-table__row" key={transaction.id}>
+         <tr className="transaction-table__row" key={transaction._id}>
             <td className="transaction-table__row-item">{getFormattedDate(transaction.date)} </td>
             <td className="transaction-table__row-item">{transaction.paymentMethod}</td>
             <td className="transaction-table__row-item">{transaction.category}</td>
@@ -17,7 +17,7 @@ const TransactionListView = ({ transactions, mode, handleListItemClickEventCallb
             <td className="transaction-table__row-item">
                <span className={`transaction-table__payment--${getTransactionType(transaction.type)}`}>
                   {" "}
-                  {transaction.payment} &#x20aa;
+                  {transaction.totalPayment} &#x20aa;
                </span>
             </td>
             {mode === "edit" && (

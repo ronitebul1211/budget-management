@@ -6,7 +6,8 @@ import dates from "../../utilities/dates";
 import ButtonIcon from "../_Buttons/ButtonIcon";
 
 /** Prop Types at the end of the file */
-const MonthStatus = ({ currentDate, data, onButtonClickCallback }) => {
+const MonthStatus = ({ data, onButtonClickCallback }) => {
+   const currentDate = dates.getCurrentDate();
    return (
       <div className="month-status">
          <h1 className="month-status__title">
@@ -43,10 +44,6 @@ const MonthStatus = ({ currentDate, data, onButtonClickCallback }) => {
 };
 
 MonthStatus.propTypes = {
-   currentDate: PropTypes.shape({
-      month: PropTypes.number.isRequired,
-      year: PropTypes.number.isRequired,
-   }).isRequired,
    data: PropTypes.shape({
       credit: PropTypes.number.isRequired,
       debit: PropTypes.number.isRequired,
