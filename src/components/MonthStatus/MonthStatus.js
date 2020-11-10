@@ -1,11 +1,11 @@
 import React from "react";
-import "./MonthStatusView.css";
+import "./MonthStatus.css";
+import PropTypes from "prop-types";
 import dates from "../../utilities/dates";
 //Components
 import ButtonIcon from "../_Buttons/ButtonIcon";
 
-//FIXME: add prop types + refactor by conventions.txt
-
+/** Prop Types at the end of the file */
 const MonthStatus = ({ currentDate, data, onButtonClickCallback }) => {
    return (
       <div className="month-status">
@@ -24,7 +24,6 @@ const MonthStatus = ({ currentDate, data, onButtonClickCallback }) => {
                   {data.debit} &#x20aa;
                </span>
             </div>
-
             <div className="month-status__item">
                <span className="month-status__item-title">יתרה</span>
                <span
@@ -34,12 +33,26 @@ const MonthStatus = ({ currentDate, data, onButtonClickCallback }) => {
                   {data.balance} &#x20aa;
                </span>
             </div>
+
             <div className="month-status__btn-container">
                <ButtonIcon type="add" size="big" clickHandlerCallback={onButtonClickCallback} />
             </div>
          </div>
       </div>
    );
+};
+
+MonthStatus.propTypes = {
+   currentDate: PropTypes.shape({
+      month: PropTypes.number.isRequired,
+      year: PropTypes.number.isRequired,
+   }).isRequired,
+   data: PropTypes.shape({
+      credit: PropTypes.number.isRequired,
+      debit: PropTypes.number.isRequired,
+      balance: PropTypes.number.isRequired,
+   }).isRequired,
+   onButtonClickCallback: PropTypes.func.isRequired,
 };
 
 export default MonthStatus;

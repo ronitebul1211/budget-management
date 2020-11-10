@@ -1,6 +1,7 @@
 import React from "react";
 import "./MonthManagerPage.css";
 import dates from "../../utilities/dates";
+import transactionsApi from "../../utilities/transactionsApi";
 
 import {
    getTransactionsId,
@@ -18,24 +19,71 @@ import {
 //Components
 import TransactionForm from "../../components/TransactionForm/TransactionForm";
 import TransactionListView from "../../components/TransactionListView/TransactionListView";
-import MonthStatus from "../../components/MonthStatusView/MonthStatusView";
+import MonthStatus from "../../components/MonthStatus/MonthStatus";
 import Modal from "../../components/Modal/Modal";
 
 //FIXME: add prop types + refactor by conventions.txt
 
 class MonthManagerPage extends React.Component {
+   //TODO Save in state year: num, month: num. pass it in api call and to month status view
+   /**
+    * state:
+    * month: {
+    *    year: 2020 (num)
+    *    month: 1 (num)
+   
+    * }
+    transactionsListData: [],
+    monthStatusData: {credit: , debit:, balance}
+    * transactionFormModal: {
+    *    isModalOpen: bool,
+    *    formMode: "add/edit"
+    *    transactionData: {}
+    * }
+    * 
+    * 
+    *
+    */
    state = {
       transactionsDataId: "",
-      transactionsData: [],
-      monthStatusData: {},
       isFormModalOpen: false,
       formModalMode: "",
       formModalData: {},
+      transactionsData: [],
+
+      currentDate: {
+         year: 0,
+         month: 0,
+      },
+      monthStatusData: { debit: 0, credit: 0, balance: 0 },
+      transactionsListData: [],
    };
 
    async componentDidMount() {
-      await this.setTransactionsDataId();
-      await this.setUpdatedData();
+      // Get current date
+      const currentDate = new Date();
+      const month = currentDate.getMonth() + 1;
+      const year = currentDate.getFullYear();
+      // Load current month data
+      await transactionsApi
+         .getTransactionsList(month, year, "monthStatus")
+         .then((response) => {
+            console.log(response);
+         })
+         .catch((error) => {
+            //Transaction list not exist
+            if (error.response.status === 404) {
+               return this.setState({
+                  currentDate: { month, year },
+                  monthStatusData: { debit: 0, credit: 0, balance: 0 },
+                  transactionsListData: [],
+               });
+            }
+            throw error;
+         });
+
+      // await this.setTransactionsDataId();
+      // await this.setUpdatedData();
    }
 
    /** When user Click on Add (+) Open modal with add New Transaction Ui */
@@ -87,12 +135,12 @@ class MonthManagerPage extends React.Component {
    };
 
    /** Get transactions data id for current month & year and Set transactions id in state */
-   setTransactionsDataId = async () => {
-      const currentYear = getCurrentYear();
-      const currentMonth = getCurrentMonth();
-      const transactionsDataId = await getTransactionsId(currentMonth, currentYear);
-      this.setState({ transactionsDataId });
-   };
+   // setTransactionsDataId = async () => {
+   //    const currentYear = getCurrentYear();
+   //    const currentMonth = getCurrentMonth();
+   //    const transactionsDataId = await getTransactionsId(currentMonth, currentYear);
+   //    this.setState({ transactionsDataId });
+   // };
 
    /** Get transactions Data & Month status and set it in state */
    setUpdatedData = async () => {
@@ -117,8 +165,9 @@ class MonthManagerPage extends React.Component {
       return (
          <div className="month-manager-page">
             <MonthStatus
-               monthStatusData={this.state.monthStatusData}
-               handleAddTransactionClickCallback={this.handleAddTransactionClick}
+               currentDate={this.state.currentDate}
+               data={this.state.monthStatusData}
+               onButtonClickCallback={this.handleAddTransactionClick}
             />
             <TransactionListView
                transactions={this.state.transactionsData}
