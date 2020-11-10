@@ -44,7 +44,7 @@ class MonthManagerPage extends React.Component {
       this.setState({
          transactionForm: {
             isOpen: true,
-            mode: "addTransaction",
+            mode: "ADD_NEW",
             initialData: {
                id: "",
                description: "",

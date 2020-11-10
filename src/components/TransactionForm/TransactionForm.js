@@ -53,11 +53,11 @@ class TransactionForm extends React.Component {
 
    onButtonClick = (clickAction) => {
       switch (clickAction) {
-         case "closeForm":
+         case "CLOSE":
             this.props.onFormEventCallback(clickAction, null);
             break;
-         case "addTransaction":
-         case "editTransaction":
+         case "ADD_NEW":
+         case "EDIT":
             if (this.validateForm()) {
                const transactionData = { ...this.state };
                delete transactionData.errors;
@@ -66,7 +66,7 @@ class TransactionForm extends React.Component {
             }
             break;
          default:
-            throw Error("Invalid click action");
+            throw Error("Invalid action");
       }
    };
 
@@ -86,9 +86,9 @@ class TransactionForm extends React.Component {
 
    renderTitleText = (formMode) => {
       switch (formMode) {
-         case "addTransaction":
+         case "ADD_NEW":
             return "הוסף פעילות";
-         case "editTransaction":
+         case "EDIT":
             return "ערוך פעילות";
          default:
             throw Error("Invalid form mode");
@@ -97,9 +97,9 @@ class TransactionForm extends React.Component {
 
    renderSuccessBtnText = (formMode) => {
       switch (formMode) {
-         case "addTransaction":
+         case "ADD_NEW":
             return "הוסף";
-         case "editTransaction":
+         case "EDIT":
             return "שמור";
          default:
             throw new Error("Invalid form mode");
@@ -186,7 +186,7 @@ class TransactionForm extends React.Component {
                   text="חזור"
                   displayMode="danger"
                   clickHandlerCallback={() => {
-                     this.onButtonClick("closeForm");
+                     this.onButtonClick("CLOSE");
                   }}
                />
                <Button
@@ -203,7 +203,7 @@ class TransactionForm extends React.Component {
 }
 
 TransactionForm.propTypes = {
-   formMode: PropTypes.oneOf(["addTransaction", "editTransaction"]).isRequired,
+   formMode: PropTypes.oneOf(["ADD_NEW", "EDIT"]).isRequired,
    transactionData: PropTypes.shape({
       id: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,
