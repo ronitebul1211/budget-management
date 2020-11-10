@@ -31,7 +31,7 @@
 .month-status__item-title {
    font-weight: bold;
 }
-.month-status__item-content {
+.month-status__item-content--neutral {
    color: black;
 }
 .month-status__item-content--credit {

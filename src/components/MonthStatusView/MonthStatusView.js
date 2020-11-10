@@ -16,16 +16,21 @@ const MonthStatus = ({ currentDate, data, onButtonClickCallback }) => {
          <div className="month-status__content">
             <div className="month-status__item">
                <span className="month-status__item-title">תקציב</span>
-               <span className="month-status__item-content">{data.credit} &#x20aa;</span>
+               <span className="month-status__item-content--neutral">{data.credit} &#x20aa;</span>
             </div>
             <div className="month-status__item">
                <span className="month-status__item-title">הוצאות</span>
-               <span className="month-status__item-content--debit">{data.debit} &#x20aa;</span>
+               <span className={`month-status__item-content--${data.debit > 0 ? "debit" : "neutral"}`}>
+                  {data.debit} &#x20aa;
+               </span>
             </div>
 
             <div className="month-status__item">
                <span className="month-status__item-title">יתרה</span>
-               <span className={`month-status__item-content--${data.balance > 0 ? "credit" : "debit"}`}>
+               <span
+                  className={`month-status__item-content--${
+                     data.balance > 0 ? "credit" : data.balance < 0 ? "debit" : "neutral"
+                  }`}>
                   {data.balance} &#x20aa;
                </span>
             </div>
