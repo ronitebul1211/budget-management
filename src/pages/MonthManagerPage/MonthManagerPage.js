@@ -29,7 +29,7 @@ class MonthManagerPage extends React.Component {
             initialData: {
                _id: "",
                description: "",
-               type: "חובה",
+               type: "debit",
                totalPayment: "",
                paymentMethod: "מזומן",
                date: dates.getDateInIsoFormat("currentDay"),

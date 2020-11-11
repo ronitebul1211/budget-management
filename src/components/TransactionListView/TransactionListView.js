@@ -1,7 +1,6 @@
 import React from "react";
 import "./TransactionListView.css";
 import dates from "../../utilities/dates";
-import { getTransactionType } from "../../utilities/functions";
 //Components
 import ButtonIcon from "../_Buttons/ButtonIcon";
 
@@ -16,7 +15,7 @@ const TransactionListView = ({ transactions, mode, handleListItemClickEventCallb
             <td className="transaction-table__row-item">{transaction.category}</td>
             <td className="transaction-table__row-item">{transaction.description}</td>
             <td className="transaction-table__row-item">
-               <span className={`transaction-table__payment--${getTransactionType(transaction.type)}`}>
+               <span className={`transaction-table__payment--${transaction.type}`}>
                   {" "}
                   {transaction.totalPayment} &#x20aa;
                </span>

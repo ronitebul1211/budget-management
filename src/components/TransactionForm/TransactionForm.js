@@ -115,8 +115,8 @@ class TransactionForm extends React.Component {
                   content={{
                      label: "סוג",
                      options: [
-                        { label: "חובה", value: "חובה" },
-                        { label: "זכות", value: "זכות" },
+                        { label: "חובה", value: "debit" },
+                        { label: "זכות", value: "credit" },
                      ],
                   }}
                   config={{
