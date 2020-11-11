@@ -26,14 +26,14 @@ class MonthManagerPage extends React.Component {
       this.showTransactionForm(true, "ADD_NEW");
    };
    onTransactionFormEvent = async (action, transaction) => {
-      if (action === "CLOSE" || "ADD_NEW" || "EDIT") {
+      if (action === "CLOSE" || "SAVE_NEW" || "UPDATE") {
          this.showTransactionForm(false);
       }
-      if (action === "ADD_NEW") {
+      if (action === "SAVE_NEW") {
          await this.postTransactionInEndpoint(transaction);
          await this.loadMonthDataFromEndpoint();
       }
-      if (action === "EDIT") {
+      if (action === "UPDATE") {
          await this.updateTransactionInEndpoint(transaction);
          await this.loadMonthDataFromEndpoint();
       }

@@ -55,8 +55,8 @@ class TransactionForm extends React.Component {
          case "CLOSE":
             this.props.onFormEventCallback(action, null);
             break;
-         case "ADD_NEW":
-         case "EDIT":
+         case "SAVE_NEW":
+         case "UPDATE":
             if (this.validateForm()) {
                const transactionData = { ...this.state };
                delete transactionData.errors;
@@ -191,7 +191,9 @@ class TransactionForm extends React.Component {
                   text={this.renderSuccessBtnText(formMode)}
                   displayMode="success"
                   clickHandlerCallback={() => {
-                     this.onButtonClick(formMode);
+                     this.onButtonClick(
+                        (formMode === "ADD_NEW" && "SAVE_NEW") || (formMode === "EDIT" && "UPDATE"),
+                     );
                   }}
                />
             </div>
