@@ -13,7 +13,7 @@ import Button from "../_Buttons/Button";
 /** Prop Types at the end of the file */
 class TransactionForm extends React.Component {
    state = {
-      id: "",
+      _id: "",
       description: "",
       type: "",
       totalPayment: "",
@@ -203,10 +203,10 @@ class TransactionForm extends React.Component {
 TransactionForm.propTypes = {
    formMode: PropTypes.oneOf(["ADD_NEW", "EDIT"]).isRequired,
    transactionData: PropTypes.shape({
-      id: PropTypes.string.isRequired,
+      _id: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,
       description: PropTypes.string.isRequired,
-      totalPayment: PropTypes.string.isRequired,
+      totalPayment: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       date: PropTypes.string.isRequired,
       paymentMethod: PropTypes.string.isRequired,
       category: PropTypes.string.isRequired,
