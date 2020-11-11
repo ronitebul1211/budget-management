@@ -126,11 +126,15 @@ class MonthManagerPage extends React.Component {
                data={this.state.monthStatusData}
                onButtonClickCallback={this.onMonthStatusButtonClick}
             />
-            <TransactionListView
-               transactions={this.state.transactionsListData}
-               mode="edit"
-               handleListItemClickEventCallback={this.handleListItemClickEvent}
-            />
+
+            {this.state.transactionsListData.length !== 0 ? (
+               <TransactionListView
+                  transactions={this.state.transactionsListData}
+                  mode="edit"
+                  handleListItemClickEventCallback={this.handleListItemClickEvent}
+               />
+            ) : null}
+
             {this.state.transactionForm.isOpen ? (
                <Modal isOpen={this.state.transactionForm.isOpen}>
                   <TransactionForm
