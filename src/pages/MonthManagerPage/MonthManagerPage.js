@@ -22,26 +22,12 @@ class MonthManagerPage extends React.Component {
    }
 
    onMonthStatusButtonClick = () => {
-      this.setState({
-         transactionForm: {
-            isOpen: true,
-            mode: "ADD_NEW",
-            initialData: {
-               _id: "",
-               description: "",
-               type: "debit",
-               totalPayment: "",
-               paymentMethod: "מזומן",
-               date: dates.getDateInIsoFormat("currentDay"),
-               category: "חשבונות",
-            },
-         },
-      });
+      this.showTransactionForm(true, "ADD_NEW");
    };
 
    onTransactionFormEvent = async (action, transaction) => {
       if (action === "CLOSE" || "ADD_NEW" || "EDIT") {
-         this.setState({ transactionForm: { isOpen: false, mode: "", initialData: {} } });
+         this.showTransactionForm(false);
       }
       if (action === "ADD_NEW") {
          await this.postTransactionInEndpoint(transaction);
@@ -56,17 +42,50 @@ class MonthManagerPage extends React.Component {
    /** Handle Transactions List Click Events */
    handleListItemClickEvent = async (action, transaction) => {
       if (action === "editTransaction") {
-         this.setState({
-            transactionForm: {
-               isOpen: true,
-               mode: "EDIT",
-               initialData: transaction,
-            },
-         });
+         this.showTransactionForm(true, "EDIT", transaction);
       }
       if (action === "deleteTransaction") {
          await this.deleteTransactionFromEndpoint(transaction);
          await this.loadMonthDataFromEndpoint();
+      }
+   };
+
+   /**
+    * Transaction form controller
+    * @param {boolean} isOpen: show / hide form
+    * @param {string} mode: "ADD_NEW" / "EDIT": pass in when isOpen=true
+    * @param {object} initialData: transaction data - pass in when: isOpen=true, mode="EDIT"
+    */
+   showTransactionForm = (isOpen, mode, initialData) => {
+      if (isOpen) {
+         if (mode === "ADD_NEW") {
+            return this.setState({
+               transactionForm: {
+                  isOpen,
+                  mode,
+                  initialData: {
+                     _id: "",
+                     description: "",
+                     type: "debit",
+                     totalPayment: "",
+                     paymentMethod: "מזומן",
+                     date: dates.getDateInIsoFormat("currentDay"),
+                     category: "חשבונות",
+                  },
+               },
+            });
+         }
+         if (mode === "EDIT") {
+            return this.setState({
+               transactionForm: {
+                  isOpen,
+                  mode,
+                  initialData,
+               },
+            });
+         }
+      } else {
+         this.setState({ transactionForm: { isOpen: false, mode: "", initialData: {} } });
       }
    };
 
