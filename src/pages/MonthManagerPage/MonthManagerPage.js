@@ -39,8 +39,13 @@ class MonthManagerPage extends React.Component {
          }
       }
       if (action === "UPDATE") {
-         await this.updateTransactionInEndpoint(transaction);
-         await this.loadMonthDataFromEndpoint();
+         try {
+            await transactionsApi.updateTransaction(transaction);
+            await this.loadMonthDataFromEndpoint();
+         } catch (err) {
+            //TODO handle PUT transaction Error
+            throw err;
+         }
       }
    };
    onTransactionsListEvent = async (action, transaction) => {
@@ -118,14 +123,6 @@ class MonthManagerPage extends React.Component {
          });
    };
 
-   updateTransactionInEndpoint = async (transaction) => {
-      const transactionId = transaction._id;
-      delete transaction._id;
-      await transactionsApi.updateTransaction(transaction, transactionId).catch((err) => {
-         //TODO handle PUT transaction Error
-         throw err;
-      });
-   };
    deleteTransactionFromEndpoint = async (transaction) => {
       const transactionId = transaction._id;
       delete transaction._id;
