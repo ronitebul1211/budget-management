@@ -30,8 +30,13 @@ class MonthManagerPage extends React.Component {
          this.showTransactionForm(false);
       }
       if (action === "SAVE_NEW") {
-         await this.postTransactionInEndpoint(transaction);
-         await this.loadMonthDataFromEndpoint();
+         try {
+            await transactionsApi.postTransaction(transaction);
+            await this.loadMonthDataFromEndpoint();
+         } catch (err) {
+            //TODO handle POST transaction Error
+            throw err;
+         }
       }
       if (action === "UPDATE") {
          await this.updateTransactionInEndpoint(transaction);
@@ -112,13 +117,7 @@ class MonthManagerPage extends React.Component {
             throw err;
          });
    };
-   postTransactionInEndpoint = async (transaction) => {
-      delete transaction._id;
-      await transactionsApi.postTransaction(transaction).catch((err) => {
-         //TODO handle POST transaction Error
-         throw err;
-      });
-   };
+
    updateTransactionInEndpoint = async (transaction) => {
       const transactionId = transaction._id;
       delete transaction._id;

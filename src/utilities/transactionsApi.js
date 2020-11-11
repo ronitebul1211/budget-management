@@ -1,6 +1,18 @@
 import axios from "axios";
 import dates from "./dates";
 
+/**
+ * Transaction Data Structure = {
+ *    _id: {string},
+ *    description: {string},
+ *    type: {string},
+ *    totalPayment: {string},
+ *    paymentMethod: {string},
+ *    date: {string - ISO format},
+ *    category: {string},
+ * }
+ */
+
 const BASE_URL = "https://roni-budget-managment.herokuapp.com";
 
 /**
@@ -17,17 +29,11 @@ const getTransactionsList = async (month, year, metadata) => {
 
 /**
  * POST - transaction in the corresponding list by transaction date
- * @param {object} transaction: {
-      description: {string},
-      type: {string},
-      totalPayment: {string},
-      paymentMethod: {string},
-      date: {string - ISO format},
-      category: {string},
-   }
+ * @param {object} transaction
  */
 const postTransaction = async (transaction) => {
    const transactionDate = dates.getDateData(transaction.date);
+   delete transaction._id;
    return axios.post(
       `${BASE_URL}/api/transactions-lists/${transactionDate.year}/${transactionDate.month}`,
       transaction,
