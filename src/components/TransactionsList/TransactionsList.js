@@ -26,7 +26,7 @@ const TransactionsList = ({ transactionsListData, isEditableList, onListEventCal
                         type="edit"
                         size="small"
                         clickHandlerCallback={() => {
-                           onListEventCallback("editTransaction", transaction);
+                           onListEventCallback("OPEN_FORM", transaction);
                         }}
                      />
                   </td>
@@ -35,7 +35,7 @@ const TransactionsList = ({ transactionsListData, isEditableList, onListEventCal
                         type="delete"
                         size="small"
                         clickHandlerCallback={() => {
-                           onListEventCallback("deleteTransaction", transaction);
+                           onListEventCallback("DELETE_TRANSACTION", transaction);
                         }}
                      />
                   </td>

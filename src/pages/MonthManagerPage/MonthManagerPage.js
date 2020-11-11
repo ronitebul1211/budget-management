@@ -21,10 +21,10 @@ class MonthManagerPage extends React.Component {
       this.loadMonthDataFromEndpoint();
    }
 
+   /** Events Handlers */
    onMonthStatusButtonClick = () => {
       this.showTransactionForm(true, "ADD_NEW");
    };
-
    onTransactionFormEvent = async (action, transaction) => {
       if (action === "CLOSE" || "ADD_NEW" || "EDIT") {
          this.showTransactionForm(false);
@@ -38,13 +38,11 @@ class MonthManagerPage extends React.Component {
          await this.loadMonthDataFromEndpoint();
       }
    };
-
-   /** Handle Transactions List Click Events */
-   handleListItemClickEvent = async (action, transaction) => {
-      if (action === "editTransaction") {
+   onTransactionsListEvent = async (action, transaction) => {
+      if (action === "OPEN_FORM") {
          this.showTransactionForm(true, "EDIT", transaction);
       }
-      if (action === "deleteTransaction") {
+      if (action === "DELETE_TRANSACTION") {
          await this.deleteTransactionFromEndpoint(transaction);
          await this.loadMonthDataFromEndpoint();
       }
@@ -146,11 +144,11 @@ class MonthManagerPage extends React.Component {
                onButtonClickCallback={this.onMonthStatusButtonClick}
             />
 
-            {this.state.transactionsListData.length !== 0 ? (
+            {this.state.transactionsListData.length ? (
                <TransactionList
                   transactionsListData={this.state.transactionsListData}
                   isEditableList={true}
-                  onListEventCallback={this.handleListItemClickEvent}
+                  onListEventCallback={this.onTransactionsListEvent}
                />
             ) : null}
 
