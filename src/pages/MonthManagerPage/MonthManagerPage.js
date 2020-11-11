@@ -151,7 +151,7 @@ class MonthManagerPage extends React.Component {
             ) : null}
 
             {transactionForm.isOpen ? (
-               <Modal isOpen={transactionForm.isOpen}>
+               <Modal>
                   <TransactionForm
                      formMode={transactionForm.mode}
                      transactionData={transactionForm.initialData}

@@ -1,14 +1,10 @@
 import React from "react";
 import "./Modal.css";
 
-//FIXME: add prop types + refactor by conventions.txt
-
-class Modal extends React.Component {
-   render() {
-      if (!this.props.isOpen) {
-         return null;
-      }
-      return <div className="modal">{this.props.children}</div>;
-   }
-}
+/**
+ * Pass in a child component and place it in the center of the modal
+ */
+const Modal = ({ children }) => {
+   return <div className="modal">{children}</div>;
+};
 export default Modal;
