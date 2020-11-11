@@ -3,8 +3,6 @@ import "./MonthManagerPage.css";
 import dates from "../../utilities/dates";
 import transactionsApi from "../../utilities/transactionsApi";
 
-import { addTransaction, deleteTransaction, updateTransaction } from "../../utilities/budgetApi";
-
 //Components
 import TransactionForm from "../../components/TransactionForm/TransactionForm";
 import TransactionListView from "../../components/TransactionListView/TransactionListView";
@@ -21,7 +19,7 @@ class MonthManagerPage extends React.Component {
    };
 
    async componentDidMount() {
-      this.loadMonthData();
+      this.loadMonthDataFromEndpoint();
    }
 
    onMonthStatusButtonClick = () => {
@@ -45,11 +43,10 @@ class MonthManagerPage extends React.Component {
    onTransactionFormEvent = async (action, transaction) => {
       this.setState({ transactionForm: { isOpen: false, mode: "", initialData: {} } });
       if (action === "ADD_NEW") {
-         await addTransaction(this.state.transactionsDataId, transaction);
-         this.setUpdatedData();
+         await this.postTransactionInEndpoint(transaction);
+         await this.loadMonthDataFromEndpoint();
       }
       if (action === "EDIT") {
-         await updateTransaction(this.state.transactionsDataId, transaction);
          this.setUpdatedData();
       }
    };
@@ -64,38 +61,42 @@ class MonthManagerPage extends React.Component {
          });
       }
       if (action === "deleteTransaction") {
-         await deleteTransaction(this.state.transactionsDataId, transaction.id);
+         // await deleteTransaction(this.state.transactionsDataId, transaction.id);
          this.setUpdatedData();
       }
    };
 
-   /**
-    * Get from endpoint current month data and update UI
-    */
-   loadMonthData = async () => {
+   /** Endpoint Request */
+   loadMonthDataFromEndpoint = async () => {
       const currentDate = dates.getDateData();
       await transactionsApi
          .getTransactionsList(currentDate.month, currentDate.year, "monthStatus")
-         .then((response) => {
-            console.log(response);
-            if (response.status === 200) {
-               const { monthStatus, transactionsList } = response.data;
+         .then((res) => {
+            if (res.status === 200) {
+               const { monthStatus, transactionsList } = res.data;
                this.setState({
-                  monthStatus,
+                  monthStatusData: monthStatus,
                   transactionsListData: transactionsList.data,
                });
             }
-            if (response.status === 204) {
+            if (res.status === 204) {
                this.setState({
                   monthStatusData: { debit: 0, credit: 0, balance: 0 },
                   transactionsListData: [],
                });
             }
          })
-         .catch((error) => {
-            //TODO: Redirect to other page
-            throw error;
+         .catch((err) => {
+            //TODO handle GET transactions list Error
+            throw err;
          });
+   };
+   postTransactionInEndpoint = async (transaction) => {
+      delete transaction.id;
+      await transactionsApi.postTransaction(transaction).catch((err) => {
+         //TODO handle POST transaction Error
+         throw err;
+      });
    };
 
    render() {
