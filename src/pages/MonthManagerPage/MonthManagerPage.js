@@ -4,7 +4,7 @@ import dates from "../../utilities/dates";
 import transactionsApi from "../../utilities/transactionsApi";
 //Components
 import TransactionForm from "../../components/TransactionForm/TransactionForm";
-import TransactionListView from "../../components/TransactionListView/TransactionListView";
+import TransactionListView from "../../components/TransactionsList/TransactionsList";
 import MonthStatus from "../../components/MonthStatus/MonthStatus";
 import Modal from "../../components/Modal/Modal";
 

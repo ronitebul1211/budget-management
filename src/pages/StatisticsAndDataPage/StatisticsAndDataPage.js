@@ -6,7 +6,7 @@ import { getDebitData, sortTransactionsByDate } from "../../utilities/functions"
 //Components
 import PieGraph from "../../components/_Graphs/PieGraph";
 import SelectField from "../../components/_InputFields/SelectField";
-import TransactionListView from "../../components/TransactionListView/TransactionListView";
+import TransactionsList from "../../components/TransactionsList/TransactionsList";
 
 //FIXME: add prop types + refactor by conventions.txt
 

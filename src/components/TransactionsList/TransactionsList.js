@@ -1,12 +1,12 @@
 import React from "react";
-import "./TransactionListView.css";
+import "./TransactionsList.css";
 import dates from "../../utilities/dates";
 //Components
 import ButtonIcon from "../_Buttons/ButtonIcon";
 
 //FIXME: add prop types + refactor by conventions.txt
 
-const TransactionListView = ({ transactions, mode, handleListItemClickEventCallback }) => {
+const TransactionsList = ({ transactions, mode, handleListItemClickEventCallback }) => {
    const renderedTableRows = transactions.map((transaction) => {
       return (
          <tr className="transaction-table__row" key={transaction._id}>
@@ -68,4 +68,4 @@ const TransactionListView = ({ transactions, mode, handleListItemClickEventCallb
    );
 };
 
-export default TransactionListView;
+export default TransactionsList;
