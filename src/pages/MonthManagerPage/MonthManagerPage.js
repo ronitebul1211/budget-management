@@ -137,26 +137,24 @@ class MonthManagerPage extends React.Component {
    };
 
    render() {
+      const { monthStatusData, transactionsListData, transactionForm } = this.state;
       return (
          <div className="month-manager-page">
-            <MonthStatus
-               data={this.state.monthStatusData}
-               onButtonClickCallback={this.onMonthStatusButtonClick}
-            />
+            <MonthStatus data={monthStatusData} onButtonClickCallback={this.onMonthStatusButtonClick} />
 
             {this.state.transactionsListData.length ? (
                <TransactionList
-                  transactionsListData={this.state.transactionsListData}
+                  transactionsListData={transactionsListData}
                   isEditableList={true}
                   onListEventCallback={this.onTransactionsListEvent}
                />
             ) : null}
 
-            {this.state.transactionForm.isOpen ? (
-               <Modal isOpen={this.state.transactionForm.isOpen}>
+            {transactionForm.isOpen ? (
+               <Modal isOpen={transactionForm.isOpen}>
                   <TransactionForm
-                     formMode={this.state.transactionForm.mode}
-                     transactionData={this.state.transactionForm.initialData}
+                     formMode={transactionForm.mode}
+                     transactionData={transactionForm.initialData}
                      onFormEventCallback={this.onTransactionFormEvent}
                   />
                </Modal>
