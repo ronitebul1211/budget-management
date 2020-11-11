@@ -4,7 +4,7 @@ import dates from "../../utilities/dates";
 import transactionsApi from "../../utilities/transactionsApi";
 //Components
 import TransactionForm from "../../components/TransactionForm/TransactionForm";
-import TransactionListView from "../../components/TransactionsList/TransactionsList";
+import TransactionList from "../../components/TransactionsList/TransactionsList";
 import MonthStatus from "../../components/MonthStatus/MonthStatus";
 import Modal from "../../components/Modal/Modal";
 
@@ -128,10 +128,10 @@ class MonthManagerPage extends React.Component {
             />
 
             {this.state.transactionsListData.length !== 0 ? (
-               <TransactionListView
-                  transactions={this.state.transactionsListData}
-                  mode="edit"
-                  handleListItemClickEventCallback={this.handleListItemClickEvent}
+               <TransactionList
+                  transactionsListData={this.state.transactionsListData}
+                  isEditableList={true}
+                  onListEventCallback={this.handleListItemClickEvent}
                />
             ) : null}
 

@@ -6,8 +6,8 @@ import ButtonIcon from "../_Buttons/ButtonIcon";
 
 //FIXME: add prop types + refactor by conventions.txt
 
-const TransactionsList = ({ transactions, mode, handleListItemClickEventCallback }) => {
-   const renderedTableRows = transactions.map((transaction) => {
+const TransactionsList = ({ transactionsListData, isEditableList, onListEventCallback }) => {
+   const renderedTableRows = transactionsListData.map((transaction) => {
       return (
          <tr className="transaction-table__row" key={transaction._id}>
             <td className="transaction-table__item">{dates.getAbbreviatedDate(transaction.date)} </td>
@@ -19,14 +19,14 @@ const TransactionsList = ({ transactions, mode, handleListItemClickEventCallback
                   {transaction.totalPayment} &#x20aa;
                </span>
             </td>
-            {mode === "edit" && (
+            {isEditableList ? (
                <React.Fragment>
                   <td className="transaction-table__item">
                      <ButtonIcon
                         type="edit"
                         size="small"
                         clickHandlerCallback={() => {
-                           handleListItemClickEventCallback("editTransaction", transaction);
+                           onListEventCallback("editTransaction", transaction);
                         }}
                      />
                   </td>
@@ -35,18 +35,18 @@ const TransactionsList = ({ transactions, mode, handleListItemClickEventCallback
                         type="delete"
                         size="small"
                         clickHandlerCallback={() => {
-                           handleListItemClickEventCallback("deleteTransaction", transaction);
+                           onListEventCallback("deleteTransaction", transaction);
                         }}
                      />
                   </td>
                </React.Fragment>
-            )}
+            ) : null}
          </tr>
       );
    });
 
    return (
-      <table className={`transaction-table transaction-table--${mode}`}>
+      <table className={`transaction-table transaction-table--${isEditableList ? "edit" : "read"}`}>
          <thead className="transaction-table__headlines">
             <tr className="transaction-table__row">
                <th className="transaction-table__headline">תאריך</th>
@@ -54,12 +54,12 @@ const TransactionsList = ({ transactions, mode, handleListItemClickEventCallback
                <th className="transaction-table__headline">קטגוריה</th>
                <th className="transaction-table__headline">תיאור</th>
                <th className="transaction-table__headline">סכום</th>
-               {mode === "edit" && (
+               {isEditableList ? (
                   <React.Fragment>
                      <th className="transaction-table__headline"></th>
                      <th className="transaction-table__headline"></th>
                   </React.Fragment>
-               )}
+               ) : null}
             </tr>
          </thead>
          <tbody className="transaction-table__body">{renderedTableRows}</tbody>
