@@ -1,11 +1,11 @@
 import React from "react";
 import "./TransactionsList.css";
 import dates from "../../utilities/dates";
+import PropTypes from "prop-types";
 //Components
 import ButtonIcon from "../_Buttons/ButtonIcon";
 
-//FIXME: add prop types + refactor by conventions.txt
-
+/** Prop Types at the end of the file */
 const TransactionsList = ({ transactionsListData, isEditableList, onListEventCallback }) => {
    const renderHeadlines = () => {
       return (
@@ -71,6 +71,22 @@ const TransactionsList = ({ transactionsListData, isEditableList, onListEventCal
          <tbody className="transaction-table__body">{renderRows()}</tbody>
       </table>
    );
+};
+
+TransactionsList.propTypes = {
+   transactionsListData: PropTypes.arrayOf(
+      PropTypes.shape({
+         _id: PropTypes.string.isRequired,
+         type: PropTypes.string.isRequired,
+         description: PropTypes.string.isRequired,
+         totalPayment: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+         date: PropTypes.string.isRequired,
+         paymentMethod: PropTypes.string.isRequired,
+         category: PropTypes.string.isRequired,
+      }),
+   ).isRequired,
+   isEditableList: PropTypes.bool.isRequired,
+   onListEventCallback: PropTypes.func.isRequired,
 };
 
 export default TransactionsList;
