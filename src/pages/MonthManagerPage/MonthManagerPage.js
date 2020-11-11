@@ -28,7 +28,7 @@ class MonthManagerPage extends React.Component {
             isOpen: true,
             mode: "ADD_NEW",
             initialData: {
-               id: "",
+               _id: "",
                description: "",
                type: "חובה",
                totalPayment: "",
@@ -47,7 +47,8 @@ class MonthManagerPage extends React.Component {
          await this.loadMonthDataFromEndpoint();
       }
       if (action === "EDIT") {
-         this.setUpdatedData();
+         await this.updateTransactionInEndpoint(transaction);
+         await this.loadMonthDataFromEndpoint();
       }
    };
 
@@ -55,9 +56,11 @@ class MonthManagerPage extends React.Component {
    handleListItemClickEvent = async (action, transaction) => {
       if (action === "editTransaction") {
          this.setState({
-            isFormModalOpen: true,
-            formModalMode: "editTransaction",
-            formModalData: transaction,
+            transactionForm: {
+               isOpen: true,
+               mode: "EDIT",
+               initialData: transaction,
+            },
          });
       }
       if (action === "deleteTransaction") {
@@ -92,9 +95,17 @@ class MonthManagerPage extends React.Component {
          });
    };
    postTransactionInEndpoint = async (transaction) => {
-      delete transaction.id;
+      delete transaction._id;
       await transactionsApi.postTransaction(transaction).catch((err) => {
          //TODO handle POST transaction Error
+         throw err;
+      });
+   };
+   updateTransactionInEndpoint = async (transaction) => {
+      const transactionId = transaction._id;
+      delete transaction._id;
+      await transactionsApi.updateTransaction(transaction, transactionId).catch((err) => {
+         //TODO handle PUT transaction Error
          throw err;
       });
    };

@@ -20,7 +20,7 @@ const getTransactionsList = async (month, year, metadata) => {
  * @param {object} transaction: {
       description: {string},
       type: {string},
-      totalPayment: {number},
+      totalPayment: {string},
       paymentMethod: {string},
       date: {string - ISO format},
       category: {string},
@@ -34,7 +34,28 @@ const postTransaction = async (transaction) => {
    );
 };
 
+/**
+ * PUT - update transaction in the corresponding list by transaction date, id
+ * @param {object} transaction: {
+      description: {string},
+      type: {string},
+      totalPayment: {string},
+      paymentMethod: {string},
+      date: {string - ISO format},
+      category: {string},
+   }
+ * @param {string}: transaction id 
+ */
+const updateTransaction = async (transaction, transactionId) => {
+   const transactionDate = dates.getDateData(transaction.date);
+   await axios.put(
+      `${BASE_URL}/api/transactions-lists/${transactionDate.year}/${transactionDate.month}/${transactionId}`,
+      transaction,
+   );
+};
+
 export default {
    getTransactionsList,
    postTransaction,
+   updateTransaction,
 };
