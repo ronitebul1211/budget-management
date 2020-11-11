@@ -2,13 +2,6 @@
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - Date Functions - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-/** Return String: dd/mm */
-export const getFormattedDate = (isosString) => {
-   const monthStr = isosString.substring(5, 7);
-   const dateStr = isosString.substring(8, 10);
-   return `${dateStr}/${monthStr}`;
-};
-
 // - - - - - - - - - - - - - - - - - - - - - - - - - - language Functions - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 export const getTransactionType = (typeStr) => {
    if (typeStr === "זכות") {
@@ -30,24 +23,6 @@ export const sortTransactionsByDate = (transactions) => {
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - Calculation Functions - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-/** Get Transactions array Calculate: Credit, Debit and Balance and return that data in Status Object */
-export const getMonthStatus = (transactions) => {
-   const monthStatus = {
-      credit: 0,
-      debit: 0,
-      balance: 0,
-   };
-   transactions.forEach((transaction) => {
-      if (transaction.type === "זכות") {
-         monthStatus.credit += parseInt(transaction.payment);
-      } else if (transaction.type === "חובה") {
-         monthStatus.debit += parseInt(transaction.payment);
-      }
-   });
-   monthStatus.balance = monthStatus.credit - monthStatus.debit;
-   return monthStatus;
-};
 
 //TODO CREATE DEBIT DATA - sort category and value in permanent order
 export const getDebitData = (transactions) => {

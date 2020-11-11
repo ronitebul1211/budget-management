@@ -32,7 +32,7 @@ const getDateInIsoFormat = (dateType) => {
  * @param {number} month: the requested month number e.g 5 for May
  * @returns {string} the name of the foreign month in Hebrew
  */
-export const getHebrewMonthName = (month) => {
+const getHebrewMonthName = (month) => {
    const date = new Date();
    date.setMonth(month - 1);
    return date.toLocaleString("he-IL", { month: "long" });
@@ -40,7 +40,7 @@ export const getHebrewMonthName = (month) => {
 
 /**
  * Get ISO format string as input, return correspond date data or current when no args passed in"
- * @param {string} isoFormatStr - iso string to extract date data
+ * @param {string} isoFormatStr - iso date string
  * @returns {object} contain month, year in number type (e.g November 2021 : {month:11, year:2021})
  */
 const getDateData = (isoFormatStr) => {
@@ -51,8 +51,18 @@ const getDateData = (isoFormatStr) => {
    };
 };
 
+/**
+ * Get ISO format string as input and return string in abbreviated format dd/mm
+ * @param {string} isoFormatStr - iso date string
+ */
+const getAbbreviatedDate = (isoString) => {
+   const date = new Date(isoString);
+   return `${date.getDate()}/${date.getMonth() + 1}`;
+};
+
 export default {
    getDateInIsoFormat,
    getHebrewMonthName,
    getDateData,
+   getAbbreviatedDate,
 };

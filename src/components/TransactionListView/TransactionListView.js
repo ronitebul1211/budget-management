@@ -1,6 +1,7 @@
 import React from "react";
 import "./TransactionListView.css";
-import { getFormattedDate, getTransactionType } from "../../utilities/functions";
+import dates from "../../utilities/dates";
+import { getTransactionType } from "../../utilities/functions";
 //Components
 import ButtonIcon from "../_Buttons/ButtonIcon";
 
@@ -10,7 +11,7 @@ const TransactionListView = ({ transactions, mode, handleListItemClickEventCallb
    const renderedTableRows = transactions.map((transaction) => {
       return (
          <tr className="transaction-table__row" key={transaction._id}>
-            <td className="transaction-table__row-item">{getFormattedDate(transaction.date)} </td>
+            <td className="transaction-table__row-item">{dates.getAbbreviatedDate(transaction.date)} </td>
             <td className="transaction-table__row-item">{transaction.paymentMethod}</td>
             <td className="transaction-table__row-item">{transaction.category}</td>
             <td className="transaction-table__row-item">{transaction.description}</td>
@@ -46,7 +47,7 @@ const TransactionListView = ({ transactions, mode, handleListItemClickEventCallb
       );
    });
 
-   return transactions.length !== 0 ? (
+   return (
       <table className={`transaction-table transaction-table--${mode}`}>
          <thead className="transaction-table__header">
             <tr className="transaction-table__row">
@@ -65,7 +66,7 @@ const TransactionListView = ({ transactions, mode, handleListItemClickEventCallb
          </thead>
          <tbody className="transaction-table__body">{renderedTableRows}</tbody>
       </table>
-   ) : null;
+   );
 };
 
 export default TransactionListView;
