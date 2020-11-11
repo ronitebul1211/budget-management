@@ -53,8 +53,13 @@ class MonthManagerPage extends React.Component {
          this.showTransactionForm(true, "EDIT", transaction);
       }
       if (action === "DELETE_TRANSACTION") {
-         await this.deleteTransactionFromEndpoint(transaction);
-         await this.loadMonthDataFromEndpoint();
+         try {
+            await transactionsApi.deleteTransaction(transaction);
+            await this.loadMonthDataFromEndpoint();
+         } catch (err) {
+            //TODO handle DELETE transaction Error
+            throw err;
+         }
       }
    };
 
@@ -97,7 +102,7 @@ class MonthManagerPage extends React.Component {
       }
    };
 
-   /** Endpoint Request */
+   /** Load updated data from endpoint */
    loadMonthDataFromEndpoint = async () => {
       const currentDate = dates.getDateData();
       await transactionsApi
@@ -121,15 +126,6 @@ class MonthManagerPage extends React.Component {
             //TODO handle GET transactions list Error
             throw err;
          });
-   };
-
-   deleteTransactionFromEndpoint = async (transaction) => {
-      const transactionId = transaction._id;
-      delete transaction._id;
-      await transactionsApi.deleteTransaction(transaction, transactionId).catch((err) => {
-         //TODO handle DELETE transaction Error
-         throw err;
-      });
    };
 
    render() {

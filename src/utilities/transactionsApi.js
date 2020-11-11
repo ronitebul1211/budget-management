@@ -56,17 +56,11 @@ const updateTransaction = async (transaction) => {
 
 /**
  * DELETE - delete transaction in the corresponding list by transaction date, id
- * @param {object} transaction: {
-      description: {string},
-      type: {string},
-      totalPayment: {string},
-      paymentMethod: {string},
-      date: {string - ISO format},
-      category: {string},
-   }
- * @param {string}: transaction id 
+ * @param {object} transaction
  */
-const deleteTransaction = async (transaction, transactionId) => {
+const deleteTransaction = async (transaction) => {
+   const transactionId = transaction._id;
+   delete transaction._id;
    const transactionDate = dates.getDateData(transaction.date);
    await axios.delete(
       `${BASE_URL}/api/transactions-lists/${transactionDate.year}/${transactionDate.month}/${transactionId}`,
