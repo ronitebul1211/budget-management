@@ -39,18 +39,20 @@ export const getHebrewMonthName = (month) => {
 };
 
 /**
- * @returns {object} contain current month, year in number type (e.g November 2021 : {month:11, year:2021})
+ * Get ISO format string as input, return correspond date data or current when no args passed in"
+ * @param {string} isoFormatStr - iso string to extract date data
+ * @returns {object} contain month, year in number type (e.g November 2021 : {month:11, year:2021})
  */
-const getCurrentDate = () => {
-   const current = new Date();
+const getDateData = (isoFormatStr) => {
+   const date = isoFormatStr ? new Date(isoFormatStr) : new Date();
    return {
-      month: current.getMonth() + 1,
-      year: current.getFullYear(),
+      month: date.getMonth() + 1,
+      year: date.getFullYear(),
    };
 };
 
 export default {
    getDateInIsoFormat,
    getHebrewMonthName,
-   getCurrentDate,
+   getDateData,
 };

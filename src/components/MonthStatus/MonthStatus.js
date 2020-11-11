@@ -7,7 +7,7 @@ import ButtonIcon from "../_Buttons/ButtonIcon";
 
 /** Prop Types at the end of the file */
 const MonthStatus = ({ data, onButtonClickCallback }) => {
-   const currentDate = dates.getCurrentDate();
+   const currentDate = dates.getDateData();
    return (
       <div className="month-status">
          <h1 className="month-status__title">

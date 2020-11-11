@@ -14,23 +14,7 @@ import Modal from "../../components/Modal/Modal";
 //FIXME: add prop types + refactor by conventions.txt
 
 class MonthManagerPage extends React.Component {
-   //TODO Save in state year: num, month: num. pass it in api call and to month status view
-   /**
-    * state:
-
-    transactionsListData: [],
-    monthStatusData: {credit: , debit:, balance}
-    * transactionFormModal: {
-    *    isModalOpen: bool,
-    *    formMode: "add/edit"
-    *    transactionData: {}
-    * }
-    */
    state = {
-      isFormModalOpen: false,
-      formModalMode: "",
-      formModalData: {},
-
       monthStatusData: { debit: 0, credit: 0, balance: 0 },
       transactionsListData: [],
       transactionForm: { isOpen: false, mode: "", initialData: {} },
@@ -59,19 +43,12 @@ class MonthManagerPage extends React.Component {
    };
 
    onTransactionFormEvent = async (action, transaction) => {
-      console.log(transaction);
-   };
-   /** Handle Add Transaction Form Click Events
-    # closeForm event: close form modal
-    # addTransaction / updateTransaction: close form modal, send transaction data to endpoint, update transactions list
-    */
-   handleAddTransactionFormEvents = async (action, transaction) => {
-      this.setState({ isFormModalOpen: false });
-      if (action === "addTransaction") {
+      this.setState({ transactionForm: { isOpen: false, mode: "", initialData: {} } });
+      if (action === "ADD_NEW") {
          await addTransaction(this.state.transactionsDataId, transaction);
          this.setUpdatedData();
       }
-      if (action === "editTransaction") {
+      if (action === "EDIT") {
          await updateTransaction(this.state.transactionsDataId, transaction);
          this.setUpdatedData();
       }
@@ -96,7 +73,7 @@ class MonthManagerPage extends React.Component {
     * Get from endpoint current month data and update UI
     */
    loadMonthData = async () => {
-      const currentDate = dates.getCurrentDate();
+      const currentDate = dates.getDateData();
       await transactionsApi
          .getTransactionsList(currentDate.month, currentDate.year, "monthStatus")
          .then((response) => {
