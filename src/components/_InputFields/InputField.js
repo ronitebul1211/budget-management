@@ -22,7 +22,7 @@ const InputField = ({ value, config, error, onChangeCallback }) => {
 };
 
 InputField.propTypes = {
-   value: PropTypes.string.isRequired,
+   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
    config: PropTypes.shape({
       label: PropTypes.string.isRequired,
       displayMode: PropTypes.oneOf(["row", "column"]).isRequired,
