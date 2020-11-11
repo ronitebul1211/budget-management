@@ -2,7 +2,6 @@ import React from "react";
 import "./MonthManagerPage.css";
 import dates from "../../utilities/dates";
 import transactionsApi from "../../utilities/transactionsApi";
-
 //Components
 import TransactionForm from "../../components/TransactionForm/TransactionForm";
 import TransactionListView from "../../components/TransactionListView/TransactionListView";
@@ -41,7 +40,9 @@ class MonthManagerPage extends React.Component {
    };
 
    onTransactionFormEvent = async (action, transaction) => {
-      this.setState({ transactionForm: { isOpen: false, mode: "", initialData: {} } });
+      if (action === "CLOSE" || "ADD_NEW" || "EDIT") {
+         this.setState({ transactionForm: { isOpen: false, mode: "", initialData: {} } });
+      }
       if (action === "ADD_NEW") {
          await this.postTransactionInEndpoint(transaction);
          await this.loadMonthDataFromEndpoint();
@@ -64,8 +65,8 @@ class MonthManagerPage extends React.Component {
          });
       }
       if (action === "deleteTransaction") {
-         // await deleteTransaction(this.state.transactionsDataId, transaction.id);
-         this.setUpdatedData();
+         await this.deleteTransactionFromEndpoint(transaction);
+         await this.loadMonthDataFromEndpoint();
       }
    };
 
@@ -106,6 +107,14 @@ class MonthManagerPage extends React.Component {
       delete transaction._id;
       await transactionsApi.updateTransaction(transaction, transactionId).catch((err) => {
          //TODO handle PUT transaction Error
+         throw err;
+      });
+   };
+   deleteTransactionFromEndpoint = async (transaction) => {
+      const transactionId = transaction._id;
+      delete transaction._id;
+      await transactionsApi.deleteTransaction(transaction, transactionId).catch((err) => {
+         //TODO handle DELETE transaction Error
          throw err;
       });
    };
