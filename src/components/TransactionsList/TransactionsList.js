@@ -10,19 +10,18 @@ const TransactionsList = ({ transactions, mode, handleListItemClickEventCallback
    const renderedTableRows = transactions.map((transaction) => {
       return (
          <tr className="transaction-table__row" key={transaction._id}>
-            <td className="transaction-table__row-item">{dates.getAbbreviatedDate(transaction.date)} </td>
-            <td className="transaction-table__row-item">{transaction.paymentMethod}</td>
-            <td className="transaction-table__row-item">{transaction.category}</td>
-            <td className="transaction-table__row-item">{transaction.description}</td>
-            <td className="transaction-table__row-item">
-               <span className={`transaction-table__payment--${transaction.type}`}>
-                  {" "}
+            <td className="transaction-table__item">{dates.getAbbreviatedDate(transaction.date)} </td>
+            <td className="transaction-table__item">{transaction.paymentMethod}</td>
+            <td className="transaction-table__item">{transaction.category}</td>
+            <td className="transaction-table__item">{transaction.description}</td>
+            <td className="transaction-table__item">
+               <span className={`transaction-table__payment-item--${transaction.type}`}>
                   {transaction.totalPayment} &#x20aa;
                </span>
             </td>
             {mode === "edit" && (
                <React.Fragment>
-                  <td className="transaction-table__row-item">
+                  <td className="transaction-table__item">
                      <ButtonIcon
                         type="edit"
                         size="small"
@@ -31,7 +30,7 @@ const TransactionsList = ({ transactions, mode, handleListItemClickEventCallback
                         }}
                      />
                   </td>
-                  <td className="transaction-table__row-item">
+                  <td className="transaction-table__item">
                      <ButtonIcon
                         type="delete"
                         size="small"
@@ -48,17 +47,17 @@ const TransactionsList = ({ transactions, mode, handleListItemClickEventCallback
 
    return (
       <table className={`transaction-table transaction-table--${mode}`}>
-         <thead className="transaction-table__header">
+         <thead className="transaction-table__headlines">
             <tr className="transaction-table__row">
-               <th className="transaction-table__header-item">תאריך</th>
-               <th className="transaction-table__header-item">אמצעי תשלום</th>
-               <th className="transaction-table__header-item">קטגוריה</th>
-               <th className="transaction-table__header-item">תיאור</th>
-               <th className="transaction-table__header-item">סכום</th>
+               <th className="transaction-table__headline">תאריך</th>
+               <th className="transaction-table__headline">אמצעי תשלום</th>
+               <th className="transaction-table__headline">קטגוריה</th>
+               <th className="transaction-table__headline">תיאור</th>
+               <th className="transaction-table__headline">סכום</th>
                {mode === "edit" && (
                   <React.Fragment>
-                     <th className="transaction-table__header-item"></th>
-                     <th className="transaction-table__header-item"></th>
+                     <th className="transaction-table__headline"></th>
+                     <th className="transaction-table__headline"></th>
                   </React.Fragment>
                )}
             </tr>
