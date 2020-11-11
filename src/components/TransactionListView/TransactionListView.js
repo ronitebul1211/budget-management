@@ -46,7 +46,7 @@ const TransactionListView = ({ transactions, mode, handleListItemClickEventCallb
       );
    });
 
-   return (
+   return transactions.length !== 0 ? (
       <table className={`transaction-table transaction-table--${mode}`}>
          <thead className="transaction-table__header">
             <tr className="transaction-table__row">
@@ -65,7 +65,7 @@ const TransactionListView = ({ transactions, mode, handleListItemClickEventCallb
          </thead>
          <tbody className="transaction-table__body">{renderedTableRows}</tbody>
       </table>
-   );
+   ) : null;
 };
 
 export default TransactionListView;
