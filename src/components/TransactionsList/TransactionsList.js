@@ -86,7 +86,14 @@ TransactionsList.propTypes = {
       }),
    ).isRequired,
    isEditableList: PropTypes.bool.isRequired,
-   onListEventCallback: PropTypes.func.isRequired,
+   onListEventCallback: function (props, propName, componentName) {
+      if (props.isEditableList) {
+         if (!props[propName] || !(props[propName] instanceof Function))
+            return new Error(
+               `When ${componentName} is rendered in editable mode supply to ${propName} callback function`,
+            );
+      }
+   },
 };
 
 export default TransactionsList;
