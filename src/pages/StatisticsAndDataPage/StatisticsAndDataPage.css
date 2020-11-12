@@ -1,7 +1,22 @@
-.statis-test-container {
+.statistics-page {
    display: flex;
    flex-direction: column;
 }
+
+/* TEST - use as global page section ?*/
+.section {
+   background-color: #e6e6e6;
+   padding: 25px;
+   border-radius: 5px;
+   display: flex;
+   flex-direction: column;
+   gap: 10px;
+}
+.statistics-page__month-year-selection {
+   display: flex;
+   gap: 25px;
+}
+
 .graph-section {
    width: fit-content;
    padding: 25px;

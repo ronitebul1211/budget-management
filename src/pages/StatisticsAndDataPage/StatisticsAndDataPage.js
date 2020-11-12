@@ -1,6 +1,5 @@
 import React from "react";
 import "./StatisticsAndDataPage.css";
-
 //Components
 import PieGraph from "../../components/_Graphs/PieGraph";
 import SelectField from "../../components/_InputFields/SelectField";
@@ -12,12 +11,12 @@ import TransactionsList from "../../components/TransactionsList/TransactionsList
 
 class StatisticsAndDataPage extends React.Component {
    /**
-    State = {
+    State Plan = {
        transactionListData: []
        distributionOfDebitByCategory: {קניות: 0, אוכל בחוץ:500}
-
+       inputControllers: {month: 11, year: 2020, sortBy: date}
     }
-    */
+ */
    state = {
       currentMonthTransactions: [],
       monthSelection: { id: 0, options: [], transactions: [] },
@@ -41,8 +40,25 @@ class StatisticsAndDataPage extends React.Component {
    //TODO: change class name for list view container
    render() {
       return (
-         <div className="statis-test-container">
-            <h2>תמונת מצב חודשית</h2>
+         <div className="statistics-page">
+            <div className="section statistics-page__header">
+               <h2>תמונת מצב חודשית</h2>
+               <div className="statistics-page__month-year-selection">
+                  <SelectField
+                     value=""
+                     options={[]}
+                     config={{ fieldLabel: "בחר חודש", inputName: "month", displayMode: "row" }}
+                     onChangeCallback={this.onInputChange}
+                  />
+                  <SelectField
+                     value=""
+                     options={[]}
+                     config={{ fieldLabel: "בחר שנה", inputName: "year", displayMode: "row" }}
+                     onChangeCallback={this.onInputChange}
+                  />
+               </div>
+            </div>
+
             <div className="graph-section">
                <SelectField
                   value={this.state.monthSelection.id}
