@@ -107,8 +107,7 @@ class PieGraph extends React.Component {
    render() {
       return (
          <div className="pie-graph">
-            <span className="pie-graph__title">{this.props.title}</span>
-            <div className="pie-graph__graph-container">
+            <div className="pie-graph__container">
                <canvas ref={this.pieCanvasRef} />
             </div>
          </div>
