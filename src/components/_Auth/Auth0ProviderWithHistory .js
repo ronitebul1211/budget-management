@@ -2,11 +2,6 @@ import React from "react";
 import { Auth0Provider } from "@auth0/auth0-react";
 import { withRouter } from "react-router-dom";
 
-/**
- Auth0 Provider wrapper, contain access to history (by -> withRouter) to redirect to dashboard page when login 
- redirectUri: base url
- onRedirectCallback: after login
- */
 class Auth0ProviderWithHistory extends React.Component {
    domain = process.env.REACT_APP_AUTH0_DOMAIN;
    clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
