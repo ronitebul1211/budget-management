@@ -59,17 +59,11 @@ class StatisticsAndDataPage extends React.Component {
                </div>
             </div>
 
-            <div className="graph-section">
-               <SelectField
-                  value={this.state.monthSelection.id}
-                  options={this.state.monthSelection.options}
-                  config={{ fieldLabel: "בחר חודש", inputName: "monthSelection", displayMode: "row" }}
-                  onChangeCallback={this.onInputChange}
-               />
+            <div className="section">
+               <h2>התפלגות הוצאות לפי קטגוריה</h2>
                <PieGraph
-                  title={"התפלגות הוצאות לפי קטגוריה"}
-                  labels={this.state.graphData.labels}
-                  dataset={this.state.graphData.dataset}
+                  labels={["קניות", "חשונות", "בילויים"]}
+                  dataset={[1500, 500, 5000]}
                   backgroundColors={["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"]}
                />
             </div>

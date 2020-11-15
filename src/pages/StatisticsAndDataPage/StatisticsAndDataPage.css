@@ -1,6 +1,7 @@
 .statistics-page {
    display: flex;
    flex-direction: column;
+   gap: 25px;
 }
 
 /* TEST - use as global page section ?*/
