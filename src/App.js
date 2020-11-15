@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { BrowserRouter, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 //Components
 import Navbar from "./components/Navbar/Navbar";
 import HomePage from "./pages/HomePage/HomePage";
@@ -10,7 +10,7 @@ import AuthPage from "./pages/AuthPage/AuthPage";
 
 const App = () => {
    return (
-      <BrowserRouter>
+      <React.Fragment>
          <Navbar />
          <div className="page-container">
             <Route path="/" exact component={HomePage} />
@@ -18,7 +18,7 @@ const App = () => {
             <Route path="/statistics" exact component={StatisticsAndDataPage} />
             <Route path="/sign-in" exact component={AuthPage} />
          </div>
-      </BrowserRouter>
+      </React.Fragment>
    );
 };
 export default App;
