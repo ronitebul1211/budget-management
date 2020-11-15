@@ -1,21 +1,26 @@
 import React from "react";
 import "./App.css";
-import { Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
+
 //Components
 import Navbar from "./components/Navbar/Navbar";
 import HomePage from "./pages/HomePage/HomePage";
 import MonthManagerPage from "./pages/MonthManagerPage/MonthManagerPage";
 import StatisticsAndDataPage from "./pages/StatisticsAndDataPage/StatisticsAndDataPage";
-import AuthPage from "./pages/AuthPage/AuthPage";
+import NotFoundPage from "./pages/NotFoundPage";
+import PrivateRoute from "./components/_Auth/PrivateRoute";
 
 const App = () => {
    return (
       <React.Fragment>
          <Navbar />
          <div className="page-container">
-            <Route path="/" exact component={HomePage} />
-            <Route path="/current_month" exact component={MonthManagerPage} />
-            <Route path="/statistics" exact component={StatisticsAndDataPage} />
+            <Switch>
+               <PrivateRoute path="/current_month" component={MonthManagerPage} />
+               <PrivateRoute path="/statistics" component={StatisticsAndDataPage} />
+               <Route path="/" exact component={HomePage} />
+               <Route path="*" exact component={NotFoundPage} />
+            </Switch>
          </div>
       </React.Fragment>
    );

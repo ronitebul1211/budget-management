@@ -1,17 +1,14 @@
 import React from "react";
 import { Route } from "react-router-dom";
 import { withAuthenticationRequired } from "@auth0/auth0-react";
-import { withAuth0 } from "@auth0/auth0-react";
 
-class ProtectedRoute extends React.Component {
+class PrivateRoute extends React.Component {
    render() {
       return (
          <Route
             component={withAuthenticationRequired(this.props.component, {
-               onRedirecting: () => {
-                  const { isAuthenticated, logout, loginWithRedirect } = this.props.auth0;
-                  isAuthenticated ? logout() : loginWithRedirect({});
-               },
+               onRedirecting: () => <div>מעבר להתחברות</div>,
+               returnTo: () => this.props.location.pathname,
             })}
             {...this.props.args}
          />
@@ -19,4 +16,4 @@ class ProtectedRoute extends React.Component {
    }
 }
 
-export default withAuth0(ProtectedRoute);
+export default PrivateRoute;
