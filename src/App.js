@@ -16,7 +16,6 @@ const App = () => {
             <Route path="/" exact component={HomePage} />
             <Route path="/current_month" exact component={MonthManagerPage} />
             <Route path="/statistics" exact component={StatisticsAndDataPage} />
-            <Route path="/sign-in" exact component={AuthPage} />
          </div>
       </React.Fragment>
    );

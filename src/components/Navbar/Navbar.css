@@ -10,6 +10,7 @@
    height: fit-content;
    text-decoration: none;
    color: gray;
+   cursor: pointer;
 }
 .navbar__link:hover {
    color: black;
