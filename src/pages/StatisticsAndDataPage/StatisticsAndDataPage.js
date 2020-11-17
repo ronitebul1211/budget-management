@@ -1,5 +1,6 @@
 import React from "react";
 import "./StatisticsAndDataPage.css";
+import dates from "../../utilities/dates";
 //Components
 import PieGraph from "../../components/_Graphs/PieGraph";
 import SelectField from "../../components/_InputFields/SelectField";
@@ -14,20 +15,25 @@ class StatisticsAndDataPage extends React.Component {
     State Plan = {
        transactionListData: []
        distributionOfDebitByCategory: {קניות: 0, אוכל בחוץ:500}
-       inputControllers: {month: 11, year: 2020, sortBy: date}
+       datePicker: {month: 11, year: 2020, sortBy: date}
     }
  */
 
    state = {
-      inputControllers: { month: 11, year: 2020 },
+      datePicker: { month: null, year: null },
+   };
+
+   componentDidMount = () => {
+      const currentDate = dates.getDateData();
+      this.setState({ datePicker: { month: currentDate.month, year: currentDate.year } });
    };
 
    onInputChange = async (e) => {
       const target = e.target;
       if (target.name === "month" || target.name === "year") {
          this.setState((prevState) => ({
-            inputControllers: {
-               ...prevState.inputControllers,
+            datePicker: {
+               ...prevState.datePicker,
                [target.name]: parseInt(target.value),
             },
          }));
@@ -47,7 +53,7 @@ class StatisticsAndDataPage extends React.Component {
                <h2>תמונת מצב חודשית</h2>
                <div className="statistics-page__month-year-selection">
                   <SelectField
-                     value={this.state.inputControllers.month}
+                     value={this.state.datePicker.month}
                      options={[
                         { label: "ינואר", value: 1 },
                         { label: "פברואר", value: 2 },
@@ -66,7 +72,7 @@ class StatisticsAndDataPage extends React.Component {
                      onChangeCallback={this.onInputChange}
                   />
                   <SelectField
-                     value={this.state.inputControllers.year}
+                     value={this.state.datePicker.year}
                      options={[
                         { label: 2020, value: 2020 },
                         { label: 2021, value: 2021 },
