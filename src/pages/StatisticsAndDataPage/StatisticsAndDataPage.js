@@ -1,6 +1,7 @@
 import React from "react";
 import "./StatisticsAndDataPage.css";
 import dates from "../../utilities/dates";
+import transactionsApi from "../../utilities/transactionsApi";
 //Components
 import PieGraph from "../../components/_Graphs/PieGraph";
 import SelectField from "../../components/_InputFields/SelectField";
@@ -11,21 +12,26 @@ import TransactionsList from "../../components/TransactionsList/TransactionsList
 //TODO: render month options dynamically, category match month
 
 class StatisticsAndDataPage extends React.Component {
-   /**
-    State Plan = {
-       transactionListData: []
-       distributionOfDebitByCategory: {קניות: 0, אוכל בחוץ:500}
-       datePicker: {month: 11, year: 2020, sortBy: date}
-    }
- */
-
    state = {
-      datePicker: { month: null, year: null },
+      datePicker: { month: undefined, year: undefined },
+      transactionsListData: [],
+      debitDistribution: {},
    };
 
    componentDidMount = () => {
       const currentDate = dates.getDateData();
       this.setState({ datePicker: { month: currentDate.month, year: currentDate.year } });
+   };
+
+   componentDidUpdate = async (prevProps, prevState) => {
+      console.log("component did update");
+      if (
+         prevState.datePicker.month !== this.state.datePicker.month ||
+         prevState.datePicker.year !== this.state.datePicker.year
+      ) {
+         const { month, year } = this.state.datePicker;
+         await this.loadMonthDataFromEndpoint(month, year);
+      }
    };
 
    onInputChange = async (e) => {
@@ -38,11 +44,25 @@ class StatisticsAndDataPage extends React.Component {
             },
          }));
       }
+   };
 
-      //set state with transaction data and graph data to update transactions & graph views
-      //Transactions data
-      //Graph data
-      // }
+   /** Load updated data from endpoint base on date picker values */
+   loadMonthDataFromEndpoint = async (month, year) => {
+      await transactionsApi
+         .getTransactionsList(month, year, "debitDistribution")
+         .then((res) => {
+            if (res.status === 200) {
+               const { debitDistribution, transactionsList } = res.data;
+               console.log(debitDistribution, transactionsList);
+            }
+            if (res.status === 204) {
+               console.log("no data");
+            }
+         })
+         .catch((err) => {
+            //TODO handle GET transactions list Error
+            throw err;
+         });
    };
 
    //TODO: change class name for list view container
@@ -95,7 +115,7 @@ class StatisticsAndDataPage extends React.Component {
             <div className="list-container">
                <div className="test-select">
                   <SelectField
-                     value=""
+                     value="חשבונות"
                      options={[
                         { label: "תאריך", value: "חשבונות" },
                         { label: "אמצעי תשלום", value: "קניות" },
@@ -103,7 +123,7 @@ class StatisticsAndDataPage extends React.Component {
                         { label: "סכום", value: "בילויים" },
                      ]}
                      config={{ fieldLabel: "מיין לפי", inputName: "test", displayMode: "row" }}
-                     onChangeCallback={this.sortTransaction}
+                     onChangeCallback={this.onInputChange}
                   />
                </div>
 
