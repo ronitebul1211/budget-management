@@ -14,7 +14,7 @@ import TransactionsList from "../../components/TransactionsList/TransactionsList
 class StatisticsAndDataPage extends React.Component {
    state = {
       datePicker: { month: undefined, year: undefined },
-      transactionsListData: [],
+      transactionsList: [],
       debitDistribution: {},
    };
 
@@ -53,10 +53,10 @@ class StatisticsAndDataPage extends React.Component {
          .then((res) => {
             if (res.status === 200) {
                const { debitDistribution, transactionsList } = res.data;
-               console.log(debitDistribution, transactionsList);
+               this.setState({ transactionsList: transactionsList.data, debitDistribution });
             }
             if (res.status === 204) {
-               console.log("no data");
+               this.setState({ transactionsList: [], debitDistribution: {} });
             }
          })
          .catch((err) => {
@@ -127,7 +127,7 @@ class StatisticsAndDataPage extends React.Component {
                   />
                </div>
 
-               <TransactionsList transactionsListData={[]} isEditableList={false} />
+               <TransactionsList transactionsListData={this.state.transactionsList} isEditableList={false} />
             </div>
          </div>
       );
