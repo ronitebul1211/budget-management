@@ -17,25 +17,27 @@ class StatisticsAndDataPage extends React.Component {
        inputControllers: {month: 11, year: 2020, sortBy: date}
     }
  */
+
    state = {
-      currentMonthTransactions: [],
-      monthSelection: { id: 0, options: [], transactions: [] },
-      graphData: { labels: [], dataset: [] },
+      inputControllers: { month: 11, year: 2020 },
    };
 
-   //TODO: update state once, extract functions
-   async componentDidMount() {}
-
-   onInputChange = async (event) => {
-      if (event.target.name === "monthSelection") {
-         //set state with month id, to update month selection ui
-         //set state with transaction data and graph data to update transactions & graph views
-         //Transactions data
-         //Graph data
+   onInputChange = async (e) => {
+      const target = e.target;
+      if (target.name === "month" || target.name === "year") {
+         this.setState((prevState) => ({
+            inputControllers: {
+               ...prevState.inputControllers,
+               [target.name]: parseInt(target.value),
+            },
+         }));
       }
-   };
 
-   sortTransaction = () => {};
+      //set state with transaction data and graph data to update transactions & graph views
+      //Transactions data
+      //Graph data
+      // }
+   };
 
    //TODO: change class name for list view container
    render() {
@@ -45,14 +47,30 @@ class StatisticsAndDataPage extends React.Component {
                <h2>תמונת מצב חודשית</h2>
                <div className="statistics-page__month-year-selection">
                   <SelectField
-                     value=""
-                     options={[]}
+                     value={this.state.inputControllers.month}
+                     options={[
+                        { label: "ינואר", value: 1 },
+                        { label: "פברואר", value: 2 },
+                        { label: "מרץ", value: 3 },
+                        { label: "אפריל", value: 4 },
+                        { label: "מאי", value: 5 },
+                        { label: "יוני", value: 6 },
+                        { label: "יולי", value: 7 },
+                        { label: "אוגוסט", value: 8 },
+                        { label: "ספטמבר", value: 9 },
+                        { label: "אוקטובר", value: 10 },
+                        { label: "נובמבר", value: 11 },
+                        { label: "דצמבר", value: 12 },
+                     ]}
                      config={{ fieldLabel: "בחר חודש", inputName: "month", displayMode: "row" }}
                      onChangeCallback={this.onInputChange}
                   />
                   <SelectField
-                     value=""
-                     options={[]}
+                     value={this.state.inputControllers.year}
+                     options={[
+                        { label: 2020, value: 2020 },
+                        { label: 2021, value: 2021 },
+                     ]}
                      config={{ fieldLabel: "בחר שנה", inputName: "year", displayMode: "row" }}
                      onChangeCallback={this.onInputChange}
                   />
