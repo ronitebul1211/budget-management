@@ -4,6 +4,7 @@ import dates from "../../utilities/dates";
 import transactionsApi from "../../utilities/transactionsApi";
 //Components
 import PieGraph from "../../components/_Graphs/PieGraph";
+import PieGraphHooks from "../../components/_Graphs/PieGraphHooks";
 import SelectField from "../../components/_InputFields/SelectField";
 import TransactionsList from "../../components/TransactionsList/TransactionsList";
 
@@ -105,11 +106,7 @@ class StatisticsAndDataPage extends React.Component {
 
             <div className="section">
                <h2>התפלגות הוצאות לפי קטגוריה</h2>
-               <PieGraph
-                  labels={["קניות", "חשונות", "בילויים"]}
-                  dataset={[1500, 500, 5000]}
-                  backgroundColors={["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"]}
-               />
+               <PieGraph data={this.state.debitDistribution} />
             </div>
 
             <div className="list-container">

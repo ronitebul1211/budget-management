@@ -2,53 +2,37 @@ import React from "react";
 import Chart from "chart.js";
 import "./PieGraph.css";
 
-/** Pie Graph Component:
-# Props:
-- title - string - graph title
-- labels - array of strings - each label represent the name of section in graph
-- dataset - array of numbers, each number represent the value of section in graph
-- backgroundColors - array of strings - each color represent by string            
- */
-
 class PieGraph extends React.Component {
    constructor() {
       super();
       this.pieCanvasRef = React.createRef();
+      this.labelsAndDataset = null;
+      this.PieGraph = null;
+      this.colors = ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#d145f7", "#45f7b9", "#e8d7b4"];
    }
 
    componentDidMount() {
+      this.labelsAndDataset = this.extractLabelsAndDataset(this.props.data);
       this.buildPieGraph();
    }
 
    componentDidUpdate(prevProps) {
-      //Update pie ui only when data change
-      const { labels: prevLabels, dataset: prevDataset } = prevProps;
-      const { labels, dataset } = this.props;
-      if (!this.isIdentical(prevLabels, labels) || !this.isIdentical(prevDataset, dataset)) {
+      if (!this.isIdenticalData(prevProps.data, this.props.data)) {
+         this.labelsAndDataset = this.extractLabelsAndDataset(this.props.data);
          this.removeGraphData();
          this.updateGraphData();
       }
    }
 
-   /** Check equality of two arrays */
-   isIdentical = (arr1, arr2) => {
-      if (arr1.length === arr2.length) {
-         for (let i = 0; i < arr1.length; i++) {
-            if (arr1[i] !== arr2[i]) {
-               return false;
-            }
-         }
-      } else {
-         return false;
-      }
-      return true;
+   isIdenticalData = (obj1, obj2) => {
+      return JSON.stringify(obj1) === JSON.stringify(obj2); // true
    };
 
    /** Update pie graph current props value: labels, dataset */
    updateGraphData() {
-      this.PieGraph.data.labels = this.props.labels;
+      this.PieGraph.data.labels = this.labelsAndDataset.labels;
       this.PieGraph.data.datasets.forEach((dataset) => {
-         dataset.data.push(...this.props.dataset);
+         dataset.data.push(...this.labelsAndDataset.dataset);
       });
       this.PieGraph.update();
    }
@@ -67,16 +51,15 @@ class PieGraph extends React.Component {
       Chart.defaults.global.defaultFontFamily = "'Alef', 'sans - serif'";
 
       const ctx = this.pieCanvasRef.current.getContext("2d");
-      const { labels, dataset, backgroundColors } = this.props;
 
       this.PieGraph = new Chart(ctx, {
          type: "pie",
          data: {
-            labels: labels,
+            labels: this.labelsAndDataset.labels,
             datasets: [
                {
-                  data: dataset,
-                  backgroundColor: backgroundColors,
+                  data: this.labelsAndDataset.dataset,
+                  backgroundColor: this.colors,
                },
             ],
          },
@@ -102,6 +85,15 @@ class PieGraph extends React.Component {
             },
          },
       });
+   };
+
+   extractLabelsAndDataset = (data) => {
+      const labelsAndDataset = { labels: [], dataset: [] };
+      for (const property in data) {
+         labelsAndDataset.labels.push(property);
+         labelsAndDataset.dataset.push(data[property]);
+      }
+      return labelsAndDataset;
    };
 
    render() {
