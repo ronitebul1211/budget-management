@@ -25,7 +25,6 @@ class StatisticsAndDataPage extends React.Component {
    };
 
    componentDidUpdate = async (prevProps, prevState) => {
-      console.log("component did update");
       if (
          prevState.datePicker.month !== this.state.datePicker.month ||
          prevState.datePicker.year !== this.state.datePicker.year
@@ -106,7 +105,8 @@ class StatisticsAndDataPage extends React.Component {
 
             <div className="section">
                <h2>התפלגות הוצאות לפי קטגוריה</h2>
-               <PieGraph data={this.state.debitDistribution} />
+
+               <PieGraphHooks data={this.state.debitDistribution} />
             </div>
 
             <div className="list-container">

@@ -13,7 +13,7 @@ logs
 node_modules
 bower_components
 conventions.txt
-
+hooks.txt
 *.sublime*
 
 psd
