@@ -25,6 +25,7 @@ class MonthManagerPage extends React.Component {
    onMonthStatusButtonClick = () => {
       this.showTransactionForm(true, "ADD_NEW");
    };
+
    onTransactionFormEvent = async (action, transaction) => {
       if (action === "CLOSE" || "SAVE_NEW" || "UPDATE") {
          this.showTransactionForm(false);

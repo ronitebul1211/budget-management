@@ -13,11 +13,10 @@ import Modal from "../../components/Modal/Modal";
 const MonthManagerPage = () => {
    const [monthData, setMonthData] = useState({ transactionsList: [], status: {} });
    const [isUpdatedData, setIsUpdatedData] = useState(false);
-
    useEffect(() => {
+      console.log("GET effect");
       const fetchMonthData = async () => {
          //SET ERROR FALSE + LOADING TRUE
-         //TODO: default for current in transactions api
          try {
             const res = await transactionsApi.getMonthData("monthStatus");
             if (res.status === 200) {
@@ -25,7 +24,7 @@ const MonthManagerPage = () => {
                return setMonthData({ transactionsList: transactionsList.data, status: monthStatus });
             }
             if (res.status === 204) {
-               return setMonthData({ transactionsList: [], status: {} });
+               return setMonthData({ transactionsList: undefined, status: undefined });
             }
             //SET LOADING FALSE
          } catch (err) {
@@ -40,13 +39,48 @@ const MonthManagerPage = () => {
          setIsUpdatedData(true);
       }
    }, [isUpdatedData]);
+   const [action, setAction] = useState({ type: undefined, payload: undefined });
+
+   useEffect(() => {
+      console.log("ACTION effect + payload");
+
+      const sendRequest = async () => {
+         console.log("send api request");
+         switch (action.type) {
+            case "POST_TRANSACTION":
+               break;
+            case "PUT_TRANSACTION":
+               break;
+            case "DELETE_TRANSACTION":
+               await transactionsApi.deleteTransaction(action.payload);
+               setIsUpdatedData(false);
+               break;
+         }
+      };
+
+      if (action.type && action.payload) {
+         sendRequest();
+      }
+   }, [action]);
 
    /** Events Handlers */
    const onMonthStatusButtonClick = () => {
       // this.showTransactionForm(true, "ADD_NEW");
-      console.log("TEST -> update request");
-      setIsUpdatedData(false);
+
+      setAction({
+         type: "DELETE_TRANSACTION",
+         payload: {
+            _id: "5fb441a20c08ad0017c48712",
+            description: "סופר פארם",
+            type: "debit",
+            totalPayment: 250,
+            paymentMethod: "אשראי",
+            date: "2020-11-10",
+            category: "קניות",
+         },
+      });
    };
+
    const onTransactionFormEvent = async (action, transaction) => {
       if (action === "CLOSE" || "SAVE_NEW" || "UPDATE") {
          this.showTransactionForm(false);
@@ -126,9 +160,13 @@ const MonthManagerPage = () => {
 
    return (
       <div className="month-manager-page">
-         <MonthStatus data={monthData.status} onButtonClickCallback={onMonthStatusButtonClick} />
+         <MonthStatus
+            data={monthData.status}
+            test={undefined}
+            onButtonClickCallback={onMonthStatusButtonClick}
+         />
 
-         {monthData.transactionsList.length ? (
+         {monthData.transactionsList ? (
             <TransactionList
                transactionsListData={monthData.transactionsList}
                isEditableList={true}
