@@ -11,7 +11,13 @@
    text-decoration: none;
    color: gray;
    cursor: pointer;
+   font-size: 16px;
 }
+button.navbar__link {
+   background-color: transparent;
+   border: none;
+}
+
 .navbar__link:hover {
    color: black;
    font-weight: bold;

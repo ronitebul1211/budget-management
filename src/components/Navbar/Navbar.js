@@ -28,9 +28,9 @@ class Navbar extends React.Component {
                   </Link>
                </React.Fragment>
             ) : null}
-            <a className="navbar__link" onClick={this.handleAuthEvent}>
+            <button className="navbar__link" onClick={this.handleAuthEvent}>
                {isAuthenticated ? "התנתק" : "התחבר"}
-            </a>
+            </button>
          </div>
       );
    }
