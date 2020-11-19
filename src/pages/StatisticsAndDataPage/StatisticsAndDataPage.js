@@ -3,7 +3,6 @@ import "./StatisticsAndDataPage.css";
 import dates from "../../utilities/dates";
 import transactionsApi from "../../utilities/transactionsApi";
 //Components
-import PieGraph from "../../components/_Graphs/PieGraph";
 import PieGraphHooks from "../../components/_Graphs/PieGraphHooks";
 import SelectField from "../../components/_InputFields/SelectField";
 import TransactionsList from "../../components/TransactionsList/TransactionsList";
