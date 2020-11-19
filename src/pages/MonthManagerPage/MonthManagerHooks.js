@@ -11,35 +11,31 @@ import Modal from "../../components/Modal/Modal";
 //FIXME: add prop types + refactor by conventions.txt
 
 const MonthManagerPage = () => {
-   //  state = {
-   //     monthStatusData: { debit: 0, credit: 0, balance: 0 },
-   //     transactionsListData: [],
-   //     transactionForm: { isOpen: false, mode: "", initialData: {} },
-   //  };
-
-   const [monthData, setMonthData] = useState({ transactionsList: [], metadata: {} });
+   const [monthData, setMonthData] = useState({ transactionsList: [], status: {} });
    const [isUpdatedData, setIsUpdatedData] = useState(false);
 
    useEffect(() => {
       const fetchMonthData = async () => {
          //SET ERROR FALSE + LOADING TRUE
          //TODO: default for current in transactions api
-
          try {
-            const response = await transactionsApi.getMonthData("monthStatus");
-            const object = response.data;
-            console.log(object);
+            const res = await transactionsApi.getMonthData("monthStatus");
+            if (res.status === 200) {
+               const { monthStatus, transactionsList } = res.data;
+               return setMonthData({ transactionsList: transactionsList.data, status: monthStatus });
+            }
+            if (res.status === 204) {
+               return setMonthData({ transactionsList: [], status: {} });
+            }
+            //SET LOADING FALSE
          } catch (err) {
             console.log(err);
+            //SET ERROR TRUE + LOADING FALSE
          }
       };
 
       if (!isUpdatedData) {
          console.log("fetch data ...");
-         //  setMonthData((pervState) => {
-         //     const updated = [...pervState.transactionsList, 1];
-         //     return { ...pervState, transactionsList: updated };
-         //  });
          fetchMonthData();
          setIsUpdatedData(true);
       }
@@ -128,41 +124,13 @@ const MonthManagerPage = () => {
       }
    };
 
-   /** Load updated data from endpoint */
-   const loadMonthDataFromEndpoint = async () => {
-      await transactionsApi
-         .getMonthData("monthStatus")
-         .then((res) => {
-            if (res.status === 200) {
-               const { monthStatus, transactionsList } = res.data;
-               this.setState({
-                  monthStatusData: monthStatus,
-                  transactionsListData: transactionsList.data,
-               });
-            }
-            if (res.status === 204) {
-               this.setState({
-                  monthStatusData: { debit: 0, credit: 0, balance: 0 },
-                  transactionsListData: [],
-               });
-            }
-         })
-         .catch((err) => {
-            //TODO handle GET transactions list Error
-            throw err;
-         });
-   };
-
    return (
       <div className="month-manager-page">
-         <MonthStatus
-            data={{ debit: 0, credit: 0, balance: 0 }}
-            onButtonClickCallback={onMonthStatusButtonClick}
-         />
+         <MonthStatus data={monthData.status} onButtonClickCallback={onMonthStatusButtonClick} />
 
-         {"NO DATA" ? (
+         {monthData.transactionsList.length ? (
             <TransactionList
-               transactionsListData={[]}
+               transactionsListData={monthData.transactionsList}
                isEditableList={true}
                onListEventCallback={onTransactionsListEvent}
             />
