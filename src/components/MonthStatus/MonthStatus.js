@@ -52,4 +52,8 @@ MonthStatus.propTypes = {
    onButtonClickCallback: PropTypes.func.isRequired,
 };
 
+MonthStatus.defaultProps = {
+   data: { credit: 0, debit: 0, balance: 0 },
+};
+
 export default MonthStatus;
