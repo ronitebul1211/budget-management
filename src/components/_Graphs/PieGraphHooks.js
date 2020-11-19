@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import Chart from "chart.js";
 import "./PieGraph.css";
 
@@ -24,10 +24,8 @@ const PieGraph = (props) => {
     */
    const extractLabelsAndDataset = (data) => {
       const labelsAndDataset = { labels: [], dataset: [] };
-      for (const property in data) {
-         labelsAndDataset.labels.push(property);
-         labelsAndDataset.dataset.push(data[property]);
-      }
+      labelsAndDataset.labels = Object.keys(data);
+      labelsAndDataset.dataset = Object.values(data);
       return labelsAndDataset;
    };
 
