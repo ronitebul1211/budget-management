@@ -45,9 +45,9 @@ const MonthStatus = ({ data, onButtonClickCallback }) => {
 
 MonthStatus.propTypes = {
    data: PropTypes.shape({
-      credit: PropTypes.number.isRequired,
-      debit: PropTypes.number.isRequired,
-      balance: PropTypes.number.isRequired,
+      credit: PropTypes.number,
+      debit: PropTypes.number,
+      balance: PropTypes.number,
    }).isRequired,
    onButtonClickCallback: PropTypes.func.isRequired,
 };
