@@ -9,6 +9,8 @@ import MonthManagerPage from "./pages/MonthManagerPage/MonthManagerPage";
 import StatisticsAndDataPage from "./pages/StatisticsAndDataPage/StatisticsAndDataPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import PrivateRoute from "./components/_Auth/PrivateRoute";
+//test
+import MonthManagerHooks from "./pages/MonthManagerPage/MonthManagerHooks";
 
 const App = () => {
    return (
@@ -18,6 +20,7 @@ const App = () => {
             <Switch>
                <PrivateRoute path="/current_month" component={MonthManagerPage} />
                <PrivateRoute path="/statistics" component={StatisticsAndDataPage} />
+               <Route path="/test" exact component={MonthManagerHooks} />
                <Route path="/" exact component={HomePage} />
                <Route path="*" exact component={NotFoundPage} />
             </Switch>
