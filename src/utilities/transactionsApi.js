@@ -16,13 +16,12 @@ import dates from "./dates";
 const BASE_URL = "https://roni-budget-managment.herokuapp.com";
 
 /**
- * GET - transactions list for month, year
- * @param month {number} - requested month
- * @param year {number} - requested year
+ * GET - month data: transactions list, optional metadata contain monthStatus / debitDistribution
+ * @param date {object} - requested month {month: {number}, year: {number}}, by default current month
  * @param metadata {string} - "monthStatus" -> response with extra data (credit, debit, balance)
  */
-const getTransactionsList = async (month, year, metadata) => {
-   return axios.get(`${BASE_URL}/api/transactions-lists/${year}/${month}`, {
+const getMonthData = async (metadata, date = dates.getDateData()) => {
+   return axios.get(`${BASE_URL}/api/transactions-lists/${date.year}/${date.month}`, {
       params: { metadata },
    });
 };
@@ -69,7 +68,7 @@ const deleteTransaction = async (transaction) => {
 };
 
 export default {
-   getTransactionsList,
+   getMonthData,
    postTransaction,
    updateTransaction,
    deleteTransaction,

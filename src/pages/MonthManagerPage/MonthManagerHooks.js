@@ -21,13 +21,26 @@ const MonthManagerPage = () => {
    const [isUpdatedData, setIsUpdatedData] = useState(false);
 
    useEffect(() => {
-      console.log("use effect called");
+      const fetchMonthData = async () => {
+         //SET ERROR FALSE + LOADING TRUE
+         //TODO: default for current in transactions api
+
+         try {
+            const response = await transactionsApi.getMonthData("monthStatus");
+            const object = response.data;
+            console.log(object);
+         } catch (err) {
+            console.log(err);
+         }
+      };
+
       if (!isUpdatedData) {
          console.log("fetch data ...");
-         setMonthData((pervState) => {
-            const updated = [...pervState.transactionsList, 1];
-            return { ...pervState, transactionsList: updated };
-         });
+         //  setMonthData((pervState) => {
+         //     const updated = [...pervState.transactionsList, 1];
+         //     return { ...pervState, transactionsList: updated };
+         //  });
+         fetchMonthData();
          setIsUpdatedData(true);
       }
    }, [isUpdatedData]);
@@ -117,9 +130,8 @@ const MonthManagerPage = () => {
 
    /** Load updated data from endpoint */
    const loadMonthDataFromEndpoint = async () => {
-      const currentDate = dates.getDateData();
       await transactionsApi
-         .getTransactionsList(currentDate.month, currentDate.year, "monthStatus")
+         .getMonthData("monthStatus")
          .then((res) => {
             if (res.status === 200) {
                const { monthStatus, transactionsList } = res.data;

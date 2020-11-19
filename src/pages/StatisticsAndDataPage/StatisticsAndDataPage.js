@@ -48,7 +48,7 @@ class StatisticsAndDataPage extends React.Component {
    /** Load updated data from endpoint base on date picker values */
    loadMonthDataFromEndpoint = async (month, year) => {
       await transactionsApi
-         .getTransactionsList(month, year, "debitDistribution")
+         .getMonthData("debitDistribution", { month, year })
          .then((res) => {
             if (res.status === 200) {
                const { debitDistribution, transactionsList } = res.data;
