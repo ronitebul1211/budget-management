@@ -38,16 +38,15 @@ const MonthManagerPage = () => {
       transactionsList: [],
       status: { credit: 0, debit: 0, balance: 0 },
    });
-   const [isUpdatedData, setIsUpdatedData] = useState(false);
+   const [isMonthDataUpdated, setIsMonthDataUpdated] = useState(false);
+   const [networkRequest, setNetworkRequest] = useState({ type: undefined, payload: undefined });
    const [transactionForm, dispatchTransactionForm] = useReducer(transactionFormReducer, {
       isOpen: false,
       mode: "",
       initialData: {},
    });
-   const [networkRequest, setNetworkRequest] = useState({ type: undefined, payload: undefined });
 
    useEffect(() => {
-      console.log("GET effect");
       const fetchMonthData = async () => {
          //SET ERROR FALSE + LOADING TRUE
          try {
@@ -66,12 +65,11 @@ const MonthManagerPage = () => {
          }
       };
 
-      if (!isUpdatedData) {
-         console.log("fetch data ...");
+      if (!isMonthDataUpdated) {
          fetchMonthData();
-         setIsUpdatedData(true);
+         setIsMonthDataUpdated(true);
       }
-   }, [isUpdatedData]);
+   }, [isMonthDataUpdated]);
 
    useEffect(() => {
       const sendRequest = async () => {
@@ -88,7 +86,7 @@ const MonthManagerPage = () => {
             default:
                throw new Error("Invalid action type");
          }
-         setIsUpdatedData(false);
+         setIsMonthDataUpdated(false);
       };
 
       if (networkRequest.type && networkRequest.payload) {
