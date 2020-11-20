@@ -46,9 +46,12 @@ const MonthManagerPage = () => {
       initialData: {},
    });
 
+   const [isLoading, setIsLoading] = useState(false);
    useEffect(() => {
+      console.log("Month data effect");
       const fetchMonthData = async () => {
          //SET ERROR FALSE + LOADING TRUE
+
          try {
             const res = await transactionsApi.getMonthData("monthStatus");
             if (res.status === 200) {
@@ -58,7 +61,6 @@ const MonthManagerPage = () => {
             if (res.status === 204) {
                return setMonthData({ transactionsList: [], status: { credit: 0, debit: 0, balance: 0 } });
             }
-            //SET LOADING FALSE
          } catch (err) {
             console.log(err);
             //SET ERROR TRUE + LOADING FALSE
@@ -72,21 +74,32 @@ const MonthManagerPage = () => {
    }, [isMonthDataUpdated]);
 
    useEffect(() => {
+      console.log("Network request effect");
+
       const sendRequest = async () => {
-         switch (networkRequest.type) {
-            case "CREATE_TRANSACTION_ENDPOINT":
-               await transactionsApi.postTransaction(networkRequest.payload);
-               break;
-            case "UPDATE_TRANSACTION_ENDPOINT":
-               await transactionsApi.updateTransaction(networkRequest.payload);
-               break;
-            case "DELETE_TRANSACTION_ENDPOINT":
-               await transactionsApi.deleteTransaction(networkRequest.payload);
-               break;
-            default:
-               throw new Error("Invalid action type");
+         try {
+            switch (networkRequest.type) {
+               case "CREATE_TRANSACTION_ENDPOINT":
+                  await transactionsApi.postTransaction(networkRequest.payload);
+                  break;
+               case "UPDATE_TRANSACTION_ENDPOINT":
+                  await transactionsApi.updateTransaction(networkRequest.payload);
+                  break;
+               case "DELETE_TRANSACTION_ENDPOINT":
+                  await transactionsApi.deleteTransaction(networkRequest.payload);
+                  break;
+               default:
+                  const invalidNetworkAction = new Error("Network request set with invalid action type");
+                  invalidNetworkAction.name = "INVALID_NETWORK_ACTION";
+                  throw invalidNetworkAction;
+            }
+            setIsMonthDataUpdated(false);
+         } catch (err) {
+            if (err.name === "INVALID_NETWORK_ACTION") {
+               throw err;
+            }
+            console.log(err);
          }
-         setIsMonthDataUpdated(false);
       };
 
       if (networkRequest.type && networkRequest.payload) {
@@ -129,7 +142,6 @@ const MonthManagerPage = () => {
    return (
       <div className="month-manager-page">
          <MonthStatus data={monthData.status} onButtonClickCallback={onMonthStatusButtonClick} />
-
          {monthData.transactionsList.length ? (
             <TransactionList
                transactionsListData={monthData.transactionsList}
@@ -137,7 +149,6 @@ const MonthManagerPage = () => {
                onListEventCallback={onTransactionsListEvent}
             />
          ) : null}
-
          {transactionForm.isOpen ? (
             <Modal>
                <TransactionForm
