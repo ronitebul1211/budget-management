@@ -13,7 +13,6 @@ const MonthStatus = ({ data, onButtonClickCallback }) => {
          <h1 className="month-status__title">
             {`${dates.getHebrewMonthName(currentDate.month)}, ${currentDate.year}`}
          </h1>
-
          <div className="month-status__content">
             <div className="month-status__item">
                <span className="month-status__item-title">תקציב</span>

@@ -1,16 +1,18 @@
 /* Container */
 .month-status {
+   margin: 0 auto;
    display: flex;
    flex-direction: column;
    gap: 25px;
    background-color: #e6e6e6;
    width: fit-content;
-   padding: 25px;
+   padding: 25px 50px;
    border-radius: 5px;
    cursor: default;
 }
 .month-status__title {
-   font-size: 2.5rem;
+   font-size: 40px;
+   align-self: center;
 }
 .month-status__content {
    display: flex;
@@ -26,7 +28,7 @@
    justify-content: center;
    align-items: center;
    background-color: white;
-   font-size: 1.5rem;
+   font-size: 24px;
 }
 .month-status__item-title {
    font-weight: bold;
@@ -43,5 +45,9 @@
 /* Add button */
 .month-status__btn-container {
    display: flex;
-   padding: 0 25px;
+}
+.month-status__message {
+   font-size: 20px;
+   font-weight: bold;
+   align-self: center;
 }
