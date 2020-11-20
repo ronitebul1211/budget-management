@@ -101,7 +101,7 @@ const MonthManagerPage = () => {
       }
    }, [action]);
 
-   /** Events Handlers */
+   /** Events Handlers - Month status */
    const onMonthStatusButtonClick = () => {
       dispatchTransactionForm({ type: "OPEN_FROM_CREATE_MODE" });
    };
@@ -116,17 +116,19 @@ const MonthManagerPage = () => {
          case "UPDATE_TRANSACTION_ENDPOINT":
             return setAction({ type: action, payload: transaction });
          default:
-            throw new Error("Transaction form event handler updated with invalid action");
+            throw new Error("Transaction form event handler invoked with invalid action");
       }
    };
 
    /** Event Handler - Transactions List */
    const onTransactionsListEvent = async (action, transaction) => {
-      if (action === "OPEN_FORM_EDIT_MODE") {
-         dispatchTransactionForm({ type: action, payload: transaction });
-      }
-      if (action === "DELETE_TRANSACTION_ENDPOINT") {
-         setAction({ type: action, payload: transaction });
+      switch (action) {
+         case "OPEN_FORM_EDIT_MODE":
+            return dispatchTransactionForm({ type: action, payload: transaction });
+         case "DELETE_TRANSACTION_ENDPOINT":
+            return setAction({ type: action, payload: transaction });
+         default:
+            throw new Error("Transactions list event handler invoked with invalid action");
       }
    };
 
