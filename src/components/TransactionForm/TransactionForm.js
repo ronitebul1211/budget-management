@@ -52,11 +52,11 @@ class TransactionForm extends React.Component {
 
    onButtonClick = (action) => {
       switch (action) {
-         case "CLOSE":
+         case "CLOSE_FORM":
             this.props.onFormEventCallback(action, null);
             break;
-         case "SAVE_NEW":
-         case "UPDATE":
+         case "CREATE_TRANSACTION_ENDPOINT":
+         case "UPDATE_TRANSACTION_ENDPOINT":
             if (this.validateForm()) {
                const transactionData = { ...this.state };
                delete transactionData.errors;
@@ -84,9 +84,9 @@ class TransactionForm extends React.Component {
 
    renderTitleText = (formMode) => {
       switch (formMode) {
-         case "ADD_NEW":
+         case "CREATE_TRANSACTION":
             return "הוסף פעילות";
-         case "EDIT":
+         case "EDIT_TRANSACTION":
             return "ערוך פעילות";
          default:
             throw Error("Invalid form mode");
@@ -95,9 +95,9 @@ class TransactionForm extends React.Component {
 
    renderSuccessBtnText = (formMode) => {
       switch (formMode) {
-         case "ADD_NEW":
+         case "CREATE_TRANSACTION":
             return "הוסף";
-         case "EDIT":
+         case "EDIT_TRANSACTION":
             return "שמור";
          default:
             throw new Error("Invalid form mode");
@@ -184,7 +184,7 @@ class TransactionForm extends React.Component {
                   text="חזור"
                   displayMode="danger"
                   clickHandlerCallback={() => {
-                     this.onButtonClick("CLOSE");
+                     this.onButtonClick("CLOSE_FORM");
                   }}
                />
                <Button
@@ -192,7 +192,8 @@ class TransactionForm extends React.Component {
                   displayMode="success"
                   clickHandlerCallback={() => {
                      this.onButtonClick(
-                        (formMode === "ADD_NEW" && "SAVE_NEW") || (formMode === "EDIT" && "UPDATE"),
+                        (formMode === "CREATE_TRANSACTION" && "CREATE_TRANSACTION_ENDPOINT") ||
+                           (formMode === "EDIT_TRANSACTION" && "UPDATE_TRANSACTION_ENDPOINT"),
                      );
                   }}
                />
@@ -203,7 +204,7 @@ class TransactionForm extends React.Component {
 }
 
 TransactionForm.propTypes = {
-   formMode: PropTypes.oneOf(["ADD_NEW", "EDIT"]).isRequired,
+   formMode: PropTypes.oneOf(["CREATE_TRANSACTION", "EDIT_TRANSACTION"]).isRequired,
    transactionData: PropTypes.shape({
       _id: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,

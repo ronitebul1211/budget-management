@@ -23,14 +23,14 @@ class MonthManagerPage extends React.Component {
 
    /** Events Handlers */
    onMonthStatusButtonClick = () => {
-      this.showTransactionForm(true, "ADD_NEW");
+      this.showTransactionForm(true, "CREATE_TRANSACTION");
    };
 
    onTransactionFormEvent = async (action, transaction) => {
-      if (action === "CLOSE" || "SAVE_NEW" || "UPDATE") {
+      if (action === "CLOSE_FORM" || "CREATE_TRANSACTION_ENDPOINT" || "UPDATE_TRANSACTION_ENDPOINT") {
          this.showTransactionForm(false);
       }
-      if (action === "SAVE_NEW") {
+      if (action === "CREATE_TRANSACTION_ENDPOINT") {
          try {
             await transactionsApi.postTransaction(transaction);
             await this.loadMonthDataFromEndpoint();
@@ -39,7 +39,7 @@ class MonthManagerPage extends React.Component {
             throw err;
          }
       }
-      if (action === "UPDATE") {
+      if (action === "UPDATE_TRANSACTION_ENDPOINT") {
          try {
             await transactionsApi.updateTransaction(transaction);
             await this.loadMonthDataFromEndpoint();
@@ -50,10 +50,10 @@ class MonthManagerPage extends React.Component {
       }
    };
    onTransactionsListEvent = async (action, transaction) => {
-      if (action === "OPEN_FORM") {
-         this.showTransactionForm(true, "EDIT", transaction);
+      if (action === "OPEN_FORM_EDIT_MODE") {
+         this.showTransactionForm(true, "EDIT_TRANSACTION", transaction);
       }
-      if (action === "DELETE_TRANSACTION") {
+      if (action === "DELETE_TRANSACTION_ENDPOINT") {
          try {
             await transactionsApi.deleteTransaction(transaction);
             await this.loadMonthDataFromEndpoint();
@@ -67,12 +67,12 @@ class MonthManagerPage extends React.Component {
    /**
     * Transaction form controller
     * @param {boolean} isOpen: show / hide form
-    * @param {string} mode: "ADD_NEW" / "EDIT": pass in when isOpen=true
-    * @param {object} initialData: transaction data - pass in when: isOpen=true, mode="EDIT"
+    * @param {string} mode: "CREATE_TRANSACTION" / "EDIT_TRANSACTION": pass in when isOpen=true
+    * @param {object} initialData: transaction data - pass in when: isOpen=true, mode="EDIT_TRANSACTION"
     */
    showTransactionForm = (isOpen, mode, initialData) => {
       if (isOpen) {
-         if (mode === "ADD_NEW") {
+         if (mode === "CREATE_TRANSACTION") {
             return this.setState({
                transactionForm: {
                   isOpen,
@@ -89,7 +89,7 @@ class MonthManagerPage extends React.Component {
                },
             });
          }
-         if (mode === "EDIT") {
+         if (mode === "EDIT_TRANSACTION") {
             return this.setState({
                transactionForm: {
                   isOpen,

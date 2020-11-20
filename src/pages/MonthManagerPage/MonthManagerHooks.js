@@ -10,16 +10,16 @@ import Modal from "../../components/Modal/Modal";
 
 //FIXME: add prop types + refactor by conventions.txt
 
-function transactionFormReducer(state, action) {
+const transactionFormReducer = (state, action) => {
    switch (action.type) {
-      case "CLOSE":
+      case "CLOSE_FORM":
          return { isOpen: false, mode: "", initialData: {} };
-      case "OPEN_AND_EDIT":
-         return { isOpen: true, mode: "EDIT", initialData: action.payload };
-      case "OPEN_AND_CREATE":
+      case "OPEN_FORM_EDIT_MODE":
+         return { isOpen: true, mode: "EDIT_TRANSACTION", initialData: action.payload };
+      case "OPEN_FROM_CREATE_MODE":
          return {
             isOpen: true,
-            mode: "ADD_NEW",
+            mode: "CREATE_TRANSACTION",
             initialData: {
                _id: "",
                description: "",
@@ -31,9 +31,9 @@ function transactionFormReducer(state, action) {
             },
          };
       default:
-         throw new Error();
+         throw new Error("Transaction form state updated with invalid action");
    }
-}
+};
 
 const MonthManagerPage = () => {
    const [monthData, setMonthData] = useState({
@@ -41,6 +41,13 @@ const MonthManagerPage = () => {
       status: { credit: 0, debit: 0, balance: 0 },
    });
    const [isUpdatedData, setIsUpdatedData] = useState(false);
+   const [transactionForm, dispatchTransactionForm] = useReducer(transactionFormReducer, {
+      isOpen: false,
+      mode: "",
+      initialData: {},
+   });
+   const [action, setAction] = useState({ type: undefined, payload: undefined });
+
    useEffect(() => {
       console.log("GET effect");
       const fetchMonthData = async () => {
@@ -68,28 +75,25 @@ const MonthManagerPage = () => {
       }
    }, [isUpdatedData]);
 
-   const [action, setAction] = useState({ type: undefined, payload: undefined });
    useEffect(() => {
       console.log("ACTION effect + payload");
 
       const sendRequest = async () => {
          console.log("send api request");
          switch (action.type) {
-            case "POST_TRANSACTION":
+            case "CREATE_TRANSACTION_ENDPOINT":
                await transactionsApi.postTransaction(action.payload);
-               setIsUpdatedData(false);
                break;
-            case "PUT_TRANSACTION":
+            case "UPDATE_TRANSACTION_ENDPOINT":
                await transactionsApi.updateTransaction(action.payload);
-               setIsUpdatedData(false);
                break;
-            case "DELETE_TRANSACTION":
+            case "DELETE_TRANSACTION_ENDPOINT":
                await transactionsApi.deleteTransaction(action.payload);
-               setIsUpdatedData(false);
                break;
             default:
                throw new Error("Invalid action type");
          }
+         setIsUpdatedData(false);
       };
 
       if (action.type && action.payload) {
@@ -97,37 +101,32 @@ const MonthManagerPage = () => {
       }
    }, [action]);
 
-   const [transactionForm, dispatchTransactionForm] = useReducer(transactionFormReducer, {
-      isOpen: false,
-      mode: "",
-      initialData: {},
-   });
-
    /** Events Handlers */
    const onMonthStatusButtonClick = () => {
-      dispatchTransactionForm({ type: "OPEN_AND_CREATE" });
+      dispatchTransactionForm({ type: "OPEN_FROM_CREATE_MODE" });
    };
 
+   /** Event Handler - Transaction Form */
    const onTransactionFormEvent = async (action, transaction) => {
-      if (action === "CLOSE") {
-         dispatchTransactionForm({ type: "CLOSE" });
-      }
-      if (action === "SAVE_NEW") {
-         dispatchTransactionForm({ type: "CLOSE" });
-         setAction({ type: "POST_TRANSACTION", payload: transaction });
-      }
-      if (action === "UPDATE") {
-         dispatchTransactionForm({ type: "CLOSE" });
-         setAction({ type: "PUT_TRANSACTION", payload: transaction });
+      dispatchTransactionForm({ type: "CLOSE_FORM" });
+      switch (action) {
+         case "CLOSE_FORM":
+            return;
+         case "CREATE_TRANSACTION_ENDPOINT":
+         case "UPDATE_TRANSACTION_ENDPOINT":
+            return setAction({ type: action, payload: transaction });
+         default:
+            throw new Error("Transaction form event handler updated with invalid action");
       }
    };
 
+   /** Event Handler - Transactions List */
    const onTransactionsListEvent = async (action, transaction) => {
-      if (action === "OPEN_FORM") {
-         dispatchTransactionForm({ type: "OPEN_AND_EDIT", payload: transaction });
+      if (action === "OPEN_FORM_EDIT_MODE") {
+         dispatchTransactionForm({ type: action, payload: transaction });
       }
-      if (action === "DELETE_TRANSACTION") {
-         setAction({ type: "DELETE_TRANSACTION", payload: transaction });
+      if (action === "DELETE_TRANSACTION_ENDPOINT") {
+         setAction({ type: action, payload: transaction });
       }
    };
 
