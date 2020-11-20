@@ -36,7 +36,10 @@ function transactionFormReducer(state, action) {
 }
 
 const MonthManagerPage = () => {
-   const [monthData, setMonthData] = useState({ transactionsList: [], status: {} });
+   const [monthData, setMonthData] = useState({
+      transactionsList: [],
+      status: { credit: 0, debit: 0, balance: 0 },
+   });
    const [isUpdatedData, setIsUpdatedData] = useState(false);
    useEffect(() => {
       console.log("GET effect");
@@ -49,7 +52,7 @@ const MonthManagerPage = () => {
                return setMonthData({ transactionsList: transactionsList.data, status: monthStatus });
             }
             if (res.status === 204) {
-               return setMonthData({ transactionsList: undefined, status: undefined });
+               return setMonthData({ transactionsList: [], status: { credit: 0, debit: 0, balance: 0 } });
             }
             //SET LOADING FALSE
          } catch (err) {
@@ -132,7 +135,7 @@ const MonthManagerPage = () => {
       <div className="month-manager-page">
          <MonthStatus data={monthData.status} onButtonClickCallback={onMonthStatusButtonClick} />
 
-         {monthData.transactionsList ? (
+         {monthData.transactionsList.length ? (
             <TransactionList
                transactionsListData={monthData.transactionsList}
                isEditableList={true}

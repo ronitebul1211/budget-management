@@ -45,15 +45,11 @@ const MonthStatus = ({ data, onButtonClickCallback }) => {
 
 MonthStatus.propTypes = {
    data: PropTypes.shape({
-      credit: PropTypes.number,
-      debit: PropTypes.number,
-      balance: PropTypes.number,
+      credit: PropTypes.number.isRequired,
+      debit: PropTypes.number.isRequired,
+      balance: PropTypes.isRequired,
    }).isRequired,
    onButtonClickCallback: PropTypes.func.isRequired,
-};
-
-MonthStatus.defaultProps = {
-   data: { credit: 0, debit: 0, balance: 0 },
 };
 
 export default MonthStatus;
