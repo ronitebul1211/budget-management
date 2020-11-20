@@ -38,6 +38,13 @@ const MonthStatus = ({ data, onButtonClickCallback }) => {
                <ButtonIcon type="add" size="big" clickHandlerCallback={onButtonClickCallback} />
             </div>
          </div>
+         {!data.credit && !data.debit && !data.balance ? (
+            <p className="month-status__message">
+               {"אין תנועות עבור חודש " +
+                  dates.getHebrewMonthName(currentDate.month) +
+                  ", לחץ על כפתור + כדי להתחיל לעקוב אחר התקציב החודשי"}
+            </p>
+         ) : null}
       </div>
    );
 };
