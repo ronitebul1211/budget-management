@@ -31,12 +31,9 @@ const getMonthData = async (metadata, date = dates.getDateData()) => {
  * @param {object} transaction
  */
 const postTransaction = async (transaction) => {
-   const transactionDate = dates.getDateData(transaction.date);
+   const { month, year } = dates.getDateData(transaction.date);
    delete transaction._id;
-   return axios.post(
-      `${BASE_URL}/api/transactions-lists/${transactionDate.year}/${transactionDate.month}`,
-      transaction,
-   );
+   return axios.post(`${BASE_URL}/api/transactions-lists/${year}/${month}`, transaction);
 };
 
 /**
@@ -44,12 +41,8 @@ const postTransaction = async (transaction) => {
  * @param {object} transaction
  */
 const updateTransaction = async (transaction) => {
-   const transactionId = transaction._id;
-   const transactionDate = dates.getDateData(transaction.date);
-   await axios.put(
-      `${BASE_URL}/api/transactions-lists/${transactionDate.year}/${transactionDate.month}/${transactionId}`,
-      transaction,
-   );
+   const { month, year } = dates.getDateData(transaction.date);
+   await axios.put(`${BASE_URL}/api/transactions-lists/${year}/${month}/${transaction._id}`, transaction);
 };
 
 /**
@@ -57,12 +50,8 @@ const updateTransaction = async (transaction) => {
  * @param {object} transaction
  */
 const deleteTransaction = async (transaction) => {
-   const transactionId = transaction._id;
-   const transactionDate = dates.getDateData(transaction.date);
-   await axios.delete(
-      `${BASE_URL}/api/transactions-lists/${transactionDate.year}/${transactionDate.month}/${transactionId}`,
-      transaction,
-   );
+   const { month, year } = dates.getDateData(transaction.date);
+   await axios.delete(`${BASE_URL}/api/transactions-lists/${year}/${month}/${transaction._id}`, transaction);
 };
 
 export default {
