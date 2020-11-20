@@ -45,7 +45,6 @@ const postTransaction = async (transaction) => {
  */
 const updateTransaction = async (transaction) => {
    const transactionId = transaction._id;
-   delete transaction._id;
    const transactionDate = dates.getDateData(transaction.date);
    await axios.put(
       `${BASE_URL}/api/transactions-lists/${transactionDate.year}/${transactionDate.month}/${transactionId}`,
@@ -59,7 +58,6 @@ const updateTransaction = async (transaction) => {
  */
 const deleteTransaction = async (transaction) => {
    const transactionId = transaction._id;
-   delete transaction._id;
    const transactionDate = dates.getDateData(transaction.date);
    await axios.delete(
       `${BASE_URL}/api/transactions-lists/${transactionDate.year}/${transactionDate.month}/${transactionId}`,

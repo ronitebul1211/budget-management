@@ -82,7 +82,6 @@ const MonthManagerPage = () => {
                break;
             case "DELETE_TRANSACTION":
                await transactionsApi.deleteTransaction(action.payload);
-               console.log(monthData.transactionsList);
                setIsUpdatedData(false);
                break;
             default:
