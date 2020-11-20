@@ -105,7 +105,6 @@ class MonthManagerPage extends React.Component {
 
    /** Load updated data from endpoint */
    loadMonthDataFromEndpoint = async () => {
-      const currentDate = dates.getDateData();
       await transactionsApi
          .getMonthData("monthStatus")
          .then((res) => {
