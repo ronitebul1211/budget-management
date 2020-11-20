@@ -8,8 +8,6 @@ import TransactionList from "../../components/TransactionsList/TransactionsList"
 import MonthStatus from "../../components/MonthStatus/MonthStatus";
 import Modal from "../../components/Modal/Modal";
 
-//FIXME: add prop types + refactor by conventions.txt
-
 const transactionFormReducer = (state, action) => {
    switch (action.type) {
       case "CLOSE_FORM":
@@ -46,7 +44,7 @@ const MonthManagerPage = () => {
       mode: "",
       initialData: {},
    });
-   const [action, setAction] = useState({ type: undefined, payload: undefined });
+   const [networkRequest, setNetworkRequest] = useState({ type: undefined, payload: undefined });
 
    useEffect(() => {
       console.log("GET effect");
@@ -76,19 +74,16 @@ const MonthManagerPage = () => {
    }, [isUpdatedData]);
 
    useEffect(() => {
-      console.log("ACTION effect + payload");
-
       const sendRequest = async () => {
-         console.log("send api request");
-         switch (action.type) {
+         switch (networkRequest.type) {
             case "CREATE_TRANSACTION_ENDPOINT":
-               await transactionsApi.postTransaction(action.payload);
+               await transactionsApi.postTransaction(networkRequest.payload);
                break;
             case "UPDATE_TRANSACTION_ENDPOINT":
-               await transactionsApi.updateTransaction(action.payload);
+               await transactionsApi.updateTransaction(networkRequest.payload);
                break;
             case "DELETE_TRANSACTION_ENDPOINT":
-               await transactionsApi.deleteTransaction(action.payload);
+               await transactionsApi.deleteTransaction(networkRequest.payload);
                break;
             default:
                throw new Error("Invalid action type");
@@ -96,10 +91,11 @@ const MonthManagerPage = () => {
          setIsUpdatedData(false);
       };
 
-      if (action.type && action.payload) {
+      if (networkRequest.type && networkRequest.payload) {
          sendRequest();
+         setNetworkRequest({ type: undefined, payload: undefined });
       }
-   }, [action]);
+   }, [networkRequest]);
 
    /** Events Handlers - Month status */
    const onMonthStatusButtonClick = () => {
@@ -114,7 +110,7 @@ const MonthManagerPage = () => {
             return;
          case "CREATE_TRANSACTION_ENDPOINT":
          case "UPDATE_TRANSACTION_ENDPOINT":
-            return setAction({ type: action, payload: transaction });
+            return setNetworkRequest({ type: action, payload: transaction });
          default:
             throw new Error("Transaction form event handler invoked with invalid action");
       }
@@ -126,7 +122,7 @@ const MonthManagerPage = () => {
          case "OPEN_FORM_EDIT_MODE":
             return dispatchTransactionForm({ type: action, payload: transaction });
          case "DELETE_TRANSACTION_ENDPOINT":
-            return setAction({ type: action, payload: transaction });
+            return setNetworkRequest({ type: action, payload: transaction });
          default:
             throw new Error("Transactions list event handler invoked with invalid action");
       }
