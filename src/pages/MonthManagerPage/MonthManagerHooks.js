@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useReducer } from "react";
 import "./MonthManagerPage.css";
 import dates from "../../utils/dates";
 //Components
@@ -46,38 +46,24 @@ const MonthManagerPage = () => {
    };
    const [monthDataNew, setNetworkRequestNew] = useTransactionsApi(INITIAL_STATE);
 
-   /** Events Handlers - Month status */
-   const onMonthStatusButtonClick = () => {
-      // dispatchTransactionForm({ type: "OPEN_FROM_CREATE_MODE" });
-   };
-
-   /** Event Handler - Transaction Form */
-   const onTransactionFormEvent = async (action, transaction) => {
-      // dispatchTransactionForm({ type: "CLOSE_FORM" });
-      // switch (action) {
-      //    case "CLOSE_FORM":
-      //       return;
-      //    case "CREATE_TRANSACTION_ENDPOINT":
-      //    case "UPDATE_TRANSACTION_ENDPOINT":
-      //       return setNetworkRequestNew({ type: action, payload: transaction });
-      //    default:
-      //       throw new Error("Transaction form event handler invoked with invalid action");
-      // }
-   };
-
-   /** Event Handler - Transactions List */
-   const onTransactionsListEvent = async (action, transaction) => {
-      // switch (action) {
-      //    case "OPEN_FORM_EDIT_MODE":
-      //       return dispatchTransactionForm({ type: action, payload: transaction });
-      //    case "DELETE_TRANSACTION_ENDPOINT":
-      //       return setNetworkRequestNew({ type: action, payload: transaction });
-      //    default:
-      //       throw new Error("Transactions list event handler invoked with invalid action");
-      // }
-   };
-
    const onEventHandler = (action, transaction) => {
+      switch (action) {
+         case "CLOSE_FORM":
+         case "OPEN_FROM_CREATE_MODE":
+         case "OPEN_FORM_EDIT_MODE":
+            dispatchTransactionForm({ type: action, payload: transaction });
+            break;
+         case "CREATE_TRANSACTION_ENDPOINT":
+         case "UPDATE_TRANSACTION_ENDPOINT":
+            dispatchTransactionForm({ type: "CLOSE_FORM" });
+            setNetworkRequestNew({ type: action, payload: transaction });
+            break;
+         case "DELETE_TRANSACTION_ENDPOINT":
+            setNetworkRequestNew({ type: action, payload: transaction });
+            break;
+         default:
+            throw new Error("Event handler invoked with invalid action");
+      }
       // if ("CREATE_TRANSACTION_ENDPOINT" || "UPDATE_TRANSACTION_ENDPOINT") {
       //    setNetworkRequestNew({ type: action, payload: transaction });
       // } else if ("DELETE_TRANSACTION_ENDPOINT") {
@@ -88,60 +74,16 @@ const MonthManagerPage = () => {
       // } else {
       //    throw new Error("Event handler invoked with invalid action");
       // }
-
-      switch (action) {
-         case "CLOSE_FORM":
-         case "OPEN_FROM_CREATE_MODE":
-         case "OPEN_FORM_EDIT_MODE":
-            dispatchTransactionForm({ type: action, payload: transaction });
-            break;
-         case "CREATE_TRANSACTION_ENDPOINT":
-         case "UPDATE_TRANSACTION_ENDPOINT":
-            dispatchTransactionForm({ type: "CLOSE_FORM" });
-         case "DELETE_TRANSACTION_ENDPOINT":
-            setNetworkRequestNew({ type: action, payload: transaction });
-            break;
-         default:
-            throw new Error("Event handler invoked with invalid action");
-      }
-   };
-
-   const uiActionHandler = (action, transaction) => {
-      switch (action) {
-         case "CLOSE_FORM":
-         case "OPEN_FROM_CREATE_MODE":
-         case "OPEN_FORM_EDIT_MODE":
-            return dispatchTransactionForm({ type: action, payload: transaction });
-         default:
-            throw new Error("UI actions handler invoked with invalid action");
-      }
-   };
-   const networkActionHandler = (action, transaction) => {
-      switch (action) {
-         case "CREATE_TRANSACTION_ENDPOINT":
-         case "UPDATE_TRANSACTION_ENDPOINT":
-            uiActionHandler("CLOSE_FORM");
-         case "DELETE_TRANSACTION_ENDPOINT":
-            return setNetworkRequestNew({ type: action, payload: transaction });
-         default:
-            throw new Error("Network actions handler invoked with invalid action");
-      }
    };
 
    return (
       <div className="month-manager-page">
-         <MonthStatus
-            data={monthDataNew.status}
-            onButtonClickCallback={onMonthStatusButtonClick}
-            onUiActionCallback={uiActionHandler}
-         />
+         <MonthStatus data={monthDataNew.status} onEventCallback={onEventHandler} />
          {monthDataNew.transactionsList.length ? (
             <TransactionList
                transactionsListData={monthDataNew.transactionsList}
                isEditableList={true}
-               onListEventCallback={onTransactionsListEvent}
-               onUiActionCallback={uiActionHandler}
-               onNetworkActionCallback={networkActionHandler}
+               onEventCallback={onEventHandler}
             />
          ) : null}
          {transactionForm.isOpen ? (
@@ -149,9 +91,7 @@ const MonthManagerPage = () => {
                <TransactionForm
                   formMode={transactionForm.mode}
                   transactionData={transactionForm.initialData}
-                  onFormEventCallback={onTransactionFormEvent}
-                  onUiActionCallback={uiActionHandler}
-                  onNetworkActionCallback={networkActionHandler}
+                  onEventCallback={onEventHandler}
                />
             </Modal>
          ) : null}
