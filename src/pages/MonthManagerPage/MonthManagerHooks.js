@@ -78,8 +78,24 @@ const MonthManagerPage = () => {
       }
    };
 
-   const uiActionHandler = () => {};
-   const networkActionHandler = () => {};
+   const uiActionHandler = (action) => {
+      switch (action) {
+         case "CLOSE_FORM":
+            return dispatchTransactionForm({ type: "CLOSE_FORM" });
+         default:
+            throw new Error("UI actions handler invoked with invalid action");
+      }
+   };
+   const networkActionHandler = (action, transaction) => {
+      switch (action) {
+         case "CREATE_TRANSACTION_ENDPOINT":
+         case "UPDATE_TRANSACTION_ENDPOINT":
+            uiActionHandler("CLOSE_FORM");
+            return setNetworkRequestNew({ type: action, payload: transaction });
+         default:
+            throw new Error("network actions handler invoked with invalid action");
+      }
+   };
 
    return (
       <div className="month-manager-page">
