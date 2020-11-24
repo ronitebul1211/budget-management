@@ -77,6 +77,35 @@ const MonthManagerPage = () => {
       // }
    };
 
+   const onEventHandler = (action, transaction) => {
+      // if ("CREATE_TRANSACTION_ENDPOINT" || "UPDATE_TRANSACTION_ENDPOINT") {
+      //    setNetworkRequestNew({ type: action, payload: transaction });
+      // } else if ("DELETE_TRANSACTION_ENDPOINT") {
+      //    dispatchTransactionForm({ type: "CLOSE_FORM" });
+      //    setNetworkRequestNew({ type: action, payload: transaction });
+      // } else if ("CLOSE_FORM" || "OPEN_FROM_CREATE_MODE" || "OPEN_FORM_EDIT_MODE") {
+      //    dispatchTransactionForm({ type: action, payload: transaction });
+      // } else {
+      //    throw new Error("Event handler invoked with invalid action");
+      // }
+
+      switch (action) {
+         case "CLOSE_FORM":
+         case "OPEN_FROM_CREATE_MODE":
+         case "OPEN_FORM_EDIT_MODE":
+            dispatchTransactionForm({ type: action, payload: transaction });
+            break;
+         case "CREATE_TRANSACTION_ENDPOINT":
+         case "UPDATE_TRANSACTION_ENDPOINT":
+            dispatchTransactionForm({ type: "CLOSE_FORM" });
+         case "DELETE_TRANSACTION_ENDPOINT":
+            setNetworkRequestNew({ type: action, payload: transaction });
+            break;
+         default:
+            throw new Error("Event handler invoked with invalid action");
+      }
+   };
+
    const uiActionHandler = (action, transaction) => {
       switch (action) {
          case "CLOSE_FORM":
