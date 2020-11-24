@@ -7,6 +7,7 @@ import TransactionForm from "../../components/TransactionForm/TransactionForm";
 import TransactionList from "../../components/TransactionsList/TransactionsList";
 import MonthStatus from "../../components/MonthStatus/MonthStatus";
 import Modal from "../../components/Modal/Modal";
+import useTransactionsApi from "../../utils/custom-hook/useTransactionsApi";
 
 const transactionFormReducer = (state, action) => {
    switch (action.type) {
@@ -45,6 +46,8 @@ const MonthManagerPage = () => {
       mode: "",
       initialData: {},
    });
+
+   const [monthDataNew, setNetworkRequestNew] = useTransactionsApi();
 
    const [isLoading, setIsLoading] = useState(false);
    useEffect(() => {
