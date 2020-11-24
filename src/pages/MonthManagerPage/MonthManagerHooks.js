@@ -78,6 +78,9 @@ const MonthManagerPage = () => {
       }
    };
 
+   const uiActionHandler = () => {};
+   const networkActionHandler = () => {};
+
    return (
       <div className="month-manager-page">
          <MonthStatus data={monthDataNew.status} onButtonClickCallback={onMonthStatusButtonClick} />
@@ -94,6 +97,8 @@ const MonthManagerPage = () => {
                   formMode={transactionForm.mode}
                   transactionData={transactionForm.initialData}
                   onFormEventCallback={onTransactionFormEvent}
+                  onUiActionCallback={uiActionHandler}
+                  onNetworkActionCallback={networkActionHandler}
                />
             </Modal>
          ) : null}
