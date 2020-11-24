@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import transactionsApi from "../../utils/transactionsApi";
 
-const useTransactionsApi = () => {
-   const [monthDataNew, setMonthData] = useState();
+const useTransactionsApi = (initialDataState) => {
+   const [monthDataNew, setMonthData] = useState(initialDataState);
    const [isMonthDataUpdatedNew, setIsMonthDataUpdated] = useState(false);
    const [networkRequest, setNetworkRequestNew] = useState({ type: null, payload: null });
 

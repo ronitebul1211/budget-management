@@ -35,79 +35,17 @@ const transactionFormReducer = (state, action) => {
 };
 
 const MonthManagerPage = () => {
-   const [monthData, setMonthData] = useState({
-      transactionsList: [],
-      status: { credit: 0, debit: 0, balance: 0 },
-   });
-   const [isMonthDataUpdated, setIsMonthDataUpdated] = useState(false);
-   const [networkRequest, setNetworkRequest] = useState({ type: undefined, payload: undefined });
    const [transactionForm, dispatchTransactionForm] = useReducer(transactionFormReducer, {
       isOpen: false,
       mode: "",
       initialData: {},
    });
 
-   const [monthDataNew, setNetworkRequestNew] = useTransactionsApi();
-
-   const [isLoading, setIsLoading] = useState(false);
-   useEffect(() => {
-      console.log("Month data effect");
-      const fetchMonthData = async () => {
-         //SET ERROR FALSE + LOADING TRUE
-
-         try {
-            const res = await transactionsApi.getMonthData("monthStatus");
-            if (res.status === 204) {
-               return setMonthData({ transactionsList: [], status: { credit: 0, debit: 0, balance: 0 } });
-            }
-            const { monthStatus, transactionsList } = res.data;
-            return setMonthData({ transactionsList: transactionsList.data, status: monthStatus });
-         } catch (err) {
-            console.log(err);
-            //SET ERROR TRUE + LOADING FALSE
-         }
-      };
-
-      if (!isMonthDataUpdated) {
-         fetchMonthData();
-         setIsMonthDataUpdated(true);
-      }
-   }, [isMonthDataUpdated]);
-
-   useEffect(() => {
-      console.log("Network request effect");
-
-      const sendRequest = async () => {
-         try {
-            switch (networkRequest.type) {
-               case "CREATE_TRANSACTION_ENDPOINT":
-                  await transactionsApi.postTransaction(networkRequest.payload);
-                  break;
-               case "UPDATE_TRANSACTION_ENDPOINT":
-                  await transactionsApi.updateTransaction(networkRequest.payload);
-                  break;
-               case "DELETE_TRANSACTION_ENDPOINT":
-                  await transactionsApi.deleteTransaction(networkRequest.payload);
-                  break;
-               default:
-                  const invalidNetworkAction = new Error("Network request set with invalid action type");
-                  invalidNetworkAction.name = "INVALID_NETWORK_ACTION";
-                  throw invalidNetworkAction;
-            }
-            setIsMonthDataUpdated(false);
-         } catch (err) {
-            if (err.name === "INVALID_NETWORK_ACTION") {
-               throw err;
-            }
-            console.log(err);
-         }
-      };
-
-      if (networkRequest.type && networkRequest.payload) {
-         sendRequest();
-         setNetworkRequest({ type: undefined, payload: undefined });
-      }
-   }, [networkRequest]);
+   const INITIAL_STATE = {
+      transactionsList: [],
+      status: { credit: 0, debit: 0, balance: 0 },
+   };
+   const [monthDataNew, setNetworkRequestNew] = useTransactionsApi(INITIAL_STATE);
 
    /** Events Handlers - Month status */
    const onMonthStatusButtonClick = () => {
@@ -122,7 +60,7 @@ const MonthManagerPage = () => {
             return;
          case "CREATE_TRANSACTION_ENDPOINT":
          case "UPDATE_TRANSACTION_ENDPOINT":
-            return setNetworkRequest({ type: action, payload: transaction });
+            return setNetworkRequestNew({ type: action, payload: transaction });
          default:
             throw new Error("Transaction form event handler invoked with invalid action");
       }
@@ -134,7 +72,7 @@ const MonthManagerPage = () => {
          case "OPEN_FORM_EDIT_MODE":
             return dispatchTransactionForm({ type: action, payload: transaction });
          case "DELETE_TRANSACTION_ENDPOINT":
-            return setNetworkRequest({ type: action, payload: transaction });
+            return setNetworkRequestNew({ type: action, payload: transaction });
          default:
             throw new Error("Transactions list event handler invoked with invalid action");
       }
@@ -142,10 +80,10 @@ const MonthManagerPage = () => {
 
    return (
       <div className="month-manager-page">
-         <MonthStatus data={monthData.status} onButtonClickCallback={onMonthStatusButtonClick} />
-         {monthData.transactionsList.length ? (
+         <MonthStatus data={monthDataNew.status} onButtonClickCallback={onMonthStatusButtonClick} />
+         {monthDataNew.transactionsList.length ? (
             <TransactionList
-               transactionsListData={monthData.transactionsList}
+               transactionsListData={monthDataNew.transactionsList}
                isEditableList={true}
                onListEventCallback={onTransactionsListEvent}
             />
