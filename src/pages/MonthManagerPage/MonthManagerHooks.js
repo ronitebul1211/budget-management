@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useReducer } from "react";
 import "./MonthManagerPage.css";
 import dates from "../../utils/dates";
-import transactionsApi from "../../utils/transactionsApi";
 //Components
 import TransactionForm from "../../components/TransactionForm/TransactionForm";
 import TransactionList from "../../components/TransactionsList/TransactionsList";
@@ -49,41 +48,43 @@ const MonthManagerPage = () => {
 
    /** Events Handlers - Month status */
    const onMonthStatusButtonClick = () => {
-      dispatchTransactionForm({ type: "OPEN_FROM_CREATE_MODE" });
+      // dispatchTransactionForm({ type: "OPEN_FROM_CREATE_MODE" });
    };
 
    /** Event Handler - Transaction Form */
    const onTransactionFormEvent = async (action, transaction) => {
-      dispatchTransactionForm({ type: "CLOSE_FORM" });
-      switch (action) {
-         case "CLOSE_FORM":
-            return;
-         case "CREATE_TRANSACTION_ENDPOINT":
-         case "UPDATE_TRANSACTION_ENDPOINT":
-            return setNetworkRequestNew({ type: action, payload: transaction });
-         default:
-            throw new Error("Transaction form event handler invoked with invalid action");
-      }
+      // dispatchTransactionForm({ type: "CLOSE_FORM" });
+      // switch (action) {
+      //    case "CLOSE_FORM":
+      //       return;
+      //    case "CREATE_TRANSACTION_ENDPOINT":
+      //    case "UPDATE_TRANSACTION_ENDPOINT":
+      //       return setNetworkRequestNew({ type: action, payload: transaction });
+      //    default:
+      //       throw new Error("Transaction form event handler invoked with invalid action");
+      // }
    };
 
    /** Event Handler - Transactions List */
    const onTransactionsListEvent = async (action, transaction) => {
-      switch (action) {
-         case "OPEN_FORM_EDIT_MODE":
-            return dispatchTransactionForm({ type: action, payload: transaction });
-         case "DELETE_TRANSACTION_ENDPOINT":
-            return setNetworkRequestNew({ type: action, payload: transaction });
-         default:
-            throw new Error("Transactions list event handler invoked with invalid action");
-      }
+      // switch (action) {
+      //    case "OPEN_FORM_EDIT_MODE":
+      //       return dispatchTransactionForm({ type: action, payload: transaction });
+      //    case "DELETE_TRANSACTION_ENDPOINT":
+      //       return setNetworkRequestNew({ type: action, payload: transaction });
+      //    default:
+      //       throw new Error("Transactions list event handler invoked with invalid action");
+      // }
    };
 
-   const uiActionHandler = (action) => {
+   const uiActionHandler = (action, transaction) => {
       switch (action) {
          case "CLOSE_FORM":
             return dispatchTransactionForm({ type: "CLOSE_FORM" });
          case "OPEN_FROM_CREATE_MODE":
             return dispatchTransactionForm({ type: "OPEN_FROM_CREATE_MODE" });
+         case "OPEN_FORM_EDIT_MODE":
+            return dispatchTransactionForm({ type: action, payload: transaction });
          default:
             throw new Error("UI actions handler invoked with invalid action");
       }
@@ -93,6 +94,8 @@ const MonthManagerPage = () => {
          case "CREATE_TRANSACTION_ENDPOINT":
          case "UPDATE_TRANSACTION_ENDPOINT":
             uiActionHandler("CLOSE_FORM");
+            return setNetworkRequestNew({ type: action, payload: transaction });
+         case "DELETE_TRANSACTION_ENDPOINT":
             return setNetworkRequestNew({ type: action, payload: transaction });
          default:
             throw new Error("Network actions handler invoked with invalid action");
@@ -111,6 +114,8 @@ const MonthManagerPage = () => {
                transactionsListData={monthDataNew.transactionsList}
                isEditableList={true}
                onListEventCallback={onTransactionsListEvent}
+               onUiActionCallback={uiActionHandler}
+               onNetworkActionCallback={networkActionHandler}
             />
          ) : null}
          {transactionForm.isOpen ? (

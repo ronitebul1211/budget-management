@@ -6,7 +6,12 @@ import PropTypes from "prop-types";
 import ButtonIcon from "../_Buttons/ButtonIcon";
 
 /** Prop Types at the end of the file */
-const TransactionsList = ({ transactionsListData, isEditableList, onListEventCallback }) => {
+const TransactionsList = ({
+   transactionsListData,
+   isEditableList,
+   onUiActionCallback,
+   onNetworkActionCallback,
+}) => {
    const renderHeadlines = () => {
       return (
          <tr className="transaction-table__row">
@@ -45,7 +50,7 @@ const TransactionsList = ({ transactionsListData, isEditableList, onListEventCal
                            type="edit"
                            size="small"
                            clickHandlerCallback={() => {
-                              onListEventCallback("OPEN_FORM_EDIT_MODE", transaction);
+                              onUiActionCallback("OPEN_FORM_EDIT_MODE", transaction);
                            }}
                         />
                      </td>
@@ -54,7 +59,7 @@ const TransactionsList = ({ transactionsListData, isEditableList, onListEventCal
                            type="delete"
                            size="small"
                            clickHandlerCallback={() => {
-                              onListEventCallback("DELETE_TRANSACTION_ENDPOINT", transaction);
+                              onNetworkActionCallback("DELETE_TRANSACTION_ENDPOINT", transaction);
                            }}
                         />
                      </td>
