@@ -82,6 +82,8 @@ const MonthManagerPage = () => {
       switch (action) {
          case "CLOSE_FORM":
             return dispatchTransactionForm({ type: "CLOSE_FORM" });
+         case "OPEN_FROM_CREATE_MODE":
+            return dispatchTransactionForm({ type: "OPEN_FROM_CREATE_MODE" });
          default:
             throw new Error("UI actions handler invoked with invalid action");
       }
@@ -93,13 +95,17 @@ const MonthManagerPage = () => {
             uiActionHandler("CLOSE_FORM");
             return setNetworkRequestNew({ type: action, payload: transaction });
          default:
-            throw new Error("network actions handler invoked with invalid action");
+            throw new Error("Network actions handler invoked with invalid action");
       }
    };
 
    return (
       <div className="month-manager-page">
-         <MonthStatus data={monthDataNew.status} onButtonClickCallback={onMonthStatusButtonClick} />
+         <MonthStatus
+            data={monthDataNew.status}
+            onButtonClickCallback={onMonthStatusButtonClick}
+            onUiActionCallback={uiActionHandler}
+         />
          {monthDataNew.transactionsList.length ? (
             <TransactionList
                transactionsListData={monthDataNew.transactionsList}
