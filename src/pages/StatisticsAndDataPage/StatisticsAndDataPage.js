@@ -1,7 +1,7 @@
 import React from "react";
 import "./StatisticsAndDataPage.css";
-import dates from "../../utilities/dates";
-import transactionsApi from "../../utilities/transactionsApi";
+import dates from "../../utils/dates";
+import transactionsApi from "../../utils/transactionsApi";
 //Components
 import PieGraphHooks from "../../components/_Graphs/PieGraphHooks";
 import SelectField from "../../components/_InputFields/SelectField";

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import transactionsApi from "../../utilities/transactionsApi";
+import transactionsApi from "../../utils/transactionsApi";
 
 const useMonthData = (month, year, metadata) => {
    const [monthData, setMonthData] = useState({ transactionsList: [], metadata: {} });

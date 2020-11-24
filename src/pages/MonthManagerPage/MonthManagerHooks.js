@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useReducer } from "react";
 import "./MonthManagerPage.css";
-import dates from "../../utilities/dates";
-import transactionsApi from "../../utilities/transactionsApi";
+import dates from "../../utils/dates";
+import transactionsApi from "../../utils/transactionsApi";
 //Components
 import TransactionForm from "../../components/TransactionForm/TransactionForm";
 import TransactionList from "../../components/TransactionsList/TransactionsList";
@@ -54,13 +54,11 @@ const MonthManagerPage = () => {
 
          try {
             const res = await transactionsApi.getMonthData("monthStatus");
-            if (res.status === 200) {
-               const { monthStatus, transactionsList } = res.data;
-               return setMonthData({ transactionsList: transactionsList.data, status: monthStatus });
-            }
             if (res.status === 204) {
                return setMonthData({ transactionsList: [], status: { credit: 0, debit: 0, balance: 0 } });
             }
+            const { monthStatus, transactionsList } = res.data;
+            return setMonthData({ transactionsList: transactionsList.data, status: monthStatus });
          } catch (err) {
             console.log(err);
             //SET ERROR TRUE + LOADING FALSE

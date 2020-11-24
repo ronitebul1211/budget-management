@@ -1,7 +1,7 @@
 import React from "react";
 import "./MonthStatus.css";
 import PropTypes from "prop-types";
-import dates from "../../utilities/dates";
+import dates from "../../utils/dates";
 //Components
 import ButtonIcon from "../_Buttons/ButtonIcon";
 

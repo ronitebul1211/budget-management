@@ -1,6 +1,6 @@
 import React from "react";
 import "./TransactionForm.css";
-import dates from "../../utilities/dates";
+import dates from "../../utils/dates";
 import PropTypes from "prop-types";
 //Components
 import InputField from "../_InputFields/InputField";

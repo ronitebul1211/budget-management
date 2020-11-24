@@ -1,7 +1,7 @@
 import React from "react";
 import "./MonthManagerPage.css";
-import dates from "../../utilities/dates";
-import transactionsApi from "../../utilities/transactionsApi";
+import dates from "../../utils/dates";
+import transactionsApi from "../../utils/transactionsApi";
 //Components
 import TransactionForm from "../../components/TransactionForm/TransactionForm";
 import TransactionList from "../../components/TransactionsList/TransactionsList";
