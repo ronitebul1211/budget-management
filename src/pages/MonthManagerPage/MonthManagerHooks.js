@@ -80,9 +80,7 @@ const MonthManagerPage = () => {
    const uiActionHandler = (action, transaction) => {
       switch (action) {
          case "CLOSE_FORM":
-            return dispatchTransactionForm({ type: "CLOSE_FORM" });
          case "OPEN_FROM_CREATE_MODE":
-            return dispatchTransactionForm({ type: "OPEN_FROM_CREATE_MODE" });
          case "OPEN_FORM_EDIT_MODE":
             return dispatchTransactionForm({ type: action, payload: transaction });
          default:
@@ -94,7 +92,6 @@ const MonthManagerPage = () => {
          case "CREATE_TRANSACTION_ENDPOINT":
          case "UPDATE_TRANSACTION_ENDPOINT":
             uiActionHandler("CLOSE_FORM");
-            return setNetworkRequestNew({ type: action, payload: transaction });
          case "DELETE_TRANSACTION_ENDPOINT":
             return setNetworkRequestNew({ type: action, payload: transaction });
          default:
