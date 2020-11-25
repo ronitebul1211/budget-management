@@ -16,16 +16,19 @@ const useTransactionsApi = (config) => {
          console.log("CUSTOM: send new request " + networkRequest.type);
          setIsLoading(true);
          setIsError(false);
+         let monthData = {};
          try {
             switch (networkRequest.type) {
                case "FETCH_TRANSACTION_CURRENT":
-                  await fetchMonthData();
+                  monthData = await fetchMonthData();
+                  setMonthData(monthData);
                   setIsLoading(false);
                   setIsError(false);
                   setIsMonthDataUpdated(true);
                   break;
                case "FETCH_TRANSACTION_BY_DATE":
-                  await fetchMonthData(networkRequest.payload);
+                  monthData = await fetchMonthData(networkRequest.payload);
+                  setMonthData(monthData);
                   setIsLoading(false);
                   setIsError(false);
                   setIsMonthDataUpdated(true);
@@ -77,13 +80,12 @@ const useTransactionsApi = (config) => {
     */
    const fetchMonthData = async (date) => {
       const { fetchQuery, defaultState } = configRef.current;
-
       const res = await transactionsApi.getMonthData(fetchQuery, date);
       if (res.status === 204) {
-         return setMonthData(defaultState);
+         return defaultState;
       }
       const { metadata, transactionsList } = res.data;
-      return setMonthData({ transactionsList: transactionsList.data, metadata });
+      return { transactionsList: transactionsList.data, metadata };
    };
 
    return [{ monthDataNew, isLoading, isError }, setNetworkRequestNew];
