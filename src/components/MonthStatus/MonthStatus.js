@@ -6,7 +6,7 @@ import dates from "../../utils/dates";
 import ButtonIcon from "../_Buttons/ButtonIcon";
 
 /** Prop Types at the end of the file */
-const MonthStatus = ({ data, onButtonClickCallback }) => {
+const MonthStatus = ({ data, onEventCallback }) => {
    const currentDate = dates.getDateData();
    return (
       <div className="month-status">
@@ -35,7 +35,13 @@ const MonthStatus = ({ data, onButtonClickCallback }) => {
             </div>
 
             <div className="month-status__btn-container">
-               <ButtonIcon type="add" size="big" clickHandlerCallback={onButtonClickCallback} />
+               <ButtonIcon
+                  type="add"
+                  size="big"
+                  clickHandlerCallback={() => {
+                     onEventCallback("OPEN_FROM_CREATE_MODE");
+                  }}
+               />
             </div>
          </div>
          {!data.credit && !data.debit && !data.balance ? (
@@ -55,7 +61,7 @@ MonthStatus.propTypes = {
       debit: PropTypes.number.isRequired,
       balance: PropTypes.isRequired,
    }).isRequired,
-   onButtonClickCallback: PropTypes.func.isRequired,
+   onEventCallback: PropTypes.func.isRequired,
 };
 
 export default MonthStatus;

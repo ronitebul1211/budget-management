@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import ButtonIcon from "../_Buttons/ButtonIcon";
 
 /** Prop Types at the end of the file */
-const TransactionsList = ({ transactionsListData, isEditableList, onListEventCallback }) => {
+const TransactionsList = ({ transactionsListData, isEditableList, onEventCallback }) => {
    const renderHeadlines = () => {
       return (
          <tr className="transaction-table__row">
@@ -45,7 +45,7 @@ const TransactionsList = ({ transactionsListData, isEditableList, onListEventCal
                            type="edit"
                            size="small"
                            clickHandlerCallback={() => {
-                              onListEventCallback("OPEN_FORM_EDIT_MODE", transaction);
+                              onEventCallback("OPEN_FORM_EDIT_MODE", transaction);
                            }}
                         />
                      </td>
@@ -54,7 +54,7 @@ const TransactionsList = ({ transactionsListData, isEditableList, onListEventCal
                            type="delete"
                            size="small"
                            clickHandlerCallback={() => {
-                              onListEventCallback("DELETE_TRANSACTION_ENDPOINT", transaction);
+                              onEventCallback("DELETE_TRANSACTION_ENDPOINT", transaction);
                            }}
                         />
                      </td>
@@ -86,7 +86,7 @@ TransactionsList.propTypes = {
       }),
    ).isRequired,
    isEditableList: PropTypes.bool.isRequired,
-   onListEventCallback: function (props, propName, componentName) {
+   onEventCallback: function (props, propName, componentName) {
       if (props.isEditableList) {
          if (!props[propName] || !(props[propName] instanceof Function))
             return new Error(
