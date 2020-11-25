@@ -18,7 +18,17 @@ const StatisticsAndDataPage = () => {
       return { month, year };
    });
 
-   const onInputChange = (e) => {};
+   const onInputChange = (e) => {
+      const target = e.target;
+      if (target.name === "month" || target.name === "year") {
+         setDatePicker((prevState) => {
+            return {
+               ...prevState,
+               [target.name]: parseInt(target.value),
+            };
+         });
+      }
+   };
 
    return (
       <div className="statistics-page">
