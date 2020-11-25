@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import transactionsApi from "../../utils/transactionsApi";
 
 const useTransactionsApi = (initialMonthDataState) => {
+   const defaultState = useRef(initialMonthDataState);
+
    const [monthDataNew, setMonthData] = useState(initialMonthDataState);
    const [isMonthDataUpdatedNew, setIsMonthDataUpdated] = useState(false);
    const [networkRequest, setNetworkRequestNew] = useState({ type: null, payload: null });
@@ -14,9 +16,11 @@ const useTransactionsApi = (initialMonthDataState) => {
             switch (networkRequest.type) {
                case "FETCH_TRANSACTION_CURRENT":
                   await fetchMonthData();
+                  setIsMonthDataUpdated(true);
                   break;
                case "FETCH_TRANSACTION_BY_DATE":
                   await fetchMonthData();
+                  setIsMonthDataUpdated(true);
                   break;
                case "CREATE_TRANSACTION_ENDPOINT":
                   await transactionsApi.postTransaction(networkRequest.payload);
@@ -54,23 +58,22 @@ const useTransactionsApi = (initialMonthDataState) => {
 
       if (!isMonthDataUpdatedNew) {
          // if month data not updated, fetch current -only
-
          // if network request type is fetch by date -> different case on switch (set from outside statistic page)
-
          // when its fetch current || fetch by date -> set month data is updated = true (maybe on fetch function?)
-         // from different switch case : make an fetch with diff ard
+
+         // from different switch case : make an fetch with diff args
 
          // all request begin in new request, finish in fetch new data -> isLoading === false
          setNetworkRequestNew({ type: "FETCH_TRANSACTION_CURRENT" });
-         setIsMonthDataUpdated(true);
       }
    }, [isMonthDataUpdatedNew]);
 
    const fetchMonthData = async () => {
       try {
          const res = await transactionsApi.getMonthData("monthStatus");
+
          if (res.status === 204) {
-            return setMonthData({ transactionsList: [], metadata: {} });
+            return setMonthData(defaultState.current);
          }
          const { metadata, transactionsList } = res.data;
          return setMonthData({ transactionsList: transactionsList.data, metadata });

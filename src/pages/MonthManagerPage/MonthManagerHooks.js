@@ -42,7 +42,7 @@ const MonthManagerPage = () => {
 
    const INITIAL_STATE = {
       transactionsList: [],
-      status: { credit: 0, debit: 0, balance: 0 },
+      metadata: { credit: 0, debit: 0, balance: 0 },
    };
    const [monthDataNew, setNetworkRequestNew] = useTransactionsApi(INITIAL_STATE);
 
@@ -78,7 +78,7 @@ const MonthManagerPage = () => {
 
    return (
       <div className="month-manager-page">
-         <MonthStatus data={monthDataNew.status} onEventCallback={onEventHandler} />
+         <MonthStatus data={monthDataNew.metadata} onEventCallback={onEventHandler} />
          {monthDataNew.transactionsList.length ? (
             <TransactionList
                transactionsListData={monthDataNew.transactionsList}
