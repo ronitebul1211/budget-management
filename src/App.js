@@ -8,6 +8,8 @@ import MonthManagerPage from "./pages/MonthManagerPage/MonthManagerPage";
 import StatisticsAndDataPage from "./pages/StatisticsAndDataPage/StatisticsAndDataPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
+import StatisticsHooks from "./pages/StatisticsAndDataPage/StatisticsHooks";
+
 const App = () => {
    return (
       <React.Fragment>
@@ -17,6 +19,7 @@ const App = () => {
                <PrivateRoute path="/current-month" component={MonthManagerPage} />
                <PrivateRoute path="/statistics" component={StatisticsAndDataPage} />
                <Route path="/test/current-month" exact component={MonthManagerPage} />
+               <Route path="/test/statistics" exact component={StatisticsHooks} />
                <Route path="/" exact component={HomePage} />
                <Route path="*" exact component={NotFoundPage} />
             </Switch>
