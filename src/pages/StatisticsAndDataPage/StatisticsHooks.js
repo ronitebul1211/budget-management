@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./StatisticsAndDataPage.css";
 import dates from "../../utils/dates";
-import transactionsApi from "../../utils/transactionsApi";
+import useTransactionsApi from "../../utils/custom-hook/useTransactionsApi";
 
 //Components
 import PieGraphHooks from "../../components/_Graphs/PieGraphHooks";
@@ -16,6 +16,15 @@ const StatisticsAndDataPage = () => {
    const [datePicker, setDatePicker] = useState(() => {
       const { month, year } = dates.getDateData();
       return { month, year };
+   });
+
+   const INITIAL_STATE = {
+      transactionsList: [],
+      metadata: {},
+   };
+   const [{ monthData, isLoading, isError }, setNetworkRequest] = useTransactionsApi({
+      defaultState: INITIAL_STATE,
+      fetchQuery: "debitDistribution",
    });
 
    const onInputChange = (e) => {
@@ -69,7 +78,7 @@ const StatisticsAndDataPage = () => {
          <div className="section">
             <h2>התפלגות הוצאות לפי קטגוריה</h2>
 
-            <PieGraphHooks data={{}} />
+            <PieGraphHooks data={monthData.metadata} />
          </div>
 
          <div className="list-container">
@@ -87,7 +96,7 @@ const StatisticsAndDataPage = () => {
                />
             </div>
 
-            <TransactionsList transactionsListData={[]} isEditableList={false} />
+            <TransactionsList transactionsListData={monthData.transactionsList} isEditableList={false} />
          </div>
       </div>
    );
