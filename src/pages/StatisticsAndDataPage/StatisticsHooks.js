@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./StatisticsAndDataPage.css";
 import dates from "../../utils/dates";
 import useTransactionsApi from "../../utils/custom-hook/useTransactionsApi";
-
+import { netReqAction } from "../../utils/constants";
 //Components
 import PieGraphHooks from "../../components/_Graphs/PieGraphHooks";
 import SelectField from "../../components/_InputFields/SelectField";
@@ -26,6 +26,10 @@ const StatisticsAndDataPage = () => {
       defaultState: INITIAL_STATE,
       fetchQuery: "debitDistribution",
    });
+
+   useEffect(() => {
+      setNetworkRequest({ type: netReqAction.FETCH_TRANSACTIONS_ENDPOINT, payload: datePicker });
+   }, [datePicker]);
 
    const onInputChange = (e) => {
       const target = e.target;
