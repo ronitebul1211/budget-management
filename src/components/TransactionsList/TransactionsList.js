@@ -1,8 +1,8 @@
 import React from "react";
 import "./TransactionsList.css";
 import dates from "../../utils/dates";
+import { netReqAction } from "../../utils/constants";
 import PropTypes from "prop-types";
-//Components
 import ButtonIcon from "../_Buttons/ButtonIcon";
 
 /** Prop Types at the end of the file */
@@ -54,7 +54,7 @@ const TransactionsList = ({ transactionsListData, isEditableList, onEventCallbac
                            type="delete"
                            size="small"
                            clickHandlerCallback={() => {
-                              onEventCallback("DELETE_TRANSACTION_ENDPOINT", transaction);
+                              onEventCallback(netReqAction.DELETE_TRANSACTION_ENDPOINT, transaction);
                            }}
                         />
                      </td>

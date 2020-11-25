@@ -1,8 +1,8 @@
 import React from "react";
 import "./TransactionForm.css";
 import dates from "../../utils/dates";
+import { netReqAction } from "../../utils/constants";
 import PropTypes from "prop-types";
-//Components
 import InputField from "../_InputFields/InputField";
 import RadioField from "../_InputFields/RadioField";
 import SelectField from "../_InputFields/SelectField";
@@ -55,8 +55,8 @@ class TransactionForm extends React.Component {
          case "CLOSE_FORM":
             this.props.onEventCallback(action);
             break;
-         case "CREATE_TRANSACTION_ENDPOINT":
-         case "UPDATE_TRANSACTION_ENDPOINT":
+         case netReqAction.CREATE_TRANSACTION_ENDPOINT:
+         case netReqAction.UPDATE_TRANSACTION_ENDPOINT:
             if (this.validateForm()) {
                const transactionData = { ...this.state };
                delete transactionData.errors;
@@ -192,8 +192,8 @@ class TransactionForm extends React.Component {
                   displayMode="success"
                   clickHandlerCallback={() => {
                      this.onButtonClick(
-                        (formMode === "CREATE_TRANSACTION" && "CREATE_TRANSACTION_ENDPOINT") ||
-                           (formMode === "EDIT_TRANSACTION" && "UPDATE_TRANSACTION_ENDPOINT"),
+                        (formMode === "CREATE_TRANSACTION" && netReqAction.CREATE_TRANSACTION_ENDPOINT) ||
+                           (formMode === "EDIT_TRANSACTION" && netReqAction.UPDATE_TRANSACTION_ENDPOINT),
                      );
                   }}
                />

@@ -1,12 +1,12 @@
 import React, { useReducer } from "react";
 import "./MonthManagerPage.css";
 import dates from "../../utils/dates";
-//Components
+import { netReqAction } from "../../utils/constants";
+import useTransactionsApi from "../../utils/custom-hook/useTransactionsApi";
 import TransactionForm from "../../components/TransactionForm/TransactionForm";
 import TransactionList from "../../components/TransactionsList/TransactionsList";
 import MonthStatus from "../../components/MonthStatus/MonthStatus";
 import Modal from "../../components/Modal/Modal";
-import useTransactionsApi from "../../utils/custom-hook/useTransactionsApi";
 
 const transactionFormReducer = (state, action) => {
    switch (action.type) {
@@ -56,20 +56,20 @@ const MonthManagerPage = () => {
          case "OPEN_FORM_EDIT_MODE":
             dispatchTransactionForm({ type: action, payload: transaction });
             break;
-         case "CREATE_TRANSACTION_ENDPOINT":
-         case "UPDATE_TRANSACTION_ENDPOINT":
+         case netReqAction.CREATE_TRANSACTION_ENDPOINT:
+         case netReqAction.UPDATE_TRANSACTION_ENDPOINT:
             dispatchTransactionForm({ type: "CLOSE_FORM" });
             setNetworkRequest({ type: action, payload: transaction });
             break;
-         case "DELETE_TRANSACTION_ENDPOINT":
+         case netReqAction.DELETE_TRANSACTION_ENDPOINT:
             setNetworkRequest({ type: action, payload: transaction });
             break;
          default:
             throw new Error("Event handler invoked with invalid action");
       }
-      // if ("CREATE_TRANSACTION_ENDPOINT" || "UPDATE_TRANSACTION_ENDPOINT") {
+      // if (netReqAction.CREATE_TRANSACTION_ENDPOINT || netReqAction.UPDATE_TRANSACTION_ENDPOINT) {
       //    setNetworkRequest({ type: action, payload: transaction });
-      // } else if ("DELETE_TRANSACTION_ENDPOINT") {
+      // } else if (netReqAction.DELETE_TRANSACTION_ENDPOINT) {
       //    dispatchTransactionForm({ type: "CLOSE_FORM" });
       //    setNetworkRequest({ type: action, payload: transaction });
       // } else if ("CLOSE_FORM" || "OPEN_FROM_CREATE_MODE" || "OPEN_FORM_EDIT_MODE") {

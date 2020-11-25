@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef, useReducer } from "react";
 import transactionsApi from "../../utils/transactionsApi";
+import { netReqAction } from "../../utils/constants";
 
 const networkReducer = (state, action) => {
    switch (action.type) {
@@ -43,7 +44,7 @@ const useTransactionsApi = (config) => {
          dispatch({ type: "NETWORK_TRANSACTION_INIT" });
          try {
             switch (networkRequest.type) {
-               case "FETCH_TRANSACTIONS":
+               case netReqAction.FETCH_TRANSACTIONS_ENDPOINT:
                   let monthData = {};
                   if (networkRequest.payload) {
                      monthData = await fetchMonthData(networkRequest.payload);
@@ -53,15 +54,15 @@ const useTransactionsApi = (config) => {
                   dispatch({ type: "NETWORK_TRANSACTION_SUCCESS", payload: monthData });
                   setIsMonthDataUpdated(true);
                   break;
-               case "CREATE_TRANSACTION_ENDPOINT":
+               case netReqAction.CREATE_TRANSACTION_ENDPOINT:
                   await transactionsApi.postTransaction(networkRequest.payload);
                   setIsMonthDataUpdated(false);
                   break;
-               case "UPDATE_TRANSACTION_ENDPOINT":
+               case netReqAction.UPDATE_TRANSACTION_ENDPOINT:
                   await transactionsApi.updateTransaction(networkRequest.payload);
                   setIsMonthDataUpdated(false);
                   break;
-               case "DELETE_TRANSACTION_ENDPOINT":
+               case netReqAction.DELETE_TRANSACTION_ENDPOINT:
                   await transactionsApi.deleteTransaction(networkRequest.payload);
                   setIsMonthDataUpdated(false);
                   break;
@@ -84,7 +85,7 @@ const useTransactionsApi = (config) => {
 
    useEffect(() => {
       if (!isMonthDataUpdatedNew) {
-         setNetworkRequest({ type: "FETCH_TRANSACTIONS" });
+         setNetworkRequest({ type: netReqAction.FETCH_TRANSACTIONS_ENDPOINT });
       }
    }, [isMonthDataUpdatedNew]);
 
