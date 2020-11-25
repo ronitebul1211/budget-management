@@ -34,19 +34,19 @@ const transactionFormReducer = (state, action) => {
 };
 
 const MonthManagerPage = () => {
-   const [transactionForm, dispatchTransactionForm] = useReducer(transactionFormReducer, {
-      isOpen: false,
-      mode: "",
-      initialData: {},
-   });
-
    const INITIAL_STATE = {
       transactionsList: [],
       metadata: { credit: 0, debit: 0, balance: 0 },
    };
-   const [monthDataNew, setNetworkRequestNew] = useTransactionsApi({
+   const [{ monthDataNew, isLoading, isError }, setNetworkRequestNew] = useTransactionsApi({
       defaultState: INITIAL_STATE,
       fetchQuery: "monthStatus",
+   });
+
+   const [transactionForm, dispatchTransactionForm] = useReducer(transactionFormReducer, {
+      isOpen: false,
+      mode: "",
+      initialData: {},
    });
 
    const onEventHandler = (action, transaction) => {
@@ -81,6 +81,8 @@ const MonthManagerPage = () => {
 
    return (
       <div className="month-manager-page">
+         {isLoading && <div>טעינה...</div>}
+         {isError && <div>משהו השתבש</div>}
          <MonthStatus data={monthDataNew.metadata} onEventCallback={onEventHandler} />
          {monthDataNew.transactionsList.length ? (
             <TransactionList

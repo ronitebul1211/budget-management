@@ -7,19 +7,27 @@ const useTransactionsApi = (config) => {
    const [monthDataNew, setMonthData] = useState(configRef.current.defaultState);
    const [isMonthDataUpdatedNew, setIsMonthDataUpdated] = useState(false);
    const [networkRequest, setNetworkRequestNew] = useState({ type: null, payload: null });
+   const [isLoading, setIsLoading] = useState(false);
+   const [isError, setIsError] = useState(false);
 
    useEffect(() => {
       // console.log("CUSTOM: networkRequest - useEffect");
       const sendRequest = async () => {
          console.log("CUSTOM: send new request " + networkRequest.type);
+         setIsLoading(true);
+         setIsError(false);
          try {
             switch (networkRequest.type) {
                case "FETCH_TRANSACTION_CURRENT":
                   await fetchMonthData();
+                  setIsLoading(false);
+                  setIsError(false);
                   setIsMonthDataUpdated(true);
                   break;
                case "FETCH_TRANSACTION_BY_DATE":
-                  await fetchMonthData();
+                  await fetchMonthData(networkRequest.payload);
+                  setIsLoading(false);
+                  setIsError(false);
                   setIsMonthDataUpdated(true);
                   break;
                case "CREATE_TRANSACTION_ENDPOINT":
@@ -40,10 +48,12 @@ const useTransactionsApi = (config) => {
                   throw invalidNetworkAction;
             }
          } catch (err) {
-            if (err.name === "INVALID_NETWORK_ACTION") {
+            if (err.isAxiosError) {
+               setIsLoading(false);
+               setIsError(true);
+            } else {
                throw err;
             }
-            console.log(err);
          }
       };
 
@@ -55,34 +65,28 @@ const useTransactionsApi = (config) => {
 
    useEffect(() => {
       // console.log("CUSTOM: isMonthDataUpdated ? " + isMonthDataUpdatedNew);
-
       if (!isMonthDataUpdatedNew) {
-         // if month data not updated, fetch current -only
-         // if network request type is fetch by date -> different case on switch (set from outside statistic page)
-         // when its fetch current || fetch by date -> set month data is updated = true (maybe on fetch function?)
-
-         // from different switch case : make an fetch with diff args
-
-         // all request begin in new request, finish in fetch new data -> isLoading === false
          setNetworkRequestNew({ type: "FETCH_TRANSACTION_CURRENT" });
       }
    }, [isMonthDataUpdatedNew]);
 
-   const fetchMonthData = async () => {
-      try {
-         const res = await transactionsApi.getMonthData(configRef.current.fetchQuery);
+   /**
+    * Fetch month data: transactions list, metadata ("monthStatus" / "debitDistribution" / "")
+    * @param {object} date -requested month {month: {number}, year: {number}}
+    * when date is not supplied, fetch current month transactions
+    */
+   const fetchMonthData = async (date) => {
+      const { fetchQuery, defaultState } = configRef.current;
 
-         if (res.status === 204) {
-            return setMonthData(configRef.current.defaultState);
-         }
-         const { metadata, transactionsList } = res.data;
-         return setMonthData({ transactionsList: transactionsList.data, metadata });
-      } catch (err) {
-         console.log(err);
+      const res = await transactionsApi.getMonthData(fetchQuery, date);
+      if (res.status === 204) {
+         return setMonthData(defaultState);
       }
+      const { metadata, transactionsList } = res.data;
+      return setMonthData({ transactionsList: transactionsList.data, metadata });
    };
 
-   return [monthDataNew, setNetworkRequestNew];
+   return [{ monthDataNew, isLoading, isError }, setNetworkRequestNew];
 };
 
 export default useTransactionsApi;
