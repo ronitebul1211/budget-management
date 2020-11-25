@@ -51,8 +51,8 @@ class StatisticsAndDataPage extends React.Component {
          .getMonthData("debitDistribution", { month, year })
          .then((res) => {
             if (res.status === 200) {
-               const { debitDistribution, transactionsList } = res.data;
-               this.setState({ transactionsList: transactionsList.data, debitDistribution });
+               const { transactionsList, metadata } = res.data;
+               this.setState({ transactionsList: transactionsList.data, debitDistribution: metadata });
             }
             if (res.status === 204) {
                this.setState({ transactionsList: [], debitDistribution: {} });
