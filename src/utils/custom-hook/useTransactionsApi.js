@@ -1,10 +1,10 @@
 import { useEffect, useState, useRef } from "react";
 import transactionsApi from "../../utils/transactionsApi";
 
-const useTransactionsApi = (initialMonthDataState) => {
-   const defaultState = useRef(initialMonthDataState);
+const useTransactionsApi = (config) => {
+   const configRef = useRef(config);
 
-   const [monthDataNew, setMonthData] = useState(initialMonthDataState);
+   const [monthDataNew, setMonthData] = useState(configRef.current.defaultState);
    const [isMonthDataUpdatedNew, setIsMonthDataUpdated] = useState(false);
    const [networkRequest, setNetworkRequestNew] = useState({ type: null, payload: null });
 
@@ -70,10 +70,10 @@ const useTransactionsApi = (initialMonthDataState) => {
 
    const fetchMonthData = async () => {
       try {
-         const res = await transactionsApi.getMonthData("monthStatus");
+         const res = await transactionsApi.getMonthData(configRef.current.fetchQuery);
 
          if (res.status === 204) {
-            return setMonthData(defaultState.current);
+            return setMonthData(configRef.current.defaultState);
          }
          const { metadata, transactionsList } = res.data;
          return setMonthData({ transactionsList: transactionsList.data, metadata });

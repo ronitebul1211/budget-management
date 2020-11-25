@@ -44,7 +44,10 @@ const MonthManagerPage = () => {
       transactionsList: [],
       metadata: { credit: 0, debit: 0, balance: 0 },
    };
-   const [monthDataNew, setNetworkRequestNew] = useTransactionsApi(INITIAL_STATE);
+   const [monthDataNew, setNetworkRequestNew] = useTransactionsApi({
+      defaultState: INITIAL_STATE,
+      fetchQuery: "monthStatus",
+   });
 
    const onEventHandler = (action, transaction) => {
       switch (action) {
