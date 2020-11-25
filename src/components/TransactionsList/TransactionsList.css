@@ -8,7 +8,7 @@
    row-gap: 5px;
    background-color: var(--background-color);
    padding: 25px;
-   border-radius: var(--row-border-style);
+   border-radius: var(--row-border-radius);
 }
 
 .transaction-table--read {
