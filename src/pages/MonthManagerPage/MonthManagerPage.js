@@ -1,7 +1,7 @@
 import React, { useReducer } from "react";
 import "./MonthManagerPage.css";
 import dates from "../../utils/dates";
-import { netReqAction, formMode } from "../../utils/constants";
+import { netReqAction, formMode, formControllerAction } from "../../utils/constants";
 import useTransactionsApi from "../../utils/custom-hook/useTransactionsApi";
 import TransactionForm from "../../components/TransactionForm/TransactionForm";
 import TransactionList from "../../components/TransactionsList/TransactionsList";
@@ -10,11 +10,11 @@ import Modal from "../../components/Modal/Modal";
 
 const transactionFormReducer = (state, action) => {
    switch (action.type) {
-      case "CLOSE_FORM":
+      case formControllerAction.CLOSE_FORM:
          return { isOpen: false, mode: "", initialData: {} };
-      case "OPEN_FORM_EDIT_MODE":
+      case formControllerAction.OPEN_FORM_EDIT_MODE:
          return { isOpen: true, mode: formMode.EDIT_TRANSACTION, initialData: action.payload };
-      case "OPEN_FROM_CREATE_MODE":
+      case formControllerAction.OPEN_FROM_CREATE_MODE:
          return {
             isOpen: true,
             mode: formMode.CREATE_TRANSACTION,
@@ -51,14 +51,14 @@ const MonthManagerPage = () => {
 
    const onEventHandler = (action, transaction) => {
       switch (action) {
-         case "CLOSE_FORM":
-         case "OPEN_FROM_CREATE_MODE":
-         case "OPEN_FORM_EDIT_MODE":
+         case formControllerAction.CLOSE_FORM:
+         case formControllerAction.OPEN_FROM_CREATE_MODE:
+         case formControllerAction.OPEN_FORM_EDIT_MODE:
             dispatchTransactionForm({ type: action, payload: transaction });
             break;
          case netReqAction.CREATE_TRANSACTION_ENDPOINT:
          case netReqAction.UPDATE_TRANSACTION_ENDPOINT:
-            dispatchTransactionForm({ type: "CLOSE_FORM" });
+            dispatchTransactionForm({ type: formControllerAction.CLOSE_FORM });
             setNetworkRequest({ type: action, payload: transaction });
             break;
          case netReqAction.DELETE_TRANSACTION_ENDPOINT:
@@ -67,12 +67,17 @@ const MonthManagerPage = () => {
          default:
             throw new Error("Event handler invoked with invalid action");
       }
+
       // if (netReqAction.CREATE_TRANSACTION_ENDPOINT || netReqAction.UPDATE_TRANSACTION_ENDPOINT) {
       //    setNetworkRequest({ type: action, payload: transaction });
       // } else if (netReqAction.DELETE_TRANSACTION_ENDPOINT) {
-      //    dispatchTransactionForm({ type: "CLOSE_FORM" });
+      //    dispatchTransactionForm({ type: formControllerAction.CLOSE_FORM });
       //    setNetworkRequest({ type: action, payload: transaction });
-      // } else if ("CLOSE_FORM" || "OPEN_FROM_CREATE_MODE" || "OPEN_FORM_EDIT_MODE") {
+      // } else if (
+      //    formControllerAction.CLOSE_FORM ||
+      //    formControllerAction.OPEN_FROM_CREATE_MODE ||
+      //    formControllerAction.OPEN_FORM_EDIT_MODE
+      // ) {
       //    dispatchTransactionForm({ type: action, payload: transaction });
       // } else {
       //    throw new Error("Event handler invoked with invalid action");

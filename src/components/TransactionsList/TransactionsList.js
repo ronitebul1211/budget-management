@@ -1,7 +1,7 @@
 import React from "react";
 import "./TransactionsList.css";
 import dates from "../../utils/dates";
-import { netReqAction } from "../../utils/constants";
+import { formControllerAction, netReqAction } from "../../utils/constants";
 import PropTypes from "prop-types";
 import ButtonIcon from "../_Buttons/ButtonIcon";
 
@@ -45,7 +45,7 @@ const TransactionsList = ({ transactionsListData, isEditableList, onEventCallbac
                            type="edit"
                            size="small"
                            clickHandlerCallback={() => {
-                              onEventCallback("OPEN_FORM_EDIT_MODE", transaction);
+                              onEventCallback(formControllerAction.OPEN_FORM_EDIT_MODE, transaction);
                            }}
                         />
                      </td>

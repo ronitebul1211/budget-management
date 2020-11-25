@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import dates from "../../utils/dates";
 //Components
 import ButtonIcon from "../_Buttons/ButtonIcon";
+import { formControllerAction } from "../../utils/constants";
 
 /** Prop Types at the end of the file */
 const MonthStatus = ({ data, onEventCallback }) => {
@@ -39,7 +40,7 @@ const MonthStatus = ({ data, onEventCallback }) => {
                   type="add"
                   size="big"
                   clickHandlerCallback={() => {
-                     onEventCallback("OPEN_FROM_CREATE_MODE");
+                     onEventCallback(formControllerAction.OPEN_FROM_CREATE_MODE);
                   }}
                />
             </div>

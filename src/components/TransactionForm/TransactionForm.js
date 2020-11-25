@@ -1,7 +1,7 @@
 import React from "react";
 import "./TransactionForm.css";
 import dates from "../../utils/dates";
-import { netReqAction, formMode } from "../../utils/constants";
+import { netReqAction, formMode, formControllerAction } from "../../utils/constants";
 import PropTypes from "prop-types";
 import InputField from "../_InputFields/InputField";
 import RadioField from "../_InputFields/RadioField";
@@ -52,7 +52,7 @@ class TransactionForm extends React.Component {
 
    onButtonClick = (action) => {
       switch (action) {
-         case "CLOSE_FORM":
+         case formControllerAction.CLOSE_FORM:
             this.props.onEventCallback(action);
             break;
          case netReqAction.CREATE_TRANSACTION_ENDPOINT:
@@ -185,7 +185,7 @@ class TransactionForm extends React.Component {
                   text="חזור"
                   displayMode="danger"
                   clickHandlerCallback={() => {
-                     this.onButtonClick("CLOSE_FORM");
+                     this.onButtonClick(formControllerAction.CLOSE_FORM);
                   }}
                />
                <Button

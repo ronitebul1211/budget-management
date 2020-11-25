@@ -11,3 +11,10 @@ export const formMode = {
    CREATE_TRANSACTION: "CREATE_TRANSACTION",
    EDIT_TRANSACTION: "EDIT_TRANSACTION",
 };
+
+//Month Manager Page Actions
+export const formControllerAction = {
+   CLOSE_FORM: "CLOSE_FORM",
+   OPEN_FROM_CREATE_MODE: "OPEN_FROM_CREATE_MODE",
+   OPEN_FORM_EDIT_MODE: "OPEN_FORM_EDIT_MODE",
+};
