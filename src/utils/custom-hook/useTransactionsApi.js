@@ -34,27 +34,22 @@ const useTransactionsApi = (config) => {
       isLoading: false,
       isError: false,
    });
-   // const [monthDataNew, setMonthData] = useState(configRef.current.defaultState);
+
    const [isMonthDataUpdatedNew, setIsMonthDataUpdated] = useState(false);
    const [networkRequest, setNetworkRequest] = useState({ type: null, payload: null });
-   // const [isLoading, setIsLoading] = useState(false);
-   // const [isError, setIsError] = useState(false);
 
    useEffect(() => {
-      // console.log("CUSTOM: networkRequest - useEffect");
       const sendRequest = async () => {
-         console.log("CUSTOM: send new request " + networkRequest.type);
          dispatch({ type: "NETWORK_TRANSACTION_INIT" });
-         let monthData = {};
          try {
             switch (networkRequest.type) {
-               case "FETCH_TRANSACTION_CURRENT":
-                  monthData = await fetchMonthData();
-                  dispatch({ type: "NETWORK_TRANSACTION_SUCCESS", payload: monthData });
-                  setIsMonthDataUpdated(true);
-                  break;
-               case "FETCH_TRANSACTION_BY_DATE":
-                  monthData = await fetchMonthData(networkRequest.payload);
+               case "FETCH_TRANSACTIONS":
+                  let monthData = {};
+                  if (networkRequest.payload) {
+                     monthData = await fetchMonthData(networkRequest.payload);
+                  } else {
+                     monthData = await fetchMonthData();
+                  }
                   dispatch({ type: "NETWORK_TRANSACTION_SUCCESS", payload: monthData });
                   setIsMonthDataUpdated(true);
                   break;
@@ -71,9 +66,7 @@ const useTransactionsApi = (config) => {
                   setIsMonthDataUpdated(false);
                   break;
                default:
-                  const invalidNetworkAction = new Error("Network request set with invalid action type");
-                  invalidNetworkAction.name = "INVALID_NETWORK_ACTION";
-                  throw invalidNetworkAction;
+                  throw new Error("Network request set with invalid action type");
             }
          } catch (err) {
             if (err.isAxiosError) {
@@ -83,7 +76,6 @@ const useTransactionsApi = (config) => {
             }
          }
       };
-
       if (networkRequest.type) {
          sendRequest();
          setNetworkRequest({ type: null, payload: null });
@@ -91,9 +83,8 @@ const useTransactionsApi = (config) => {
    }, [networkRequest]);
 
    useEffect(() => {
-      // console.log("CUSTOM: isMonthDataUpdated ? " + isMonthDataUpdatedNew);
       if (!isMonthDataUpdatedNew) {
-         setNetworkRequest({ type: "FETCH_TRANSACTION_CURRENT" });
+         setNetworkRequest({ type: "FETCH_TRANSACTIONS" });
       }
    }, [isMonthDataUpdatedNew]);
 
