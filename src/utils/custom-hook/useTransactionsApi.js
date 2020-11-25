@@ -1,36 +1,61 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useReducer } from "react";
 import transactionsApi from "../../utils/transactionsApi";
+
+const networkReducer = (state, action) => {
+   switch (action.type) {
+      case "NETWORK_TRANSACTION_INIT":
+         return {
+            ...state,
+            isLoading: true,
+            isError: false,
+         };
+      case "NETWORK_TRANSACTION_SUCCESS":
+         return {
+            monthData: action.payload,
+            isLoading: false,
+            isError: false,
+         };
+      case "NETWORK_TRANSACTION_FAILURE":
+         return {
+            ...state,
+            isLoading: false,
+            isError: true,
+         };
+      default:
+         throw new Error("Invalid action in network reducer");
+   }
+};
 
 const useTransactionsApi = (config) => {
    const configRef = useRef(config);
 
-   const [monthDataNew, setMonthData] = useState(configRef.current.defaultState);
+   const [state, dispatch] = useReducer(networkReducer, {
+      monthData: configRef.current.defaultState,
+      isLoading: false,
+      isError: false,
+   });
+   // const [monthDataNew, setMonthData] = useState(configRef.current.defaultState);
    const [isMonthDataUpdatedNew, setIsMonthDataUpdated] = useState(false);
-   const [networkRequest, setNetworkRequestNew] = useState({ type: null, payload: null });
-   const [isLoading, setIsLoading] = useState(false);
-   const [isError, setIsError] = useState(false);
+   const [networkRequest, setNetworkRequest] = useState({ type: null, payload: null });
+   // const [isLoading, setIsLoading] = useState(false);
+   // const [isError, setIsError] = useState(false);
 
    useEffect(() => {
       // console.log("CUSTOM: networkRequest - useEffect");
       const sendRequest = async () => {
          console.log("CUSTOM: send new request " + networkRequest.type);
-         setIsLoading(true);
-         setIsError(false);
+         dispatch({ type: "NETWORK_TRANSACTION_INIT" });
          let monthData = {};
          try {
             switch (networkRequest.type) {
                case "FETCH_TRANSACTION_CURRENT":
                   monthData = await fetchMonthData();
-                  setMonthData(monthData);
-                  setIsLoading(false);
-                  setIsError(false);
+                  dispatch({ type: "NETWORK_TRANSACTION_SUCCESS", payload: monthData });
                   setIsMonthDataUpdated(true);
                   break;
                case "FETCH_TRANSACTION_BY_DATE":
                   monthData = await fetchMonthData(networkRequest.payload);
-                  setMonthData(monthData);
-                  setIsLoading(false);
-                  setIsError(false);
+                  dispatch({ type: "NETWORK_TRANSACTION_SUCCESS", payload: monthData });
                   setIsMonthDataUpdated(true);
                   break;
                case "CREATE_TRANSACTION_ENDPOINT":
@@ -52,8 +77,7 @@ const useTransactionsApi = (config) => {
             }
          } catch (err) {
             if (err.isAxiosError) {
-               setIsLoading(false);
-               setIsError(true);
+               dispatch({ type: "NETWORK_TRANSACTION_FAILURE" });
             } else {
                throw err;
             }
@@ -62,14 +86,14 @@ const useTransactionsApi = (config) => {
 
       if (networkRequest.type) {
          sendRequest();
-         setNetworkRequestNew({ type: null, payload: null });
+         setNetworkRequest({ type: null, payload: null });
       }
    }, [networkRequest]);
 
    useEffect(() => {
       // console.log("CUSTOM: isMonthDataUpdated ? " + isMonthDataUpdatedNew);
       if (!isMonthDataUpdatedNew) {
-         setNetworkRequestNew({ type: "FETCH_TRANSACTION_CURRENT" });
+         setNetworkRequest({ type: "FETCH_TRANSACTION_CURRENT" });
       }
    }, [isMonthDataUpdatedNew]);
 
@@ -88,7 +112,7 @@ const useTransactionsApi = (config) => {
       return { transactionsList: transactionsList.data, metadata };
    };
 
-   return [{ monthDataNew, isLoading, isError }, setNetworkRequestNew];
+   return [state, setNetworkRequest];
 };
 
 export default useTransactionsApi;

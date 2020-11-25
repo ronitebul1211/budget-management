@@ -38,7 +38,7 @@ const MonthManagerPage = () => {
       transactionsList: [],
       metadata: { credit: 0, debit: 0, balance: 0 },
    };
-   const [{ monthDataNew, isLoading, isError }, setNetworkRequestNew] = useTransactionsApi({
+   const [{ monthData, isLoading, isError }, setNetworkRequest] = useTransactionsApi({
       defaultState: INITIAL_STATE,
       fetchQuery: "monthStatus",
    });
@@ -59,19 +59,19 @@ const MonthManagerPage = () => {
          case "CREATE_TRANSACTION_ENDPOINT":
          case "UPDATE_TRANSACTION_ENDPOINT":
             dispatchTransactionForm({ type: "CLOSE_FORM" });
-            setNetworkRequestNew({ type: action, payload: transaction });
+            setNetworkRequest({ type: action, payload: transaction });
             break;
          case "DELETE_TRANSACTION_ENDPOINT":
-            setNetworkRequestNew({ type: action, payload: transaction });
+            setNetworkRequest({ type: action, payload: transaction });
             break;
          default:
             throw new Error("Event handler invoked with invalid action");
       }
       // if ("CREATE_TRANSACTION_ENDPOINT" || "UPDATE_TRANSACTION_ENDPOINT") {
-      //    setNetworkRequestNew({ type: action, payload: transaction });
+      //    setNetworkRequest({ type: action, payload: transaction });
       // } else if ("DELETE_TRANSACTION_ENDPOINT") {
       //    dispatchTransactionForm({ type: "CLOSE_FORM" });
-      //    setNetworkRequestNew({ type: action, payload: transaction });
+      //    setNetworkRequest({ type: action, payload: transaction });
       // } else if ("CLOSE_FORM" || "OPEN_FROM_CREATE_MODE" || "OPEN_FORM_EDIT_MODE") {
       //    dispatchTransactionForm({ type: action, payload: transaction });
       // } else {
@@ -83,10 +83,10 @@ const MonthManagerPage = () => {
       <div className="month-manager-page">
          {isLoading && <div>טעינה...</div>}
          {isError && <div>משהו השתבש</div>}
-         <MonthStatus data={monthDataNew.metadata} onEventCallback={onEventHandler} />
-         {monthDataNew.transactionsList.length ? (
+         <MonthStatus data={monthData.metadata} onEventCallback={onEventHandler} />
+         {monthData.transactionsList.length ? (
             <TransactionList
-               transactionsListData={monthDataNew.transactionsList}
+               transactionsListData={monthData.transactionsList}
                isEditableList={true}
                onEventCallback={onEventHandler}
             />
