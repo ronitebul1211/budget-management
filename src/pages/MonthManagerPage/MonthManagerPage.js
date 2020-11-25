@@ -1,7 +1,7 @@
 import React, { useReducer } from "react";
 import "./MonthManagerPage.css";
 import dates from "../../utils/dates";
-import { netReqAction } from "../../utils/constants";
+import { netReqAction, formMode } from "../../utils/constants";
 import useTransactionsApi from "../../utils/custom-hook/useTransactionsApi";
 import TransactionForm from "../../components/TransactionForm/TransactionForm";
 import TransactionList from "../../components/TransactionsList/TransactionsList";
@@ -13,11 +13,11 @@ const transactionFormReducer = (state, action) => {
       case "CLOSE_FORM":
          return { isOpen: false, mode: "", initialData: {} };
       case "OPEN_FORM_EDIT_MODE":
-         return { isOpen: true, mode: "EDIT_TRANSACTION", initialData: action.payload };
+         return { isOpen: true, mode: formMode.EDIT_TRANSACTION, initialData: action.payload };
       case "OPEN_FROM_CREATE_MODE":
          return {
             isOpen: true,
-            mode: "CREATE_TRANSACTION",
+            mode: formMode.CREATE_TRANSACTION,
             initialData: {
                _id: "",
                description: "",
@@ -94,7 +94,7 @@ const MonthManagerPage = () => {
          {transactionForm.isOpen ? (
             <Modal>
                <TransactionForm
-                  formMode={transactionForm.mode}
+                  mode={transactionForm.mode}
                   transactionData={transactionForm.initialData}
                   onEventCallback={onEventHandler}
                />

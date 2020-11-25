@@ -1,7 +1,7 @@
 import React from "react";
 import "./TransactionForm.css";
 import dates from "../../utils/dates";
-import { netReqAction } from "../../utils/constants";
+import { netReqAction, formMode } from "../../utils/constants";
 import PropTypes from "prop-types";
 import InputField from "../_InputFields/InputField";
 import RadioField from "../_InputFields/RadioField";
@@ -82,34 +82,35 @@ class TransactionForm extends React.Component {
       return !totalPaymentInputError && !descriptionInputError;
    };
 
-   renderTitleText = (formMode) => {
-      switch (formMode) {
-         case "CREATE_TRANSACTION":
+   renderTitleText = (mode) => {
+      switch (mode) {
+         case formMode.CREATE_TRANSACTION:
             return "הוסף פעילות";
-         case "EDIT_TRANSACTION":
+         case formMode.EDIT_TRANSACTION:
             return "ערוך פעילות";
          default:
-            throw Error("Invalid form mode");
+         // throw Error("Invalid form mode");
       }
    };
 
-   renderSuccessBtnText = (formMode) => {
-      switch (formMode) {
-         case "CREATE_TRANSACTION":
+   renderSuccessBtnText = (mode) => {
+      switch (mode) {
+         case formMode.CREATE_TRANSACTION:
             return "הוסף";
-         case "EDIT_TRANSACTION":
+         case formMode.EDIT_TRANSACTION:
             return "שמור";
          default:
-            throw new Error("Invalid form mode");
+            console.log(mode);
+         // throw new Error("Invalid form mode");
       }
    };
 
    render() {
-      const { formMode } = this.props;
+      const { mode } = this.props;
       return (
          <div className="form">
             <div className="form__content-container">
-               <span className="form__title">{this.renderTitleText(formMode)}</span>
+               <span className="form__title">{this.renderTitleText(mode)}</span>
                <RadioField
                   selectedValue={this.state.type}
                   content={{
@@ -188,12 +189,12 @@ class TransactionForm extends React.Component {
                   }}
                />
                <Button
-                  text={this.renderSuccessBtnText(formMode)}
+                  text={this.renderSuccessBtnText(mode)}
                   displayMode="success"
                   clickHandlerCallback={() => {
                      this.onButtonClick(
-                        (formMode === "CREATE_TRANSACTION" && netReqAction.CREATE_TRANSACTION_ENDPOINT) ||
-                           (formMode === "EDIT_TRANSACTION" && netReqAction.UPDATE_TRANSACTION_ENDPOINT),
+                        (mode === formMode.CREATE_TRANSACTION && netReqAction.CREATE_TRANSACTION_ENDPOINT) ||
+                           (mode === formMode.EDIT_TRANSACTION && netReqAction.UPDATE_TRANSACTION_ENDPOINT),
                      );
                   }}
                />
@@ -204,7 +205,7 @@ class TransactionForm extends React.Component {
 }
 
 TransactionForm.propTypes = {
-   formMode: PropTypes.oneOf(["CREATE_TRANSACTION", "EDIT_TRANSACTION"]).isRequired,
+   mode: PropTypes.oneOf([formMode.CREATE_TRANSACTION, formMode.EDIT_TRANSACTION]).isRequired,
    transactionData: PropTypes.shape({
       _id: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,
