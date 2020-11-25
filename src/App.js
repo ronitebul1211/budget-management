@@ -14,9 +14,9 @@ const App = () => {
          <Navbar />
          <div className="page-container">
             <Switch>
-               <PrivateRoute path="/current_month" component={MonthManagerPage} />
+               <PrivateRoute path="/current-month" component={MonthManagerPage} />
                <PrivateRoute path="/statistics" component={StatisticsAndDataPage} />
-               <Route path="/current_month/test" exact component={MonthManagerPage} />
+               <Route path="/test/current-month" exact component={MonthManagerPage} />
                <Route path="/" exact component={HomePage} />
                <Route path="*" exact component={NotFoundPage} />
             </Switch>

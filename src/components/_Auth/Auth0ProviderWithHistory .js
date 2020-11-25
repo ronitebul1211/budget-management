@@ -7,7 +7,7 @@ class Auth0ProviderWithHistory extends React.Component {
    clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
 
    onRedirectCallback = (appState) => {
-      this.props.history.push(appState?.returnTo || "/current_month");
+      this.props.history.push(appState?.returnTo || "/current-month");
    };
 
    render() {

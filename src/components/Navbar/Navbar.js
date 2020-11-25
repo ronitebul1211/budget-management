@@ -20,7 +20,7 @@ class Navbar extends React.Component {
             </Link>
             {isAuthenticated ? (
                <React.Fragment>
-                  <Link className="navbar__link" to="/current_month">
+                  <Link className="navbar__link" to="/current-month">
                      תקציב חודשי
                   </Link>
                   <Link className="navbar__link" to="/statistics">
