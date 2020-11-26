@@ -13,11 +13,6 @@ import TransactionsList from "../../components/TransactionsList/TransactionsList
 //TODO: render month options dynamically, category match month
 
 const StatisticsAndDataPage = () => {
-   const [datePicker, setDatePicker] = useState(() => {
-      const { month, year } = dates.getDateData();
-      return { month, year };
-   });
-
    const INITIAL_STATE = {
       transactionsList: [],
       metadata: {},
@@ -26,20 +21,37 @@ const StatisticsAndDataPage = () => {
       defaultState: INITIAL_STATE,
       fetchQuery: "debitDistribution",
    });
+   const [datePicker, setDatePicker] = useState(() => {
+      const { month, year } = dates.getDateData();
+      return { month, year };
+   });
+   const [sorted, setSorted] = useState(monthData.transactionsList);
+   const [sortBy, setSortBy] = useState("date");
 
    useEffect(() => {
       setNetworkRequest({ type: netReqAction.FETCH_TRANSACTIONS_ENDPOINT, payload: datePicker });
-   }, [datePicker]);
+      //set sort by selection to default value
+   }, [datePicker, setNetworkRequest]);
+
+   useEffect(() => {
+      setSorted(monthData.transactionsList);
+   }, [monthData]);
 
    const onInputChange = (e) => {
       const target = e.target;
-      if (target.name === "month" || target.name === "year") {
-         setDatePicker((prevState) => {
-            return {
-               ...prevState,
-               [target.name]: parseInt(target.value),
-            };
-         });
+      switch (target.name) {
+         case "month":
+         case "year":
+            return setDatePicker((prevState) => {
+               return {
+                  ...prevState,
+                  [target.name]: parseInt(target.value),
+               };
+            });
+         case "sortBy":
+            return setSortBy(target.value);
+         default:
+            throw new Error("Invalid target name");
       }
    };
 
@@ -88,19 +100,19 @@ const StatisticsAndDataPage = () => {
          <div className="list-container">
             <div className="test-select">
                <SelectField
-                  value="חשבונות"
+                  value={sortBy}
                   options={[
-                     { label: "תאריך", value: "חשבונות" },
-                     { label: "אמצעי תשלום", value: "קניות" },
-                     { label: "קטגוריה", value: "בילויים" },
-                     { label: "סכום", value: "בילויים" },
+                     { label: "תאריך", value: "date" },
+                     { label: "אמצעי תשלום", value: "paymentMethod" },
+                     { label: "קטגוריה", value: "category" },
+                     { label: "סכום", value: "totalPayment" },
                   ]}
-                  config={{ fieldLabel: "מיין לפי", inputName: "test", displayMode: "row" }}
+                  config={{ fieldLabel: "מיין לפי", inputName: "sortBy", displayMode: "row" }}
                   onChangeCallback={onInputChange}
                />
             </div>
 
-            <TransactionsList transactionsListData={monthData.transactionsList} isEditableList={false} />
+            <TransactionsList transactionsListData={sorted} isEditableList={false} />
          </div>
       </div>
    );
