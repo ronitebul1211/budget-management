@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./StatisticsAndDataPage.css";
 import dates from "../../utils/dates";
+import { sortTransactions } from "../../utils/sortHelper";
 import useTransactionsApi from "../../utils/custom-hook/useTransactionsApi";
 import { netReqAction } from "../../utils/constants";
 //Components
@@ -25,16 +26,16 @@ const StatisticsAndDataPage = () => {
       const { month, year } = dates.getDateData();
       return { month, year };
    });
-   const [sorted, setSorted] = useState(monthData.transactionsList);
-   const [sortBy, setSortBy] = useState("date");
+   const [sortedTransactionList, setSortedTransactionList] = useState(monthData.transactionsList);
+   const [sortByPicker, setSortByPicker] = useState("date");
 
    useEffect(() => {
       setNetworkRequest({ type: netReqAction.FETCH_TRANSACTIONS_ENDPOINT, payload: datePicker });
-      //set sort by selection to default value
    }, [datePicker, setNetworkRequest]);
 
    useEffect(() => {
-      setSorted(monthData.transactionsList);
+      setSortedTransactionList(monthData.transactionsList);
+      setSortByPicker("date");
    }, [monthData]);
 
    const onInputChange = (e) => {
@@ -49,7 +50,8 @@ const StatisticsAndDataPage = () => {
                };
             });
          case "sortBy":
-            return setSortBy(target.value);
+            setSortByPicker(target.value);
+            return setSortedTransactionList(sortTransactions(sortedTransactionList, target.value));
          default:
             throw new Error("Invalid target name");
       }
@@ -81,10 +83,7 @@ const StatisticsAndDataPage = () => {
                />
                <SelectField
                   value={datePicker.year}
-                  options={[
-                     { label: 2020, value: 2020 },
-                     { label: 2021, value: 2021 },
-                  ]}
+                  options={[{ label: 2020, value: 2020 }]}
                   config={{ fieldLabel: "בחר שנה", inputName: "year", displayMode: "row" }}
                   onChangeCallback={onInputChange}
                />
@@ -100,11 +99,12 @@ const StatisticsAndDataPage = () => {
          <div className="list-container">
             <div className="test-select">
                <SelectField
-                  value={sortBy}
+                  value={sortByPicker}
                   options={[
                      { label: "תאריך", value: "date" },
                      { label: "אמצעי תשלום", value: "paymentMethod" },
                      { label: "קטגוריה", value: "category" },
+                     { label: "תיאור", value: "description" },
                      { label: "סכום", value: "totalPayment" },
                   ]}
                   config={{ fieldLabel: "מיין לפי", inputName: "sortBy", displayMode: "row" }}
@@ -112,7 +112,7 @@ const StatisticsAndDataPage = () => {
                />
             </div>
 
-            <TransactionsList transactionsListData={sorted} isEditableList={false} />
+            <TransactionsList transactionsListData={sortedTransactionList} isEditableList={false} />
          </div>
       </div>
    );
