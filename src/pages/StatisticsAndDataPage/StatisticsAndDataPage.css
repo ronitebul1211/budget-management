@@ -42,3 +42,8 @@
 .test-select {
    margin-right: 25px;
 }
+
+.statistics-page__message {
+   font-size: 20px;
+   font-weight: bold;
+}

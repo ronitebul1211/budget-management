@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import "./StatisticsAndDataPage.css";
 import dates from "../../utils/dates";
 import { sortTransactions } from "../../utils/sortHelper";
@@ -88,32 +88,39 @@ const StatisticsAndDataPage = () => {
                   onChangeCallback={onInputChange}
                />
             </div>
+            {monthData.transactionsList.length === 0 ? (
+               <p className="statistics-page__message">{" אין נתונים עבור חודש זה"}</p>
+            ) : null}
          </div>
 
-         <div className="section">
-            <h2>התפלגות הוצאות לפי קטגוריה</h2>
+         {monthData.transactionsList.length === 0 ? null : (
+            <Fragment>
+               {" "}
+               <div className="section">
+                  <h2>התפלגות הוצאות לפי קטגוריה</h2>
 
-            <PieGraphHooks data={monthData.metadata} />
-         </div>
+                  <PieGraphHooks data={monthData.metadata} />
+               </div>
+               <div className="list-container">
+                  <div className="test-select">
+                     <SelectField
+                        value={sortByPicker}
+                        options={[
+                           { label: "תאריך", value: "date" },
+                           { label: "אמצעי תשלום", value: "paymentMethod" },
+                           { label: "קטגוריה", value: "category" },
+                           { label: "תיאור", value: "description" },
+                           { label: "סכום", value: "totalPayment" },
+                        ]}
+                        config={{ fieldLabel: "מיין לפי", inputName: "sortBy", displayMode: "row" }}
+                        onChangeCallback={onInputChange}
+                     />
+                  </div>
 
-         <div className="list-container">
-            <div className="test-select">
-               <SelectField
-                  value={sortByPicker}
-                  options={[
-                     { label: "תאריך", value: "date" },
-                     { label: "אמצעי תשלום", value: "paymentMethod" },
-                     { label: "קטגוריה", value: "category" },
-                     { label: "תיאור", value: "description" },
-                     { label: "סכום", value: "totalPayment" },
-                  ]}
-                  config={{ fieldLabel: "מיין לפי", inputName: "sortBy", displayMode: "row" }}
-                  onChangeCallback={onInputChange}
-               />
-            </div>
-
-            <TransactionsList transactionsListData={sortedTransactionList} isEditableList={false} />
-         </div>
+                  <TransactionsList transactionsListData={sortedTransactionList} isEditableList={false} />
+               </div>
+            </Fragment>
+         )}
       </div>
    );
 };
