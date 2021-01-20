@@ -1,17 +1,17 @@
-import React, { useReducer } from "react";
-import "./MonthManagerPage.css";
-import dates from "../../utils/dates";
-import { netReqAction, formMode, formControllerAction } from "../../utils/constants";
-import useTransactionsApi from "../../utils/custom-hook/useTransactionsApi";
-import TransactionForm from "../../components/TransactionForm/TransactionForm";
-import TransactionList from "../../components/TransactionsList/TransactionsList";
-import MonthStatus from "../../components/MonthStatus/MonthStatus";
-import Modal from "../../components/Modal/Modal";
+import React, { useReducer } from 'react';
+import './MonthManagerPage.css';
+import dates from '../../utils/dates';
+import { netReqAction, formMode, formControllerAction } from '../../utils/constants';
+import useTransactionsApi from '../../utils/custom-hook/useTransactionsApi';
+import TransactionForm from '../../components/TransactionForm/TransactionForm';
+import TransactionList from '../../components/TransactionsList/TransactionsList';
+import MonthStatus from '../../components/MonthStatus/MonthStatus';
+import Modal from '../../components/Modal/Modal';
 
 const transactionFormReducer = (state, action) => {
    switch (action.type) {
       case formControllerAction.CLOSE_FORM:
-         return { isOpen: false, mode: "", initialData: {} };
+         return { isOpen: false, mode: '', initialData: {} };
       case formControllerAction.OPEN_FORM_EDIT_MODE:
          return { isOpen: true, mode: formMode.EDIT_TRANSACTION, initialData: action.payload };
       case formControllerAction.OPEN_FROM_CREATE_MODE:
@@ -19,17 +19,17 @@ const transactionFormReducer = (state, action) => {
             isOpen: true,
             mode: formMode.CREATE_TRANSACTION,
             initialData: {
-               _id: "",
-               description: "",
-               type: "debit",
-               totalPayment: "",
-               paymentMethod: "מזומן",
-               date: dates.getDateInIsoFormat("currentDay"),
-               category: "חשבונות",
+               _id: '',
+               description: '',
+               type: 'debit',
+               totalPayment: '',
+               paymentMethod: 'מזומן',
+               date: dates.getDateInIsoFormat('currentDay'),
+               category: 'חשבונות',
             },
          };
       default:
-         throw new Error("Transaction form state updated with invalid action");
+         throw new Error('Transaction form state updated with invalid action');
    }
 };
 
@@ -38,14 +38,14 @@ const MonthManagerPage = () => {
       transactionsList: [],
       metadata: { credit: 0, debit: 0, balance: 0 },
    };
-   const [{ monthData, isLoading, isError }, setNetworkRequest] = useTransactionsApi({
+   const [{ monthData /*, isLoading, isError */ }, setNetworkRequest] = useTransactionsApi({
       defaultState: INITIAL_STATE,
-      fetchQuery: "monthStatus",
+      fetchQuery: 'monthStatus',
    });
 
    const [transactionForm, dispatchTransactionForm] = useReducer(transactionFormReducer, {
       isOpen: false,
-      mode: "",
+      mode: '',
       initialData: {},
    });
 
@@ -65,7 +65,7 @@ const MonthManagerPage = () => {
             setNetworkRequest({ type: action, payload: transaction });
             break;
          default:
-            throw new Error("Event handler invoked with invalid action");
+            throw new Error('Event handler invoked with invalid action');
       }
    };
 
