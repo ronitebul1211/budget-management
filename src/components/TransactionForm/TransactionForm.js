@@ -173,8 +173,10 @@ class TransactionForm extends React.Component {
                   value={this.state.category}
                   options={[
                      { label: "חשבונות", value: "חשבונות" },
-                     { label: "קניות", value: "קניות" },
+                     { label: "קניות לבית", value: "קניות לבית" },
                      { label: "בילויים", value: "בילויים" },
+                     { label: "אוכל בחוץ", value: "אוכל בחוץ" },
+                     { label: "חיות מחמד", value: "חיות מחמד" },
                   ]}
                   config={{ fieldLabel: "קטגוריה", inputName: "category", displayMode: "column" }}
                   onChangeCallback={this.onInputChange}
