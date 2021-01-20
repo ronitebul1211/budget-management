@@ -46,6 +46,7 @@ const useTransactionsApi = (config) => {
             switch (networkRequest.type) {
                case netReqAction.FETCH_TRANSACTIONS_ENDPOINT:
                   let monthData = {};
+                  //TODO: test -> don't use if else..
                   if (networkRequest.payload) {
                      monthData = await fetchMonthData(networkRequest.payload);
                   } else {

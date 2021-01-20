@@ -67,27 +67,10 @@ const MonthManagerPage = () => {
          default:
             throw new Error("Event handler invoked with invalid action");
       }
-
-      // if (netReqAction.CREATE_TRANSACTION_ENDPOINT || netReqAction.UPDATE_TRANSACTION_ENDPOINT) {
-      //    setNetworkRequest({ type: action, payload: transaction });
-      // } else if (netReqAction.DELETE_TRANSACTION_ENDPOINT) {
-      //    dispatchTransactionForm({ type: formControllerAction.CLOSE_FORM });
-      //    setNetworkRequest({ type: action, payload: transaction });
-      // } else if (
-      //    formControllerAction.CLOSE_FORM ||
-      //    formControllerAction.OPEN_FROM_CREATE_MODE ||
-      //    formControllerAction.OPEN_FORM_EDIT_MODE
-      // ) {
-      //    dispatchTransactionForm({ type: action, payload: transaction });
-      // } else {
-      //    throw new Error("Event handler invoked with invalid action");
-      // }
    };
 
    return (
       <div className="month-manager-page">
-         {isLoading && <div>טעינה...</div>}
-         {isError && <div>משהו השתבש</div>}
          <MonthStatus data={monthData.metadata} onEventCallback={onEventHandler} />
          {monthData.transactionsList.length ? (
             <TransactionList
