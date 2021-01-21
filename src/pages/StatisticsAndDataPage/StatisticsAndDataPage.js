@@ -17,6 +17,12 @@ import TransactionsList from '../../components/TransactionsList/TransactionsList
 //TODO: render month options dynamically, category match month
 
 const StatisticsAndDataPage = () => {
+   const inputsManager = {
+      month: 'month',
+      year: 'year',
+      sortBy: 'sortBy',
+   };
+
    /** State */
    const [{ monthData /*, isLoading, isError */ }, setNetworkRequest] = useTransactionsApi({
       defaultState: {
@@ -46,15 +52,15 @@ const StatisticsAndDataPage = () => {
    const onInputChange = (e) => {
       const target = e.target;
       switch (target.name) {
-         case 'month':
-         case 'year':
+         case inputsManager.month:
+         case inputsManager.year:
             return setDatePicker((prevState) => {
                return {
                   ...prevState,
                   [target.name]: parseInt(target.value),
                };
             });
-         case 'sortBy':
+         case inputsManager.sortBy:
             setSortByPicker(target.value);
             return setSortedTransactionList(sortTransactions(sortedTransactionList, target.value));
          default:
@@ -73,7 +79,7 @@ const StatisticsAndDataPage = () => {
                   options={text.inputs.selectMonth.options}
                   config={{
                      fieldLabel: text.inputs.selectMonth.label,
-                     inputName: 'month',
+                     inputName: inputsManager.month,
                      displayMode: 'row',
                   }}
                   onChangeCallback={onInputChange}
@@ -81,7 +87,7 @@ const StatisticsAndDataPage = () => {
                <SelectField
                   value={datePicker.year}
                   options={[{ label: 2020, value: 2020 }]}
-                  config={{ fieldLabel: 'בחר שנה', inputName: 'year', displayMode: 'row' }}
+                  config={{ fieldLabel: 'בחר שנה', inputName: inputsManager.year, displayMode: 'row' }}
                   onChangeCallback={onInputChange}
                />
             </div>
@@ -103,7 +109,7 @@ const StatisticsAndDataPage = () => {
                         options={text.inputs.selectSortingMethod.options}
                         config={{
                            fieldLabel: text.inputs.selectSortingMethod.label,
-                           inputName: 'sortBy',
+                           inputName: inputsManager.sortBy,
                            displayMode: 'row',
                         }}
                         onChangeCallback={onInputChange}
