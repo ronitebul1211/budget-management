@@ -4,7 +4,8 @@ import dates from '../../utils/dates';
 import { sortTransactions } from '../../utils/sortHelper';
 import useTransactionsApi from '../../utils/custom-hook/useTransactionsApi';
 // Constants
-import { netReqAction, selectMonthField } from '../../utils/constants';
+import { netReqAction } from '../../utils/constants';
+import text from '../../translations/he';
 // Components
 import PieGraphHooks from '../../components/_Graphs/PieGraphHooks';
 import SelectField from '../../components/_InputFields/SelectField';
@@ -65,8 +66,12 @@ const StatisticsAndDataPage = () => {
             <div className="statistics-page__month-year-selection">
                <SelectField
                   value={datePicker.month}
-                  options={selectMonthField.options}
-                  config={{ fieldLabel: selectMonthField.label, inputName: 'month', displayMode: 'row' }}
+                  options={text.inputs.selectMonth.options}
+                  config={{
+                     fieldLabel: text.inputs.selectMonth.label,
+                     inputName: 'month',
+                     displayMode: 'row',
+                  }}
                   onChangeCallback={onInputChange}
                />
                <SelectField
