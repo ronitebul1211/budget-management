@@ -66,7 +66,7 @@ const StatisticsAndDataPage = () => {
    return (
       <div className="statistics-page">
          <div className="section statistics-page__header">
-            <h2>תמונת מצב חודשית</h2>
+            <h2>{text.pages.statistics.monthlyState}</h2>
             <div className="statistics-page__month-year-selection">
                <SelectField
                   value={datePicker.month}
@@ -94,7 +94,7 @@ const StatisticsAndDataPage = () => {
             <Fragment>
                {' '}
                <div className="section">
-                  <h2>התפלגות הוצאות לפי קטגוריה</h2>
+                  <h2>{text.pages.statistics.monthlyState}</h2>
 
                   <PieGraphHooks data={monthData.metadata} />
                </div>

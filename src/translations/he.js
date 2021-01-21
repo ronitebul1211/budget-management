@@ -2,6 +2,9 @@ const text = {
    inputs: {
       selectMonth: {},
    },
+   pages: {
+      statistics: {},
+   },
 };
 
 /** Inputs */
@@ -20,5 +23,9 @@ text.inputs.selectMonth.options = [
    { label: 'נובמבר', value: 11 },
    { label: 'דצמבר', value: 12 },
 ];
+
+/** Pages */
+text.pages.statistics.monthlyState = 'תמונת מצב חודשית';
+text.pages.statistics.debitDistribution = 'התפלגות הוצאות לפי קטגוריה';
 
 export default text;
