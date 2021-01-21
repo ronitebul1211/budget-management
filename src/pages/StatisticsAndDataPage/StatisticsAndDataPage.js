@@ -17,6 +17,7 @@ import TransactionsList from '../../components/TransactionsList/TransactionsList
 //TODO: render month options dynamically, category match month
 
 const StatisticsAndDataPage = () => {
+   /** Manage Inputs name at one place. */
    const inputsManager = {
       month: 'month',
       year: 'year',
@@ -48,18 +49,15 @@ const StatisticsAndDataPage = () => {
       setSortByPicker('date');
    }, [monthData]);
 
-   /** Event Handlers */
-   const onInputChange = (e) => {
-      const target = e.target;
+   /** Inputs Event Handlers */
+   const onInputChange = ({ target }) => {
       switch (target.name) {
          case inputsManager.month:
          case inputsManager.year:
-            return setDatePicker((prevState) => {
-               return {
-                  ...prevState,
-                  [target.name]: parseInt(target.value),
-               };
-            });
+            return setDatePicker((prevState) => ({
+               ...prevState,
+               [target.name]: parseInt(target.value),
+            }));
          case inputsManager.sortBy:
             setSortByPicker(target.value);
             return setSortedTransactionList(sortTransactions(sortedTransactionList, target.value));
@@ -86,7 +84,10 @@ const StatisticsAndDataPage = () => {
                />
                <SelectField
                   value={datePicker.year}
-                  options={[{ label: 2020, value: 2020 }]}
+                  options={[
+                     { label: 2020, value: 2020 },
+                     { label: 2021, value: 2021 },
+                  ]}
                   config={{
                      fieldLabel: text.inputs.selectYear.label,
                      inputName: inputsManager.year,
