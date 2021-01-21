@@ -12,11 +12,12 @@ import SelectField from '../../components/_InputFields/SelectField';
 import TransactionsList from '../../components/TransactionsList/TransactionsList';
 
 //FIXME: add prop types + refactor by conventions.txt
-
+//TODO: use date library
+//TODO: display loader
 //TODO: render month options dynamically, category match month
 
 const StatisticsAndDataPage = () => {
-   // Use Transaction api custom hook to fetch data
+   /** State */
    const [{ monthData /*, isLoading, isError */ }, setNetworkRequest] = useTransactionsApi({
       defaultState: {
          transactionsList: [],
@@ -24,7 +25,6 @@ const StatisticsAndDataPage = () => {
       },
       fetchQuery: 'debitDistribution',
    });
-
    const [datePicker, setDatePicker] = useState(() => {
       const { month, year } = dates.getDateData();
       return { month, year };
@@ -32,6 +32,7 @@ const StatisticsAndDataPage = () => {
    const [sortedTransactionList, setSortedTransactionList] = useState(monthData.transactionsList);
    const [sortByPicker, setSortByPicker] = useState('date');
 
+   /** Effects */
    useEffect(() => {
       setNetworkRequest({ type: netReqAction.FETCH_TRANSACTIONS_ENDPOINT, payload: datePicker });
    }, [datePicker, setNetworkRequest]);
@@ -41,6 +42,7 @@ const StatisticsAndDataPage = () => {
       setSortByPicker('date');
    }, [monthData]);
 
+   /** Event Handlers */
    const onInputChange = (e) => {
       const target = e.target;
       switch (target.name) {
@@ -60,6 +62,7 @@ const StatisticsAndDataPage = () => {
       }
    };
 
+   /** Rendering */
    return (
       <div className="statistics-page">
          <div className="section statistics-page__header">
