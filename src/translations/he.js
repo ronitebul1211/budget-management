@@ -1,6 +1,7 @@
 const text = {
    inputs: {
       selectMonth: {},
+      selectYear: {},
       selectSortingMethod: {},
    },
    pages: {
@@ -25,6 +26,7 @@ text.inputs.selectMonth.options = [
    { label: 'נובמבר', value: 11 },
    { label: 'דצמבר', value: 12 },
 ];
+text.inputs.selectYear.label = 'בחר שנה';
 text.inputs.selectSortingMethod.label = 'מיין לפי';
 text.inputs.selectSortingMethod.options = [
    { label: 'תאריך', value: 'date' },

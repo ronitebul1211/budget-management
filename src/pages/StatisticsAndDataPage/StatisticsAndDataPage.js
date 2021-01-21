@@ -87,7 +87,11 @@ const StatisticsAndDataPage = () => {
                <SelectField
                   value={datePicker.year}
                   options={[{ label: 2020, value: 2020 }]}
-                  config={{ fieldLabel: 'בחר שנה', inputName: inputsManager.year, displayMode: 'row' }}
+                  config={{
+                     fieldLabel: text.inputs.selectYear.label,
+                     inputName: inputsManager.year,
+                     displayMode: 'row',
+                  }}
                   onChangeCallback={onInputChange}
                />
             </div>
