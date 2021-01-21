@@ -3,8 +3,9 @@ import './StatisticsAndDataPage.css';
 import dates from '../../utils/dates';
 import { sortTransactions } from '../../utils/sortHelper';
 import useTransactionsApi from '../../utils/custom-hook/useTransactionsApi';
-import { netReqAction } from '../../utils/constants';
-//Components
+// Constants
+import { netReqAction, selectMonthField } from '../../utils/constants';
+// Components
 import PieGraphHooks from '../../components/_Graphs/PieGraphHooks';
 import SelectField from '../../components/_InputFields/SelectField';
 import TransactionsList from '../../components/TransactionsList/TransactionsList';
@@ -64,21 +65,8 @@ const StatisticsAndDataPage = () => {
             <div className="statistics-page__month-year-selection">
                <SelectField
                   value={datePicker.month}
-                  options={[
-                     { label: 'ינואר', value: 1 },
-                     { label: 'פברואר', value: 2 },
-                     { label: 'מרץ', value: 3 },
-                     { label: 'אפריל', value: 4 },
-                     { label: 'מאי', value: 5 },
-                     { label: 'יוני', value: 6 },
-                     { label: 'יולי', value: 7 },
-                     { label: 'אוגוסט', value: 8 },
-                     { label: 'ספטמבר', value: 9 },
-                     { label: 'אוקטובר', value: 10 },
-                     { label: 'נובמבר', value: 11 },
-                     { label: 'דצמבר', value: 12 },
-                  ]}
-                  config={{ fieldLabel: 'בחר חודש', inputName: 'month', displayMode: 'row' }}
+                  options={selectMonthField.options}
+                  config={{ fieldLabel: selectMonthField.label, inputName: 'month', displayMode: 'row' }}
                   onChangeCallback={onInputChange}
                />
                <SelectField
