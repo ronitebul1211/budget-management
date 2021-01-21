@@ -18,11 +18,11 @@ import TransactionsList from '../../components/TransactionsList/TransactionsList
 
 const StatisticsAndDataPage = () => {
    /** Manage Inputs name at one place. */
-   const inputsManager = {
-      month: 'month',
-      year: 'year',
-      sortBy: 'sortBy',
-   };
+   // const inputsManager = {
+   //    month: 'month',
+   //    year: 'year',
+   //    sortBy: 'sortBy',
+   // };
 
    /** State */
    const [{ monthData /*, isLoading, isError */ }, setNetworkRequest] = useTransactionsApi({
@@ -32,12 +32,20 @@ const StatisticsAndDataPage = () => {
       },
       fetchQuery: 'debitDistribution',
    });
-   const [datePicker, setDatePicker] = useState(() => {
-      const { month, year } = dates.getDateData();
-      return { month, year };
-   });
    const [sortedTransactionList, setSortedTransactionList] = useState(monthData.transactionsList);
-   const [sortByPicker, setSortByPicker] = useState('date');
+   // const [datePicker, setDatePicker] = useState(() => {
+   //    const { month, year } = dates.getDateData();
+   //    return { month, year };
+   // });
+   // const [sortByPicker, setSortByPicker] = useState('date');
+   const [inputs, setInputs] = useState(() => {
+      const { month, year } = dates.getDateData();
+      return {
+         month: { name: 'month', value: month },
+         year: { name: 'year', value: year },
+         sortBy: { name: 'date', value: 'date' },
+      };
+   });
 
    /** Effects */
    useEffect(() => {
