@@ -16,14 +16,15 @@ import TransactionsList from '../../components/TransactionsList/TransactionsList
 //TODO: render month options dynamically, category match month
 
 const StatisticsAndDataPage = () => {
-   const INITIAL_STATE = {
-      transactionsList: [],
-      metadata: {},
-   };
+   // Use Transaction api custom hook to fetch data
    const [{ monthData /*, isLoading, isError */ }, setNetworkRequest] = useTransactionsApi({
-      defaultState: INITIAL_STATE,
+      defaultState: {
+         transactionsList: [],
+         metadata: {},
+      },
       fetchQuery: 'debitDistribution',
    });
+
    const [datePicker, setDatePicker] = useState(() => {
       const { month, year } = dates.getDateData();
       return { month, year };
