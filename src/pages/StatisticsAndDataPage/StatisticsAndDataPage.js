@@ -92,24 +92,20 @@ const StatisticsAndDataPage = () => {
 
          {monthData.transactionsList.length === 0 ? null : (
             <Fragment>
-               {' '}
                <div className="section">
                   <h2>{text.pages.statistics.monthlyState}</h2>
-
                   <PieGraphHooks data={monthData.metadata} />
                </div>
                <div className="list-container">
                   <div className="test-select">
                      <SelectField
                         value={sortByPicker}
-                        options={[
-                           { label: 'תאריך', value: 'date' },
-                           { label: 'אמצעי תשלום', value: 'paymentMethod' },
-                           { label: 'קטגוריה', value: 'category' },
-                           { label: 'תיאור', value: 'description' },
-                           { label: 'סכום', value: 'totalPayment' },
-                        ]}
-                        config={{ fieldLabel: 'מיין לפי', inputName: 'sortBy', displayMode: 'row' }}
+                        options={text.inputs.selectSortingMethod.options}
+                        config={{
+                           fieldLabel: text.inputs.selectSortingMethod.label,
+                           inputName: 'sortBy',
+                           displayMode: 'row',
+                        }}
                         onChangeCallback={onInputChange}
                      />
                   </div>

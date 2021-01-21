@@ -1,6 +1,7 @@
 const text = {
    inputs: {
       selectMonth: {},
+      selectSortingMethod: {},
    },
    pages: {
       statistics: {},
@@ -24,7 +25,14 @@ text.inputs.selectMonth.options = [
    { label: 'נובמבר', value: 11 },
    { label: 'דצמבר', value: 12 },
 ];
-
+text.inputs.selectSortingMethod.label = 'מיין לפי';
+text.inputs.selectSortingMethod.options = [
+   { label: 'תאריך', value: 'date' },
+   { label: 'אמצעי תשלום', value: 'paymentMethod' },
+   { label: 'קטגוריה', value: 'category' },
+   { label: 'תיאור', value: 'description' },
+   { label: 'סכום', value: 'totalPayment' },
+];
 /** Pages */
 text.pages.statistics.monthlyState = 'תמונת מצב חודשית';
 text.pages.statistics.debitDistribution = 'התפלגות הוצאות לפי קטגוריה';
