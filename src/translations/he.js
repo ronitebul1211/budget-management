@@ -5,6 +5,7 @@ const text = {
    pages: {
       statistics: {},
    },
+   errors: {},
 };
 
 /** Inputs */
@@ -27,5 +28,8 @@ text.inputs.selectMonth.options = [
 /** Pages */
 text.pages.statistics.monthlyState = 'תמונת מצב חודשית';
 text.pages.statistics.debitDistribution = 'התפלגות הוצאות לפי קטגוריה';
+
+/** Errors */
+text.errors.noMonthData = 'אין נתונים עבור חודש זה';
 
 export default text;

@@ -85,9 +85,9 @@ const StatisticsAndDataPage = () => {
                   onChangeCallback={onInputChange}
                />
             </div>
-            {monthData.transactionsList.length === 0 ? (
-               <p className="statistics-page__message">{' אין נתונים עבור חודש זה'}</p>
-            ) : null}
+            {monthData.transactionsList.length === 0 && (
+               <p className="statistics-page__message">{text.errors.noMonthData}</p>
+            )}
          </div>
 
          {monthData.transactionsList.length === 0 ? null : (
