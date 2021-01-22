@@ -87,6 +87,7 @@ const StatisticsAndDataPage = () => {
    };
 
    /** Rendering */
+   const isMonthData = monthData.transactionsList.length !== 0;
    return (
       <div className="statistics-page">
          <div className="section statistics-page__header">
@@ -116,12 +117,10 @@ const StatisticsAndDataPage = () => {
                   onChangeCallback={onInputChange}
                />
             </div>
-            {monthData.transactionsList.length === 0 && (
-               <p className="statistics-page__message">{text.errors.noMonthData}</p>
-            )}
+            {!isMonthData && <p className="statistics-page__message">{text.errors.noMonthData}</p>}
          </div>
 
-         {monthData.transactionsList.length === 0 ? null : (
+         {isMonthData && (
             <Fragment>
                <div className="section">
                   <h2>{text.pages.statistics.debitDistribution}</h2>
