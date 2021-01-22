@@ -76,7 +76,7 @@ const StatisticsAndDataPage = () => {
          case inputs.sortBy.name:
             setInputs((prevState) => ({
                ...prevState,
-               sortBy: { ...prevState.sortBy, value: 'date' },
+               sortBy: { ...prevState.sortBy, value: target.value },
             }));
             return setSortedTransactionList(sortTransactions(sortedTransactionList, target.value));
          default:
