@@ -69,15 +69,18 @@ const StatisticsAndDataPage = () => {
       switch (target.name) {
          case inputs.month.name:
          case inputs.year.name:
-            return setDatePicker((prevState) => ({
+            return setInputs((prevState) => ({
                ...prevState,
-               [target.name]: parseInt(target.value),
+               [target.name]: { ...prevState[target.name], value: parseInt(target.value) },
             }));
          case inputs.sortBy.name:
-            setSortByPicker(target.value);
+            setInputs((prevState) => ({
+               ...prevState,
+               sortBy: { ...prevState.sortBy, value: 'date' },
+            }));
             return setSortedTransactionList(sortTransactions(sortedTransactionList, target.value));
          default:
-            throw new Error('Invalid target name');
+            throw new Error('Invalid input name');
       }
    };
 
