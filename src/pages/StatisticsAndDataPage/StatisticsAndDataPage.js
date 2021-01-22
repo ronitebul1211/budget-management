@@ -91,24 +91,24 @@ const StatisticsAndDataPage = () => {
             <h2>{text.pages.statistics.monthlyState}</h2>
             <div className="statistics-page__month-year-selection">
                <SelectField
-                  value={datePicker.month}
+                  value={inputs.month.value}
                   options={text.inputs.selectMonth.options}
                   config={{
                      fieldLabel: text.inputs.selectMonth.label,
-                     inputName: inputsManager.month,
+                     inputName: inputs.month.name,
                      displayMode: 'row',
                   }}
                   onChangeCallback={onInputChange}
                />
                <SelectField
-                  value={datePicker.year}
+                  value={inputs.year.value}
                   options={[
                      { label: 2020, value: 2020 },
                      { label: 2021, value: 2021 },
                   ]}
                   config={{
                      fieldLabel: text.inputs.selectYear.label,
-                     inputName: inputsManager.year,
+                     inputName: inputs.year.name,
                      displayMode: 'row',
                   }}
                   onChangeCallback={onInputChange}
@@ -128,11 +128,11 @@ const StatisticsAndDataPage = () => {
                <div className="list-container">
                   <div className="test-select">
                      <SelectField
-                        value={sortByPicker}
+                        value={inputs.sortBy.value}
                         options={text.inputs.selectSortingMethod.options}
                         config={{
                            fieldLabel: text.inputs.selectSortingMethod.label,
-                           inputName: inputsManager.sortBy,
+                           inputName: inputs.sortBy.name,
                            displayMode: 'row',
                         }}
                         onChangeCallback={onInputChange}
