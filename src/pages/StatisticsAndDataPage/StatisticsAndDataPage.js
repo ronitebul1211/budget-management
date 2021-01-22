@@ -122,7 +122,7 @@ const StatisticsAndDataPage = () => {
          {monthData.transactionsList.length === 0 ? null : (
             <Fragment>
                <div className="section">
-                  <h2>{text.pages.statistics.monthlyState}</h2>
+                  <h2>{text.pages.statistics.debitDistribution}</h2>
                   <PieGraphHooks data={monthData.metadata} />
                </div>
                <div className="list-container">
