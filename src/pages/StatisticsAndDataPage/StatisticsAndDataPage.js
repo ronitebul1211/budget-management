@@ -16,15 +16,20 @@ import TransactionsList from '../../components/TransactionsList/TransactionsList
 //TODO: display loader
 //TODO: render month options dynamically, category match month
 
-const StatisticsAndDataPage = () => {
-   /** Manage Inputs name at one place. */
-   // const inputsManager = {
-   //    month: 'month',
-   //    year: 'year',
-   //    sortBy: 'sortBy',
-   // };
+/**
+ * Question:
+ * Why is two peace of state hold same data?
+ * monthData.transactionList === sortedTransaction
+ * Answer:
+ * useTransactionsApi fetch month data, but not expose any functionality to update it,
+ * it's custom hook who its only propose is to fetch data.
+ * this page has the functionality of sorting month data, its need to update the state in order to cause rendering
+ *
+ */
 
+const StatisticsAndDataPage = () => {
    /** State */
+
    const [{ monthData /*, isLoading, isError */ }, setNetworkRequest] = useTransactionsApi({
       defaultState: {
          transactionsList: [],
@@ -32,12 +37,7 @@ const StatisticsAndDataPage = () => {
       },
       fetchQuery: 'debitDistribution',
    });
-   const [sortedTransactionList, setSortedTransactionList] = useState(monthData.transactionsList);
-   // const [datePicker, setDatePicker] = useState(() => {
-   //    const { month, year } = dates.getDateData();
-   //    return { month, year };
-   // });
-   // const [sortByPicker, setSortByPicker] = useState('date');
+   const [sortedTransaction, setSortedTransaction] = useState(monthData.transactionsList);
    const [inputs, setInputs] = useState(() => {
       const { month, year } = dates.getDateData();
       return {
@@ -47,7 +47,9 @@ const StatisticsAndDataPage = () => {
       };
    });
 
-   /** When month, year inputs change, fetch according transaction data  */
+   /** Side Effects */
+
+   // When month, year inputs change, fetch data accordingly
    useEffect(() => {
       setNetworkRequest({
          type: netReqAction.FETCH_TRANSACTIONS_ENDPOINT,
@@ -55,9 +57,9 @@ const StatisticsAndDataPage = () => {
       });
    }, [inputs.month.value, inputs.year.value, setNetworkRequest]);
 
-   /** When month data change, render it on the table, set sortBy input value to date  */
+   // When month data change, render it on the table, set sortBy input value to date  */
    useEffect(() => {
-      setSortedTransactionList(monthData.transactionsList);
+      setSortedTransaction(monthData.transactionsList);
       setInputs((prevState) => ({
          ...prevState,
          sortBy: { ...prevState.sortBy, value: 'date' },
@@ -78,7 +80,7 @@ const StatisticsAndDataPage = () => {
                ...prevState,
                sortBy: { ...prevState.sortBy, value: target.value },
             }));
-            return setSortedTransactionList(sortTransactions(sortedTransactionList, target.value));
+            return setSortedTransaction(sortTransactions(sortedTransaction, target.value));
          default:
             throw new Error('Invalid input name');
       }
@@ -139,7 +141,7 @@ const StatisticsAndDataPage = () => {
                      />
                   </div>
 
-                  <TransactionsList transactionsListData={sortedTransactionList} isEditableList={false} />
+                  <TransactionsList transactionsListData={sortedTransaction} isEditableList={false} />
                </div>
             </Fragment>
          )}
