@@ -47,7 +47,7 @@ const StatisticsAndDataPage = () => {
       };
    });
 
-   /** Effects */
+   /** When month, year inputs change, fetch according transaction data  */
    useEffect(() => {
       setNetworkRequest({
          type: netReqAction.FETCH_TRANSACTIONS_ENDPOINT,
@@ -55,21 +55,25 @@ const StatisticsAndDataPage = () => {
       });
    }, [inputs.month.value, inputs.year.value, setNetworkRequest]);
 
+   /** When month data change, render it on the table, set sortBy input value to date  */
    useEffect(() => {
       setSortedTransactionList(monthData.transactionsList);
-      setSortByPicker('date');
+      setInputs((prevState) => ({
+         ...prevState,
+         sortBy: { ...prevState.sortBy, value: 'date' },
+      }));
    }, [monthData]);
 
    /** Inputs Event Handlers */
    const onInputChange = ({ target }) => {
       switch (target.name) {
-         case inputsManager.month:
-         case inputsManager.year:
+         case inputs.month.name:
+         case inputs.year.name:
             return setDatePicker((prevState) => ({
                ...prevState,
                [target.name]: parseInt(target.value),
             }));
-         case inputsManager.sortBy:
+         case inputs.sortBy.name:
             setSortByPicker(target.value);
             return setSortedTransactionList(sortTransactions(sortedTransactionList, target.value));
          default:
