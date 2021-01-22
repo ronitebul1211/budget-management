@@ -49,8 +49,11 @@ const StatisticsAndDataPage = () => {
 
    /** Effects */
    useEffect(() => {
-      setNetworkRequest({ type: netReqAction.FETCH_TRANSACTIONS_ENDPOINT, payload: datePicker });
-   }, [datePicker, setNetworkRequest]);
+      setNetworkRequest({
+         type: netReqAction.FETCH_TRANSACTIONS_ENDPOINT,
+         payload: { month: inputs.month.value, year: inputs.year.value },
+      });
+   }, [inputs.month.value, inputs.year.value, setNetworkRequest]);
 
    useEffect(() => {
       setSortedTransactionList(monthData.transactionsList);
