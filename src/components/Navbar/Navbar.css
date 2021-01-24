@@ -3,8 +3,8 @@
    background-color: white;
    padding: 0 25px;
    display: flex;
-   gap: 25px;
    align-items: center;
+   justify-content: space-between;
 }
 .navbar__link {
    height: fit-content;
@@ -13,13 +13,15 @@
    cursor: pointer;
    font-size: 16px;
 }
-button.navbar__link {
-   background-color: transparent;
-   border: none;
-}
-
 .navbar__link:hover {
    color: black;
    font-weight: bold;
    border-bottom: 2px solid #feca1d;
+}
+button.navbar__link {
+   background-color: transparent;
+   border: none;
+}
+.navbar__options .navbar__link {
+   margin-inline-end: 25px; /* Flex gap - 	68.35% supported */
 }

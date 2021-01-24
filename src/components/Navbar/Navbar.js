@@ -10,10 +10,12 @@ export default function Navbar() {
 
    return (
       <div className="navbar">
-         <Link className="navbar__link" to="/">
-            {text.navbar.homepageLink}
-         </Link>
-         {isAuthenticated ? <PrivateLink /> : null}
+         <div className="navbar__options">
+            <Link className="navbar__link" to="/">
+               {text.navbar.homepageLink}
+            </Link>
+            {isAuthenticated && <PrivateLink />}
+         </div>
          <AuthenticationButton className="navbar__link" />
       </div>
    );
