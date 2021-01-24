@@ -22,7 +22,7 @@ export default function Navbar() {
                </Link>
             </React.Fragment>
          ) : null}
-         <AuthenticationButton />
+         <AuthenticationButton className="navbar__link" />
       </div>
    );
 }

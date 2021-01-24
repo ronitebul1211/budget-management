@@ -2,12 +2,12 @@ import React from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import text from '../../translations/he';
 
-export default function LogoutButton(props) {
+export default function LogoutButton({ className }) {
    const { logout } = useAuth0();
 
    return (
       <button
-         {...props}
+         className={className}
          onClick={() =>
             logout({
                returnTo: window.location.origin,
