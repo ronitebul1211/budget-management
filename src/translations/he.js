@@ -8,6 +8,7 @@ const text = {
       statistics: {},
    },
    errors: {},
+   auth: {},
 };
 
 /** Inputs */
@@ -42,4 +43,6 @@ text.pages.statistics.debitDistribution = 'התפלגות הוצאות לפי ק
 /** Errors */
 text.errors.noMonthData = 'אין נתונים עבור חודש זה';
 
+/** Auth */
+text.auth.loginButton = 'התחבר';
 export default text;
