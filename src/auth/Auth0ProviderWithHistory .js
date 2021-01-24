@@ -1,26 +1,26 @@
-import React from "react";
-import { Auth0Provider } from "@auth0/auth0-react";
-import { withRouter } from "react-router-dom";
+import React from 'react';
+import { Auth0Provider } from '@auth0/auth0-react';
+import { useHistory } from 'react-router-dom';
 
-class Auth0ProviderWithHistory extends React.Component {
-   domain = process.env.REACT_APP_AUTH0_DOMAIN;
-   clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
+const Auth0ProviderWithHistory = ({ children }) => {
+   const domain = process.env.REACT_APP_AUTH0_DOMAIN;
+   const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
 
-   onRedirectCallback = (appState) => {
-      this.props.history.push(appState?.returnTo || "/current-month");
-   };
+   const history = useHistory();
 
-   render() {
-      return (
-         <Auth0Provider
-            domain={this.domain}
-            clientId={this.clientId}
-            redirectUri={window.location.origin}
-            onRedirectCallback={this.onRedirectCallback}>
-            {this.props.children}
-         </Auth0Provider>
-      );
+   function onRedirectCallback(appState) {
+      history.push(appState?.returnTo || '/current-month'); // ||window.location.pathname
    }
-}
-// withRouter will pass updated match, location, and history props to the wrapped component whenever it renders.
-export default withRouter(Auth0ProviderWithHistory);
+
+   return (
+      <Auth0Provider
+         domain={domain}
+         clientId={clientId}
+         redirectUri={window.location.origin}
+         onRedirectCallback={onRedirectCallback}>
+         {children}
+      </Auth0Provider>
+   );
+};
+
+export default Auth0ProviderWithHistory;
