@@ -1,7 +1,9 @@
 import React from 'react';
 import './App.css';
 import { Route, Switch } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 import PrivateRoute from './auth/PrivateRoute';
+import Loader from './components/Loader/Loader';
 import Navbar from './components/Navbar/Navbar';
 import HomePage from './pages/HomePage/HomePage';
 import MonthManagerPage from './pages/MonthManagerPage/MonthManagerPage';
@@ -9,8 +11,13 @@ import StatisticsAndDataPage from './pages/StatisticsAndDataPage/StatisticsAndDa
 import NotFoundPage from './pages/NotFoundPage';
 
 const App = () => {
+   const { isLoading } = useAuth0();
+   if (isLoading) {
+      return <Loader />;
+   }
+
    return (
-      <React.Fragment>
+      <div>
          <Navbar />
          <div className="page-container">
             <Switch>
@@ -22,7 +29,7 @@ const App = () => {
                <Route path="*" exact component={NotFoundPage} />
             </Switch>
          </div>
-      </React.Fragment>
+      </div>
    );
 };
 export default App;
