@@ -45,4 +45,5 @@ text.errors.noMonthData = 'אין נתונים עבור חודש זה';
 
 /** Auth */
 text.auth.loginButton = 'התחבר';
+text.auth.logoutButton = 'התנתק';
 export default text;

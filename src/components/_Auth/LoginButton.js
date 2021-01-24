@@ -6,7 +6,7 @@ export default function LoginButton(props) {
    const { loginWithRedirect } = useAuth0();
 
    return (
-      <button onClick={() => loginWithRedirect()} {...props}>
+      <button {...props} onClick={() => loginWithRedirect()}>
          {text.auth.loginButton}
       </button>
    );
