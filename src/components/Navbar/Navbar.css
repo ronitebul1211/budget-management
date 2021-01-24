@@ -6,6 +6,9 @@
    align-items: center;
    justify-content: space-between;
 }
+.navbar__options {
+   display: flex;
+}
 .navbar__link {
    height: fit-content;
    text-decoration: none;
