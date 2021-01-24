@@ -1,19 +1,19 @@
-import React from "react";
-import { Route } from "react-router-dom";
-import { withAuthenticationRequired } from "@auth0/auth0-react";
+import React from 'react';
+import { Route } from 'react-router-dom';
+import { withAuthenticationRequired } from '@auth0/auth0-react';
 
-class PrivateRoute extends React.Component {
-   render() {
-      return (
-         <Route
-            component={withAuthenticationRequired(this.props.component, {
-               onRedirecting: () => <div>מעבר להתחברות</div>,
-               returnTo: () => this.props.location.pathname,
-            })}
-            {...this.props.args}
-         />
-      );
-   }
-}
+const PrivateRoute = ({ component, ...args }) => (
+   <Route
+      component={withAuthenticationRequired(component, {
+         onRedirecting: () => <div>LOADER ANIMATION</div>,
+      })}
+      {...args}
+   />
+);
 
 export default PrivateRoute;
+
+/**
+ * Private Route
+ * Wrap the Route component with HOC -> withAuthenticationRequired - Redirecting anonymous user to login page
+ */
