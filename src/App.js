@@ -1,12 +1,12 @@
-import React from "react";
-import "./App.css";
-import { Route, Switch } from "react-router-dom";
-import PrivateRoute from "./components/_Auth/PrivateRoute";
-import Navbar from "./components/Navbar/Navbar";
-import HomePage from "./pages/HomePage/HomePage";
-import MonthManagerPage from "./pages/MonthManagerPage/MonthManagerPage";
-import StatisticsAndDataPage from "./pages/StatisticsAndDataPage/StatisticsAndDataPage";
-import NotFoundPage from "./pages/NotFoundPage";
+import React from 'react';
+import './App.css';
+import { Route, Switch } from 'react-router-dom';
+import PrivateRoute from './auth/PrivateRoute';
+import Navbar from './components/Navbar/Navbar';
+import HomePage from './pages/HomePage/HomePage';
+import MonthManagerPage from './pages/MonthManagerPage/MonthManagerPage';
+import StatisticsAndDataPage from './pages/StatisticsAndDataPage/StatisticsAndDataPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 const App = () => {
    return (
