@@ -24,3 +24,13 @@ const Auth0ProviderWithHistory = ({ children }) => {
 };
 
 export default Auth0ProviderWithHistory;
+/**
+ * Auth0ProviderWithHistory
+ * extend Auth0Provider (contain auth0 context interface)
+ * in order to use history hook and redirect the user to the last url he visited
+ * before he redirect to login page.
+ *
+ * This component wrap the whole app (Context API)
+ * in component in all levels can consume auth state
+ *
+ */
