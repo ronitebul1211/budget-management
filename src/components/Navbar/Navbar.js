@@ -1,40 +1,35 @@
-import { withAuth0 } from "@auth0/auth0-react";
-import React from "react";
-import { Link } from "react-router-dom";
-import "./Navbar.css";
+import React, { Fragment } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
+import { Link } from 'react-router-dom';
+import text from '../../translations/he';
+import AuthenticationButton from '../_Auth/AuthenticationButton';
+import './Navbar.css';
 
-//FIXME: add prop types + refactor by conventions.txt
+export default function Navbar() {
+   const { isAuthenticated } = useAuth0();
 
-class Navbar extends React.Component {
-   handleAuthEvent = () => {
-      const { isAuthenticated, logout, loginWithRedirect } = this.props.auth0;
-      isAuthenticated ? logout() : loginWithRedirect({});
-   };
-
-   render() {
-      const { isAuthenticated } = this.props.auth0;
-      return (
-         <div className="navbar">
+   return (
+      <div className="navbar">
+         <div className="navbar__options">
             <Link className="navbar__link" to="/">
-               דף הבית
+               {text.navbar.homepageLink}
             </Link>
-            {isAuthenticated ? (
-               <React.Fragment>
-                  <Link className="navbar__link" to="/current-month">
-                     תקציב חודשי
-                  </Link>
-                  <Link className="navbar__link" to="/statistics">
-                     נתונים וסטטיסטיקה
-                  </Link>
-               </React.Fragment>
-            ) : null}
-            <button className="navbar__link" onClick={this.handleAuthEvent}>
-               {isAuthenticated ? "התנתק" : "התחבר"}
-            </button>
+            {isAuthenticated && <PrivateLink />}
          </div>
-      );
-   }
+         <AuthenticationButton className="navbar__link" />
+      </div>
+   );
 }
 
-// Wrap class component in high order component that five it access to auth0context (e.g  line 7)
-export default withAuth0(Navbar);
+function PrivateLink() {
+   return (
+      <Fragment>
+         <Link className="navbar__link" to="/current-month">
+            {text.navbar.currentMonthLink}
+         </Link>
+         <Link className="navbar__link" to="/statistics">
+            {text.navbar.statisticsLink}
+         </Link>
+      </Fragment>
+   );
+}

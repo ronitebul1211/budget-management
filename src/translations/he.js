@@ -8,6 +8,8 @@ const text = {
       statistics: {},
    },
    errors: {},
+   auth: {},
+   navbar: {},
 };
 
 /** Inputs */
@@ -42,4 +44,12 @@ text.pages.statistics.debitDistribution = 'התפלגות הוצאות לפי ק
 /** Errors */
 text.errors.noMonthData = 'אין נתונים עבור חודש זה';
 
+/** Auth */
+text.auth.loginButton = 'התחבר';
+text.auth.logoutButton = 'התנתק';
+
+/**Navbar */
+text.navbar.homepageLink = 'דף הבית';
+text.navbar.statisticsLink = 'נתונים וסטטיסטיקה';
+text.navbar.currentMonthLink = 'תקציב חודשי';
 export default text;
