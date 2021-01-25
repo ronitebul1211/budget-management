@@ -6,7 +6,7 @@ export default function LoginButton({ className }) {
    const { loginWithRedirect } = useAuth0();
 
    return (
-      <button className={className} onClick={() => loginWithRedirect()}>
+      <button className={className} onClick={() => loginWithRedirect({ ui_locales: 'he' })}>
          {text.auth.loginButton}
       </button>
    );
